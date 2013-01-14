@@ -23,8 +23,8 @@
 #ifndef ESUTIL_H_
 #define ESUTIL_H_
 
-#include <GLES/gl.h>
-#include <EGL/egl.h>
+#include <OGLES/Include/GLES/gl.h>
+#include <OGLES/Include/EGL/egl.h>
 #include <vector>
 
 

@@ -1,7 +1,7 @@
 #ifndef __gl_h_
 #define __gl_h_
 
-#include <GLES/glplatform.h>
+#include <OGLES/Include/GLES/glplatform.h>
 
 #ifdef __cplusplus
 extern "C" {

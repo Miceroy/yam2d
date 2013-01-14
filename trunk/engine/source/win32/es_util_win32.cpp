@@ -113,7 +113,7 @@ GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
    wndclass.lpfnWndProc   = (WNDPROC)ESWindowProc; 
    wndclass.hInstance     = hInstance; 
    wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH); 
-   wndclass.lpszClassName = "opengles2.0"; 
+   wndclass.lpszClassName = "opengles1.x"; 
 
    if (!RegisterClass (&wndclass) ) 
       return FALSE; 
@@ -139,7 +139,7 @@ GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
 
 
    esContext->hWnd = CreateWindow(
-                         "opengles2.0",
+                         "opengles1.x",
                          title,
                          wStyle,
                          10,
@@ -168,7 +168,7 @@ GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
 void winLoop ( ESContext *esContext )
 {
    MSG msg = { 0 };
-   int done = 0;
+   bool done = false;
    DWORD lastTime = GetTickCount();
    
    while (!done)
@@ -182,7 +182,7 @@ void winLoop ( ESContext *esContext )
       {
          if (msg.message==WM_QUIT)
          {
-             done=1; 
+             done=true;
          }
          else
          {
@@ -194,11 +194,12 @@ void winLoop ( ESContext *esContext )
          SendMessage( esContext->hWnd, WM_PAINT, 0, 0 );
 
       // Call update function if registered
-      if ( esContext->updateFunc != NULL )
+      if ( !done && esContext->updateFunc != NULL )
          esContext->updateFunc ( esContext, deltaTime );
    }
 
-   esContext->deinitFunc ( esContext );
+    if ( esContext->deinitFunc != NULL )
+		esContext->deinitFunc ( esContext );
 
 }
 

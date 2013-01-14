@@ -16,7 +16,7 @@
  * by filing a bug against product "OpenGL-ES" component "Registry".
  */
 
-#include <KHR/khrplatform.h>
+#include <OGLES/Include/KHR/khrplatform.h>
 
 #ifndef GL_API
 #define GL_API      KHRONOS_APICALL
