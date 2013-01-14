@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{e28e4093-0784-4417-bcec-119327001855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{b967650a-999a-4d66-b2e1-341c3cd6ffaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lpng">
+      <UniqueIdentifier>{083a5531-64cf-4d8c-ba9e-0c6299e6ac48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zlib">
+      <UniqueIdentifier>{d0628439-e237-4789-ae02-e6cf74475701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ticpp">
+      <UniqueIdentifier>{acecbdbe-0f86-4959-abe0-dcfdabba97a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tmx-parser">
+      <UniqueIdentifier>{f1491197-d7c8-4c0f-a74d-29de4998070c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\es_util.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Win32\es_util_png.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Win32\es_util_win32.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Win32\input_win32.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ElapsedTimer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Layer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MapTile.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PropertySet.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sprite.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpriteAnimation.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpriteBatch.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpriteSheet.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Text.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Texture.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tileset.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxImage.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxLayer.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxMap.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxObject.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxObjectGroup.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxPolygon.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxPolyline.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxPropertySet.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxTile.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxTileset.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\TmxUtil.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tmx-parser\base64\base64.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="external\ticpp\ticpp.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="external\ticpp\tinystr.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="external\ticpp\tinyxml.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="external\ticpp\tinyxmlerror.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="external\ticpp\tinyxmlparser.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\png.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngerror.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngget.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngmem.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngpread.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngread.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngrio.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngrtran.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngrutil.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngset.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngtrans.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngwio.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngwrite.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngwtran.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\lpng1513\pngwutil.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\adler32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\compress.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\crc32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\deflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\gzclose.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\gzlib.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\gzread.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\gzwrite.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\infback.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\inffast.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\inflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\inftrees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\trees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\uncompr.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="external\zlib-1.2.7\zutil.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\es_assert.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\es_util.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\es_util_win.h">
+      <Filter>Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ElapsedTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Layer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Map.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PropertySet.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Sprite.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SpriteAnimation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SpriteBatch.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SpriteSheet.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Text.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Texture.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tile.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tileset.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\vec2.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\Tmx.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxImage.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxLayer.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxMap.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxMapTile.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxObject.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxObjectGroup.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxPoint.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxPolygon.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxPolyline.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxPropertySet.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxTile.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxTileset.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\TmxUtil.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tmx-parser\base64\base64.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="external\ticpp\ticpp.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\ticpp\ticppapi.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\ticpp\ticpprc.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\ticpp\tinystr.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\ticpp\tinyxml.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\lpng1513\png.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="external\lpng1513\pngconf.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="external\lpng1513\pngdebug.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="external\lpng1513\pnginfo.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="external\lpng1513\pnglibconf.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="external\lpng1513\pngpriv.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="external\lpng1513\pngstruct.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\crc32.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\deflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\gzguts.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\inffast.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\inffixed.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\inflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\inftrees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\trees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\zconf.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\zlib.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="external\zlib-1.2.7\zutil.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Input.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Object.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Ref.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Include\Ref.inl">
+      <Filter>Common</Filter>
+    </None>
+  </ItemGroup>
+</Project>

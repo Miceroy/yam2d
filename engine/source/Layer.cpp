@@ -1,0 +1,122 @@
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// http://code.google.com/p/yam2d/
+//
+// Copyright (c) 2013 Mikko Romppainen
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in the
+// Software without restriction, including without limitation the rights to use, copy,
+// modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+// and to permit persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies
+// or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+// PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+// FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+#include "Layer.h"
+#include "es_assert.h"
+#include "GameObject.h"
+
+
+namespace yam2d
+{
+
+using namespace std;
+
+Layer::Layer(Map* map, std::string name, float opacity, bool visible, bool isStaticLayer, const PropertySet& properties )
+: m_map(map)
+, m_name(name)
+, m_visible(visible)
+, m_properties(properties)
+, m_gameObjects()
+, m_batch( new SpriteBatchGroup() )
+, m_opacity(opacity)
+, m_static(isStaticLayer)
+{
+}
+
+
+void Layer::addGameObject(GameObject* gameObject)
+{
+	assert( gameObject != 0 );
+	m_gameObjects.push_back(gameObject);
+}
+
+
+Layer::GameObjectList Layer::getGameObjects() 
+{
+	return m_gameObjects; 
+}
+
+
+SpriteBatchGroup* Layer::getBatch() 
+{
+	return m_batch; 
+}
+
+
+void Layer::setDepth(float depth) 
+{
+	m_depthValue = depth;
+}
+
+
+void Layer::update(float deltaTime)
+{
+	for( size_t i=0; i<m_gameObjects.size(); ++i )
+	{
+		m_gameObjects[i]->update(deltaTime);
+	}
+}
+
+
+const std::string& Layer::getName() const
+{
+	return m_name; 
+}
+
+
+bool Layer::isVisible() const 
+{
+	return m_visible;
+}
+
+
+const PropertySet& Layer::getProperties() const
+{
+	return m_properties;
+}
+	
+Map* Layer::getMap() const 
+{ 
+	return m_map; 
+}
+
+
+float Layer::getOpacity() const 
+{ 
+	return m_opacity; 
+}
+
+
+float Layer::getDepth() const
+{ 
+	return m_depthValue; 
+}
+
+
+bool Layer::isStatic() const
+{
+	return m_static;
+}
+
+}
+

@@ -1,0 +1,214 @@
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// http://code.google.com/p/yam2d/
+//
+// Copyright (c) 2013 Mikko Romppainen
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in the
+// Software without restriction, including without limitation the rights to use, copy,
+// modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+// and to permit persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies
+// or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+// PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+// FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#ifndef MAP_H_
+#define MAP_H_
+
+
+#include <vector>
+#include "PropertySet.h"
+#include "vec2.h"
+#include <Ref.h>
+
+namespace Tmx
+{
+	class Map;
+}
+
+namespace yam2d
+{
+	
+class Camera;
+class Tileset;
+class Layer;
+class Tile;
+class GameObject;
+class SpriteSheet;
+
+/**
+ * Class for Map.
+ *
+ * @ingroup yam2d
+ * @author Mikko Romppainen (mikko@kajakbros.com) 
+ */
+class Map : public Object
+{
+public:
+	typedef std::map<int, Ref<Layer> > LayerMap;
+
+	enum MapOrientation 
+	{
+		// Indicates, that map is an orthogonal map.
+		ORTHOGONAL = 0x01,
+
+		// Indicates, that map is an isometric map.
+		ISOMETRIC = 0x02
+	};
+
+
+
+	/** Layer definitions. */
+	enum Layers
+	{
+		BACKGROUND0 = 0,
+		BACKGROUND1,
+		BACKGROUND2,
+		BACKGROUND3,
+		MAPLAYER0,
+		MAPLAYER1,
+		MAPLAYER2,
+		MAPLAYER3,
+		MAPLAYER4,
+		MAPLAYER5,
+		MAPLAYER6,
+		MAPLAYER7,
+		MAPLAYER8,
+		MAPLAYER9,
+		GUILAYER0,
+		GUILAYER1,
+		GUILAYER2,
+		GUILAYER3,
+		NUM_LAYERS
+	};
+
+	/**
+	 * Constructs new Map-object according to parameters.
+	 * @param tileWidth			Tile width in pixels.
+	 * @param tileHeight		Tile height in pixels.
+	 * @param orientation		Orientation of this map, can be some of enum MapOrientation.
+	 * @param properties		Properties of this map.
+	 */
+	Map( float tileWidth, float tileHeight, MapOrientation orientation=ORTHOGONAL, const PropertySet& properties=PropertySet() );
+	
+	virtual ~Map() {}
+
+
+	/**
+	 * Renders all visible map layers to the screen.
+	 */
+	void render();
+
+	/**
+	 * Updates all map layers and objects inside layer. Typically this is called once in a frame, before rendering.
+	 *
+	 * @param deltaTime		Time since last update call, in seconds.
+	 */
+	void update( float deltaTime );
+
+	/** Converts tile-coodrinate value to screen coordinates. */
+	vec2 tileToScreenCoordinates(float x, float y);
+	vec2 tileToScreenCoordinates(const vec2& pos)
+	{
+		return tileToScreenCoordinates(pos.x,pos.y);
+	}
+
+	/** Converts screen-coodrinate value to tile coordinates. */
+	vec2 screenToTileCoordinates(float x, float y);
+	vec2 screenToTileCoordinates(const vec2& pos)
+	{
+		return screenToTileCoordinates(pos.x,pos.y);
+	}
+
+	/** Returns tile width */
+	float getTileHeight() const { return m_tileHeight; }
+
+	/** Returns tile height */
+	float getTileWidth() const { return m_tileWidth; }
+
+	/** Returns orientation of this Map. */
+	MapOrientation getOrientation() const { return m_orientation; }
+
+	/** Returns all layers of this map */
+	LayerMap& getLayers() { return m_layers; }
+
+	/** Returns properties of this map */
+	PropertySet& getProperties() { return m_properties; }
+	
+	/** Returns map main camera */
+	Camera* getCamera() const { return m_mainCamera.ptr(); }
+
+	/** Utility function for converting isometric coordinates to orthogonal coordinates */
+	static vec2 isometricToOrthogonal(float x, float y);
+
+	/** Utility function for converting orthogonal coordinates to isometric coordinates */
+	static vec2 orthogonalToIsometric(float x, float y);
+
+private:
+	bool isVisible(GameObject* go,Camera* cam);
+	void batchLayer(Layer* layer, bool cullInvisibleObjects);
+
+	Ref<Camera>					m_mainCamera;	
+	MapOrientation				m_orientation;
+	float						m_tileWidth;
+	float						m_tileHeight;
+	LayerMap					m_layers;
+	PropertySet					m_properties;
+	bool						m_needsBatching;
+		
+	// Hidden
+	Map();
+	Map(const Map&);
+	Map& operator=(const Map&);
+};
+
+
+/**
+ * Class for TMX-formatted map.
+ */
+class TmxMap : public Map
+{
+public:
+	/**
+	 * Creates new map from Tmx::Map
+	 */
+	TmxMap(Tmx::Map* map);
+
+	virtual ~TmxMap() {}
+
+	static TmxMap* loadFromMapFile(const std::string& mapFileName);
+protected:
+	/** Can be overwritten in derived class for create custom Tilesets. */
+	virtual Tileset* createNewTileset(const std::string name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
+
+	/** Can be overwritten in derived class for create custom Layers. */
+	virtual Layer* createNewLayer(Map* map, std::string name, float opacity, bool visible, const PropertySet& properties);
+
+	/** Can be overwritten in derived class for create custom Tiles. */
+	virtual Tile* createNewTile(Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
+
+private:
+	float						m_width;
+	float						m_height;
+	std::vector< Ref<Tileset> > m_tilesets;
+
+	// Hidden
+	TmxMap();
+	TmxMap(const TmxMap&);
+	TmxMap& operator=(const TmxMap&);
+	
+};
+
+
+}
+
+
+#endif
