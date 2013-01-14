@@ -56,14 +56,17 @@ public:
 	Texture* getTexture() { return m_texture; }
 	const Texture* getTexture() const { return m_texture; }
 	const Sprite::PixelClip& getClip(int index) const { return m_clips[index]; }
+
+	static SpriteSheet* autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel = isWhiteOrTransparentPixel);
+	static SpriteSheet* autoFindFontFromTexture(Texture* texture, const char* const fontWidthBinFileName = 0);
+	static SpriteSheet* generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing );
+
 private:
 	Texture* m_texture;
 	std::vector<Sprite::PixelClip> m_clips;
 };
 
-SpriteSheet* autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel = isWhiteOrTransparentPixel);
-SpriteSheet* autoFindFontFromTexture(Texture* texture, const char* const fontWidthBinFileName = 0);
-SpriteSheet* generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing );
+
 
 
 }

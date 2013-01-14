@@ -29,7 +29,8 @@
 #include <es_util.h>
 
 //#define MEMORY_LEAK_DEBUGGING
-//#define SHOW_LEAKS
+#define SHOW_LEAKS
+//#define ASSERT_ON_LEAKS
 
 namespace yam2d
 {
@@ -61,7 +62,9 @@ namespace
             {
                 esLogMessage("No memory leaks detected!\n");
             }
+#if defined(ASSERT_ON_LEAKS)
             assert( refs == 0 );
+#endif
 #endif
         }
 
