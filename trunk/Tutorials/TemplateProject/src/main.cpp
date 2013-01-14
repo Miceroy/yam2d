@@ -1,22 +1,23 @@
 // Include OpenGL ES Engine utils
-#include "es_util.h"
+#include <es_util.h>
 
 float count = 0.0f;
 
 using namespace yam2d;
 
-///
-// Initialize the shader and program object
-//
-int init ( ESContext *esContext )
+// Initialize the game
+bool init ( ESContext *esContext )
 {
 
-	return TRUE;
+	return true;
 }
 
-///
-// Draw a triangle using the shader pair created in Init()
-//
+// Deinitialize the game
+void deinit ( ESContext *esContext )
+{
+}
+
+// Draw game
 void draw ( ESContext *esContext )
 {
 	float vertexData[] = 
@@ -51,6 +52,7 @@ void draw ( ESContext *esContext )
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
 
+// update game
 void update( ESContext*, float deltaTime )
 {
 	count += deltaTime;

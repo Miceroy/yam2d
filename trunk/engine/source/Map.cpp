@@ -340,7 +340,7 @@ TmxMap::TmxMap(Tmx::Map* map)
 		}
 		
 		// Create sprite sheet
-		SpriteSheet* spriteSheet = generateSpriteSheet(texture, tileset->GetTileWidth(), tileset->GetTileHeight(), tileset->GetMargin(), tileset->GetSpacing() );
+		SpriteSheet* spriteSheet = SpriteSheet::generateSpriteSheet(texture, tileset->GetTileWidth(), tileset->GetTileHeight(), tileset->GetMargin(), tileset->GetSpacing() );
 		PropertySet properties;
 		properties.setValues(tileset->GetProperties().GetList());
 		m_tilesets[i] = createNewTileset(tileset->GetName(), spriteSheet, float(tileset->GetTileOffsetX()) , float(tileset->GetTileOffsetY()),properties);

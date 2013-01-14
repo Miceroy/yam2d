@@ -274,7 +274,7 @@ namespace
 
 
 
-SpriteSheet* autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel)
+SpriteSheet* SpriteSheet::autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel)
 {
 	
 	std::vector<Sprite::PixelClip> ret = findSpriteClipsFromTexture(texture,isPixel);
@@ -284,7 +284,7 @@ SpriteSheet* autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixe
 }
 
 
-SpriteSheet* autoFindFontFromTexture(Texture* texture, const char* const fontWidthBinFileName)
+SpriteSheet* SpriteSheet::autoFindFontFromTexture(Texture* texture, const char* const fontWidthBinFileName)
 {	
 	std::vector<Sprite::PixelClip> ret = findSpriteClipsFromTexture(texture,isRedOrTransparentPixel);
 	trimClipAreas(ret, texture, isRedOrTransparentPixel);
@@ -311,7 +311,7 @@ SpriteSheet* autoFindFontFromTexture(Texture* texture, const char* const fontWid
 }
 
 
-SpriteSheet* generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing )
+SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing )
 {
 	std::vector<Sprite::PixelClip> ret;
 	int w = texture->getWidth();
