@@ -25,8 +25,8 @@
 #include "es_util_win.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <GLES/gl.h>
-#include <EGL/egl.h>
+#include <OGLES/Include/GLES/gl.h>
+#include <OGLES/Include/EGL/egl.h>
 
 
 namespace yam2d
