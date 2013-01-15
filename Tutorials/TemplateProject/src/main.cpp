@@ -73,7 +73,8 @@ int main ( int argc, char *argv[] )
 
 	esRegisterDrawFunc( &esContext, draw );
 	esRegisterUpdateFunc( &esContext, update );
-      
+    esRegisterDeinitFunc( &esContext, deinit);
+
 	esMainLoop ( &esContext );
 	return 0;
 }
