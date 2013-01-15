@@ -47,8 +47,11 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
             
 		if ( esContext && esContext->drawFunc )
-		esContext->drawFunc ( esContext );
-            
+		{
+			esContext->drawFunc ( esContext );
+			eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
+		}   
+
 		ValidateRect( esContext->hWnd, NULL );
 		}
 		break;
@@ -182,7 +185,7 @@ void winLoop ( ESContext *esContext )
       {
          if (msg.message==WM_QUIT)
          {
-             done=true;
+             done = true;
          }
          else
          {
@@ -191,16 +194,21 @@ void winLoop ( ESContext *esContext )
          }
       }
       else
+	  {
          SendMessage( esContext->hWnd, WM_PAINT, 0, 0 );
+	  }
 
       // Call update function if registered
       if ( !done && esContext->updateFunc != NULL )
+	  {
          esContext->updateFunc ( esContext, deltaTime );
+	  }
    }
 
     if ( esContext->deinitFunc != NULL )
+	{
 		esContext->deinitFunc ( esContext );
-
+	}
 }
 
 }
