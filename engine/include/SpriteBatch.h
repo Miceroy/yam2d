@@ -44,10 +44,24 @@ class Text;
 class SpriteBatch : public Object
 {
 public:
-	static void resetFrame();
-	static void frameUpdate();
+	/**
+	 * Resets statistics values to zero.
+	 */
+	static void resetStatsValues();
+
+	/**
+	 * Returns number of triangles rendered since last call to resetStatsValues, or program startup.
+	 */
 	static int getNumTriangles();
+
+	/**
+	 * Returns draw calls used since last call to resetStatsValues, or program startup.
+	 */
 	static int getNumDrawCalls();
+
+	/**
+	 * Returns number of batched sprites since last call to resetStatsValues, or program startup.
+	 */
 	static int getNumSpritesBatched();
 
 	SpriteBatch();

@@ -46,16 +46,11 @@ namespace
 }
 
 
-void SpriteBatch::resetFrame()
+void SpriteBatch::resetStatsValues()
 {
 	numTriangles = 0;
 	numDrawCalls = 0;
 	numSpritesBatched = 0;
-}
-
-
-void SpriteBatch::frameUpdate()
-{
 }
 
 
