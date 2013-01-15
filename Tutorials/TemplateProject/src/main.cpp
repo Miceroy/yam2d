@@ -5,6 +5,7 @@ float count = 0.0f;
 
 using namespace yam2d;
 
+
 // Initialize the game
 bool init ( ESContext *esContext )
 {
@@ -12,10 +13,12 @@ bool init ( ESContext *esContext )
 	return true;
 }
 
+
 // Deinitialize the game
 void deinit ( ESContext *esContext )
 {
 }
+
 
 // Draw game
 void draw ( ESContext *esContext )
@@ -48,6 +51,7 @@ void draw ( ESContext *esContext )
 	// Disable vertex arrays
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
+
 
 // update game
 void update( ESContext*, float deltaTime )
