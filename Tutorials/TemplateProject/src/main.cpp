@@ -47,9 +47,6 @@ void draw ( ESContext *esContext )
 
 	// Disable vertex arrays
 	glDisableClientState(GL_VERTEX_ARRAY);
-	
-	// Swap to back buffer
-	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
 
 // update game
