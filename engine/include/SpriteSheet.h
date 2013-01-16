@@ -29,9 +29,9 @@
 
 namespace yam2d
 {
-	
-class Texture;
 
+class Texture;
+	
 bool isWhiteOrTransparentPixel(const unsigned char* const data, int bpp);
 bool isBlackOrTransparentPixel(const unsigned char* const data, int bpp);
 bool isYellowOrTransparentPixel(const unsigned char* const data, int bpp);
@@ -51,20 +51,19 @@ class SpriteSheet : public Object
 public:
 	SpriteSheet(Texture* texture, std::vector<Sprite::PixelClip> clips);
 
-	virtual ~SpriteSheet() {}
+	virtual ~SpriteSheet();
 
-
-	Texture* getTexture() { return m_texture; }
-	const Texture* getTexture() const { return m_texture.ptr(); }
-	const Sprite::PixelClip& getClip(int index) const { return m_clips[index]; }
+	Texture* getTexture();
+	const Texture* getTexture() const;
+	const Sprite::PixelClip& getClip(int index) const;
 
 	static SpriteSheet* autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel = isWhiteOrTransparentPixel);
 	static SpriteSheet* autoFindFontFromTexture(Texture* texture, const char* const fontWidthBinFileName = 0);
 	static SpriteSheet* generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing );
 
 private:
-	Ref<Texture> m_texture;
-	std::vector<Sprite::PixelClip> m_clips;
+	Ref<Texture>					m_texture;
+	std::vector<Sprite::PixelClip>	m_clips;
 };
 
 

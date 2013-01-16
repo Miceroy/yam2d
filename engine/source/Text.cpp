@@ -69,7 +69,7 @@ void Text::getVertexData( std::vector<float>& verts, std::vector<float>& texCoor
 		unsigned char clipIndex = *c;
 		++c;
 		
-		m_sprite->setClip( float(m_font->getTexture()->getWidth()), float(m_font->getTexture()->getHeight()),m_font->getClip(clipIndex));
+		m_sprite.ptr()->setClip( float(m_font->getTexture()->getWidth()), float(m_font->getTexture()->getHeight()),m_font->getClip(clipIndex));
 		size_t start = verts.size();
 		m_sprite->getVertexData(verts,texCoords,colors);
 		
@@ -99,5 +99,18 @@ void Text::setOpacity( float a )
 {
 	m_sprite->setOpacity(a);
 }
+	
+
+SpriteSheet* Text::getFont() const
+{
+	return m_font.ptr(); 
+}
+	
+
+int Text::getWidth()
+{
+	return m_totalWidth;
+}
+
 
 }

@@ -24,7 +24,9 @@
 #include "SpriteBatch.h"
 #include <es_util.h>
 #include "Text.h"
-
+#include <Texture.h>
+#include <Sprite.h>
+#include <SpriteSheet.h>
 
 namespace yam2d
 {
@@ -243,48 +245,12 @@ void SpriteBatch::render(float aspectRatio)
 
 }
 
-
-/*void SpriteBatch::weldVertices(float tolerence)
+Texture* SpriteBatch::getTexture() const
 {
-	size_t totalNumOfVertices = m_positions.size()/3;
-	size_t showStep = totalNumOfVertices/50;
-	size_t weldCount = 0;
-	esLogMessage("weldVertices:%d", totalNumOfVertices );
-	tolerence = tolerence*tolerence;
-	for( size_t i=0; i<m_positions.size(); i+=3 )
-	{
-		float x0 = m_positions[i+0];
-		float y0 = m_positions[i+1];
-		float z0 = m_positions[i+2];
-		
-		for( size_t j=i+3; j<m_positions.size(); j+=3 )
-		{
-			float x1 = m_positions[j+0];
-			float y1 = m_positions[j+1];
-			float z1 = m_positions[j+2];
+	return m_texture.ptr();
+}
 
-			float deltaX = x1-x0;
-			float deltaY = y1-y0;
-			float deltaZ = z1-z0;
 
-			float len = deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ;
-			if( (len > FLT_EPSILON) && (len < tolerence) )
-			{
-				m_positions[j+0] = m_positions[i+0];
-				m_positions[j+1] = m_positions[i+1];
-				m_positions[j+2] = m_positions[i+2];
-				weldCount++;
-			}
-		}
-
-		if( ((i/3)%showStep) == (showStep-1) )
-		{
-			esLogMessage(".");
-		}
-	}
-
-	esLogMessage("Welded: %d = %2.2f %%", weldCount, 100.0f*float(weldCount)/float(totalNumOfVertices) );
-}*/
 
 
 SpriteBatchGroup::SpriteBatchGroup()
@@ -329,13 +295,18 @@ void SpriteBatchGroup::render(float aspectRatio)
 }
 
 
-/*void SpriteBatchGroup::weldVertices(float tolerence)
+SpriteBatch* SpriteBatchGroup::getBatch(Texture* texture)
 {
-	for( std::map<Texture*, Ref<SpriteBatch> >::iterator it = m_spriteBatches.begin(); it != m_spriteBatches.end(); ++it )
+	SpriteBatch* batch = m_spriteBatches[texture];
+	if( batch == 0 )
 	{
-		SpriteBatch* batch = it->second;
-		batch->weldVertices(tolerence);
+		batch = new SpriteBatch();
+		batch->setTexture(texture);
+		m_spriteBatches[texture] = batch;
 	}
-}*/
+	
+	return batch;
+}
+
 
 }

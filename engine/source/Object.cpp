@@ -25,7 +25,6 @@
 
 #include <stdio.h>
 #include <typeinfo>
-
 #include <es_util.h>
 
 //#define MEMORY_LEAK_DEBUGGING
@@ -50,7 +49,7 @@ namespace
 #if defined(SHOW_LEAKS)
             if( refs != 0 )
             {
-				esLogMessage("Memory leak detected!\n");
+				esLogMessage("%d Memory leaks detected!\n", refs);
 #if defined(MEMORY_LEAK_DEBUGGING)
                 for( size_t i=0; i<m_objects.size(); ++i )
                 {

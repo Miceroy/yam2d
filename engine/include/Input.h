@@ -142,9 +142,17 @@ enum MouseButtons
  * Returns key button state. Returns 0 if button is not pressed returns 1. if button is pressed down.
  */
 int getKeyState(KeyCodes keyCode);
+
+/** Returns mouse x-position */
 int getMouseAxisX();
+
+/** Returns mouse y-position */
 int getMouseAxisY();
+
+/** Returns 1 if given mouse button is down */
 int getMouseButtonState(MouseButtons button);
+
+/** Returns mouse wheel delta since last frame */
 int getMouseWheelDelta();
 
 }

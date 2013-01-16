@@ -275,13 +275,6 @@ public:
 
 	virtual ~Camera() {}
 
-	/*
-
-	void update(float deltaTime)
-	{
-		m_animation->update(deltaTime);
-	}
-	*/
 	void setScreenSize(int screenWidth, int screenHeight )
 	{
 		setScreenSize(screenWidth,screenHeight,float(screenHeight));
@@ -312,7 +305,6 @@ private:
 	int m_screenHeight;
 	float m_desiredAspectRatio;
 	float m_screenUnitSize;
-//	SpriteAnimation* m_animation;
 
 	Camera();
 	Camera(const Camera& o);

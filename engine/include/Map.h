@@ -115,29 +115,23 @@ public:
 
 	/** Converts tile-coodrinate value to screen coordinates. */
 	vec2 tileToScreenCoordinates(float x, float y);
-	vec2 tileToScreenCoordinates(const vec2& pos)
-	{
-		return tileToScreenCoordinates(pos.x,pos.y);
-	}
+	vec2 tileToScreenCoordinates(const vec2& pos);
 
 	/** Converts screen-coodrinate value to tile coordinates. */
 	vec2 screenToTileCoordinates(float x, float y);
-	vec2 screenToTileCoordinates(const vec2& pos)
-	{
-		return screenToTileCoordinates(pos.x,pos.y);
-	}
+	vec2 screenToTileCoordinates(const vec2& pos);
 
 	/** Returns tile width */
-	float getTileHeight() const { return m_tileHeight; }
+	float getTileHeight() const;
 
 	/** Returns tile height */
-	float getTileWidth() const { return m_tileWidth; }
+	float getTileWidth() const;
 
 	/** Returns orientation of this Map. */
-	MapOrientation getOrientation() const { return m_orientation; }
+	MapOrientation getOrientation() const;
 
 	/** Returns all layers of this map */
-	LayerMap& getLayers() { return m_layers; }
+	LayerMap& getLayers();
 
 	/** Adds new layer to Map. */
 	void addLayer(Layers index, Layer* layer);
@@ -146,10 +140,10 @@ public:
 	Layer* getLayer(Layers index);
 
 	/** Returns properties of this map */
-	PropertySet& getProperties() { return m_properties; }
+	PropertySet& getProperties();
 	
 	/** Returns map main camera */
-	Camera* getCamera() const { return m_mainCamera.ptr(); }
+	Camera* getCamera() const;
 
 	/** Utility function for converting isometric coordinates to orthogonal coordinates */
 	static vec2 isometricToOrthogonal(float x, float y);
@@ -186,14 +180,14 @@ class TmxMap : public Map
 {
 public:
 	/**
-	 * Creates new map from Tmx::Map
+	 * Creates new map.
 	 */
 	TmxMap();
 
 	virtual ~TmxMap();
 
+	/** Loads map file */
 	bool loadMapFile(const std::string& mapFileName);
-	//static TmxMap* loadFromMapFile(const std::string& mapFileName);
 
 	float getWidth() const { return m_width; }
 	float getHeight() const { return m_height; }
@@ -213,7 +207,6 @@ private:
 	std::vector< Ref<Tileset> > m_tilesets;
 
 	// Hidden
-//	TmxMap();
 	TmxMap(const TmxMap&);
 	TmxMap& operator=(const TmxMap&);
 	

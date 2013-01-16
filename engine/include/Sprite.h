@@ -104,4 +104,5 @@ private:
 }
 
 
-#endif /* SPRITE_H_ */
+#endif
+

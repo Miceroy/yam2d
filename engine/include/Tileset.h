@@ -3,6 +3,8 @@
 
 #include <string>
 #include "PropertySet.h"
+#include <Ref.h>
+#include <SpriteSheet.h>
 
 namespace yam2d
 {
@@ -29,7 +31,7 @@ public:
 	virtual ~Tileset() {}
 
 	/** Returns SpriteSheet of this Tileset */
-	SpriteSheet* getSpriteSheet() { return m_spriteSheet; }
+	SpriteSheet* getSpriteSheet() const { return m_spriteSheet.ptr(); }
 
 	/** Returns offset x to be used in rendering of sprites from this Tileset. */
 	float getTileOffsetX()  { return m_tileOffsetX; }
@@ -43,7 +45,7 @@ private:
 	float				m_tileOffsetX;
 	float				m_tileOffsetY;
 
-	SpriteSheet*		m_spriteSheet;
+	Ref<SpriteSheet>	m_spriteSheet;
 
 	// Hidden
 	Tileset();

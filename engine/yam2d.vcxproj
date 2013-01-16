@@ -123,6 +123,7 @@
     <ClCompile Include="external\zlib-1.2.7\uncompr.c" />
     <ClCompile Include="external\zlib-1.2.7\zutil.c" />
     <ClCompile Include="Source\ElapsedTimer.cpp" />
+    <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="Source\Layer.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\MapTile.cpp" />
