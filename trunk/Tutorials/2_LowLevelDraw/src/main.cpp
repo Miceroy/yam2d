@@ -3,6 +3,7 @@
 #include <SpriteBatch.h>
 #include <SpriteSheet.h>
 #include <Text.h>
+#include <Texture.h>
 
 float count = 0.0f;
 
@@ -54,6 +55,8 @@ bool init ( ESContext *esContext )
 void deinit ( ESContext *esContext )
 {
 	// Delete sprite batch group.
+	delete sprite;
+	delete text;
 	delete batch;
 }
 

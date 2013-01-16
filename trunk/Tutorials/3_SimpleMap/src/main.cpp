@@ -6,7 +6,8 @@
 #include <Tile.h>
 // Layer
 #include <Layer.h>
-
+// Texture
+#include <Texture.h>
 
 using namespace yam2d;
 
