@@ -7,7 +7,7 @@
 // Layer
 #include <Layer.h>
 // Texture
-#include <Texture.h>
+#include <Camera.h>
 
 using namespace yam2d;
 
