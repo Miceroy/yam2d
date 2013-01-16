@@ -47,8 +47,9 @@ int winPNGLoad ( const char *fileName, char *buffer, int *width, int *height );
 /**
  * Sets mouse state.
  */
-void mouseState(bool leftClicked, bool rightClicked, int mouseX, int mouseY );
-
+void mouseState(bool leftClicked, bool rightClicked, bool middleClicked, int mouseX, int mouseY );
+void clearInput();
+void mouseWheel(int mouseWheel);
 }
 
 #endif // ESUTIL_WIN_H_

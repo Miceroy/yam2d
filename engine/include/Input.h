@@ -131,10 +131,21 @@ enum KeyCodes
 	KEY_F24			= 0x87
 };
 
-/**
+enum MouseButtons
+{
+	MOUSE_LEFT = 0,
+	MOUSE_RIGHT = 1,
+	MOUSE_MIDDLE = 2,
+};
+ 
+/** 
  * Returns key button state. Returns 0 if button is not pressed returns 1. if button is pressed down.
  */
 int getKeyState(KeyCodes keyCode);
+int getMouseAxisX();
+int getMouseAxisY();
+int getMouseButtonState(MouseButtons button);
+int getMouseWheelDelta();
 
 }
 

@@ -79,7 +79,6 @@ struct ESContext
 
 	/// Callbacks
 	void (*drawFunc) ( ESContext* );
-	void (*keyFunc) ( ESContext*, unsigned char, int, int );
 	void (*updateFunc) ( ESContext*, float deltaTime );
 	void (*deinitFunc) ( ESContext* );
 };
