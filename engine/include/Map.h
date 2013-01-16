@@ -99,8 +99,7 @@ public:
 	 */
 	Map( float tileWidth, float tileHeight, MapOrientation orientation=ORTHOGONAL, const PropertySet& properties=PropertySet() );
 	
-	virtual ~Map() {}
-
+	virtual ~Map();
 
 	/**
 	 * Renders all visible map layers to the screen.
@@ -139,6 +138,12 @@ public:
 
 	/** Returns all layers of this map */
 	LayerMap& getLayers() { return m_layers; }
+
+	/** Adds new layer to Map. */
+	void addLayer(Layers index, Layer* layer);
+
+	/** Gets layer by index. */
+	Layer* getLayer(Layers index);
 
 	/** Returns properties of this map */
 	PropertySet& getProperties() { return m_properties; }
@@ -182,7 +187,7 @@ public:
 	 */
 	TmxMap(Tmx::Map* map);
 
-	virtual ~TmxMap() {}
+	virtual ~TmxMap();
 
 	static TmxMap* loadFromMapFile(const std::string& mapFileName);
 protected:

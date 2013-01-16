@@ -68,6 +68,7 @@ public:
 	void setPosition( const vec2& position ) { m_position = position; recalcExtens(); } 
 	void setOrigin( const vec2& offset ) { m_offset = offset; } 
 	void setRotation( float rotation ) { m_rotation = rotation; } 
+	void setSize( float sizeX, float sizeY ) { setSize(vec2(sizeX,sizeY)); }
 	void setSize( const vec2& size ) { assert(size.x >= 0.0f && size.y >= 0.0f); m_size = size; recalcExtens();  }
 
 	const std::string& getName() const { return m_name; }
