@@ -161,10 +161,13 @@ private:
 	bool isVisible(GameObject* go,Camera* cam);
 	void batchLayer(Layer* layer, bool cullInvisibleObjects);
 
-	Ref<Camera>					m_mainCamera;	
+	Ref<Camera>					m_mainCamera;
+protected:	
 	MapOrientation				m_orientation;
 	float						m_tileWidth;
 	float						m_tileHeight;
+private:
+
 	LayerMap					m_layers;
 	PropertySet					m_properties;
 	bool						m_needsBatching;
@@ -185,11 +188,15 @@ public:
 	/**
 	 * Creates new map from Tmx::Map
 	 */
-	TmxMap(Tmx::Map* map);
+	TmxMap();
 
 	virtual ~TmxMap();
 
-	static TmxMap* loadFromMapFile(const std::string& mapFileName);
+	bool loadMapFile(const std::string& mapFileName);
+	//static TmxMap* loadFromMapFile(const std::string& mapFileName);
+
+	float getWidth() const { return m_width; }
+	float getHeight() const { return m_height; }
 protected:
 	/** Can be overwritten in derived class for create custom Tilesets. */
 	virtual Tileset* createNewTileset(const std::string name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
@@ -206,7 +213,7 @@ private:
 	std::vector< Ref<Tileset> > m_tilesets;
 
 	// Hidden
-	TmxMap();
+//	TmxMap();
 	TmxMap(const TmxMap&);
 	TmxMap& operator=(const TmxMap&);
 	

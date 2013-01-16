@@ -25,6 +25,7 @@
 
 #include <vector>
 #include "Sprite.h"
+#include "Ref.h"
 
 namespace yam2d
 {
@@ -54,7 +55,7 @@ public:
 
 
 	Texture* getTexture() { return m_texture; }
-	const Texture* getTexture() const { return m_texture; }
+	const Texture* getTexture() const { return m_texture.ptr(); }
 	const Sprite::PixelClip& getClip(int index) const { return m_clips[index]; }
 
 	static SpriteSheet* autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel = isWhiteOrTransparentPixel);
@@ -62,7 +63,7 @@ public:
 	static SpriteSheet* generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing );
 
 private:
-	Texture* m_texture;
+	Ref<Texture> m_texture;
 	std::vector<Sprite::PixelClip> m_clips;
 };
 

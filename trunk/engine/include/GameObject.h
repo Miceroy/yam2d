@@ -66,14 +66,14 @@ public:
 
 	void setName( const std::string& name ) { m_name = name; }
 	void setPosition( const vec2& position ) { m_position = position; recalcExtens(); } 
-	void setOrigin( const vec2& offset ) { m_offset = offset; } 
+	void setOffset( const vec2& offset ) { m_offset = offset; } 
 	void setRotation( float rotation ) { m_rotation = rotation; } 
 	void setSize( float sizeX, float sizeY ) { setSize(vec2(sizeX,sizeY)); }
 	void setSize( const vec2& size ) { assert(size.x >= 0.0f && size.y >= 0.0f); m_size = size; recalcExtens();  }
 
 	const std::string& getName() const { return m_name; }
 	const vec2& getPosition() const { return m_position; } 
-	const vec2& getOrigin() const { return m_offset; } 
+	//const vec2& getOffset() const { return m_offset; } 
 	float getRotation() const { return m_rotation; } 
 	const vec2& getSize() const { return m_size; }
 	int getType() const { return m_type; }
@@ -95,10 +95,12 @@ public:
 private:
 	void recalcExtens()
 	{
-		m_topLeft.x = m_position.x - (m_size.x*0.5f);
-		m_topLeft.y = m_position.y - (m_size.y*0.5f);;
-		m_bottomRight.x = m_position.x + (m_size.x*0.5f);
-		m_bottomRight.y = m_position.y + (m_size.y*0.5f);
+		assert(m_size.x >= 0.0f);
+		assert(m_size.y >= 0.0f);
+		m_topLeft.x		= m_position.x - (m_size.x*0.5f) + m_offset.x;
+		m_topLeft.y		= m_position.y - (m_size.y*0.5f) + m_offset.y;
+		m_bottomRight.x	= m_position.x + (m_size.x*0.5f) + m_offset.x;
+		m_bottomRight.y	= m_position.y + (m_size.y*0.5f) + m_offset.y;
 	}
 
 	GameObject();

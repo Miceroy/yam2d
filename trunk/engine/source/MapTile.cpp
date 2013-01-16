@@ -65,16 +65,16 @@ void Tile::render(Layer* layer)
 		}
 
 		vec2 p = position;
-	
-		float offY = (layer->getMap()->getTileHeight()-clip.clipSize.y)*0.5f;
-		float offX = (layer->getMap()->getTileWidth()-clip.clipSize.x)*0.5f;
+		p.x += clip.clipSize.x*0.5f;
+		p.y += clip.clipSize.y*0.5f;
+		p.x -= layer->getMap()->getTileWidth()*0.5f;
+		p.y -= layer->getMap()->getTileHeight()*0.5f;
+		p.x += tileset->getTileOffsetX();
+		p.y += tileset->getTileOffsetY();
 
-		p.x -= ((tileset->getTileOffsetX()) - offX);
-		p.y -= ((tileset->getTileOffsetY()) + offY);
 		vec2 offset(0.0f);
 
 		layer->getBatch()->addSprite( tex, m_sprite, p, 0, scale );
-
 	}
 }
 
@@ -136,6 +136,8 @@ void Camera::render(Layer* layer)
 	//SCREEN_UNIT_SIZE = esContext->width;
 	//glOrthof( 2.1f*left, 2.1f*right, 2.1f*bottom, 2.1f*top, 1.0f, -1.0f);
 	glOrthof( float(int(left)), float(int(right)), float(int(bottom)), float(int(top)), -float(Map::NUM_LAYERS),0.0f);
+//	glOrthof( 2.1f*float(int(left)), 2.1f*float(int(right)), 2.1f*float(int(bottom)), 2.1f*float(int(top)), -float(Map::NUM_LAYERS),0.0f);
+//	glOrthof( 1.1f*float(int(left)), 1.1f*float(int(right)), 1.1f*float(int(bottom)), 1.1f*float(int(top)), -float(Map::NUM_LAYERS),0.0f);
 
 	// Enable back face culling
 	glEnable(GL_CULL_FACE);
@@ -162,7 +164,6 @@ void Camera::render(Layer* layer)
 	vec2 camSizeInTiles = vec2(sizeX,sizeY);
 	camSizeInTiles.x /= layer->getMap()->getTileWidth();
 	camSizeInTiles.y /= layer->getMap()->getTileHeight();
-	camSizeInTiles.x += 2;
 	setSize(camSizeInTiles);
 }
 
