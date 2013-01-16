@@ -35,6 +35,7 @@
 #include "Map.h"
 #include "Tileset.h"
 #include "Text.h"
+#include "Texture.h"
 
 namespace yam2d
 {
@@ -255,61 +256,6 @@ private:
 	AnimatedSpriteGameObject& operator=(const AnimatedSpriteGameObject& o);
 };
 
-/**
- * Class for Camera.
- *
- * @ingroup yam2d
- * @author Mikko Romppainen (mikko@kajakbros.com) 
- */
-class Camera : public GameObject
-{
-public:
-	// Default constructor.
-	Camera(int gameObjectType)
-		: GameObject(gameObjectType)
-		, m_screenWidth(0)
-		, m_screenHeight(0)
-		, m_desiredAspectRatio(0.0f)
-	{
-	}
-
-	virtual ~Camera() {}
-
-	void setScreenSize(int screenWidth, int screenHeight )
-	{
-		setScreenSize(screenWidth,screenHeight,float(screenHeight));
-	}
-
-	void setScreenSize(int screenWidth, int screenHeight,  float screenUnitSize )
-	{
-		setScreenSize(screenWidth, screenHeight, screenUnitSize, float(screenWidth)/float(screenHeight) );
-	}
-
-	void setScreenSize(int screenWidth, int screenHeight,  float screenUnitSize, float desiredAspectRatio )
-	{
-		m_screenWidth = screenWidth;
-		m_screenHeight = screenHeight;
-		m_desiredAspectRatio = desiredAspectRatio;
-		m_screenUnitSize = screenUnitSize;
-	}
-
-	virtual void render( Layer* layer);
-	
-	float getScale()
-	{
-		return m_screenUnitSize/m_screenHeight;
-	}
-
-private:
-	int m_screenWidth;
-	int m_screenHeight;
-	float m_desiredAspectRatio;
-	float m_screenUnitSize;
-
-	Camera();
-	Camera(const Camera& o);
-	Camera& operator=(const Camera& o);
-};
 
 }
 

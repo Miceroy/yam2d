@@ -31,7 +31,7 @@
 #include "es_util.h"
 #include "Text.h"
 #include "Layer.h"
-
+#include <Camera.h>
 
 namespace yam2d
 {

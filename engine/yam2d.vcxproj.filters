@@ -392,6 +392,9 @@
     <ClInclude Include="Include\Ref.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="include\Camera.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Ref.inl">
