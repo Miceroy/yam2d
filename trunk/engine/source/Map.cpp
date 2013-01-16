@@ -28,6 +28,7 @@
 #include "es_util.h"
 #include <tmx-parser/Tmx.h>
 #include <Texture.h>
+#include <Camera.h>
 
 namespace yam2d
 {
