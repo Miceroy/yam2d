@@ -32,35 +32,42 @@ namespace yam2d
 Text::Text(SpriteSheet* font)
 : m_font(font)
 , m_sprite( new Sprite() )
+, m_totalWidth(0)
 , m_text("")
 {
 }
 
 
-void Text::setText( const char* str )
+void Text::setText( const std::string& str )
 {
 	m_text = str;
+
+	m_totalWidth=0;
+	const char* c = m_text.c_str();
+
+	while( *c != '\0' )
+	{
+		unsigned char clipIndex = *c;
+		++c;
+		m_totalWidth += m_font->getClip(clipIndex).clipSize.x;
+	}
+}
+
+
+void Text::setText( const char* str )
+{
+	setText( std::string(str) );
 }
 
 
 void Text::getVertexData( std::vector<float>& verts, std::vector<float>& texCoords, std::vector<float>& colors ) const
 {
-	int totalWidth=0;
-	const char* str = m_text;
-
-	while( *str != '\0' )
-	{
-		unsigned char clipIndex = *str;
-		++str;
-		totalWidth += m_font->getClip(clipIndex).clipSize.x;
-	}
-
-	str = m_text;
+	const char* c = m_text.c_str();
 	float xOffset = 0;
-	while( *str != '\0' )
+	while( *c != '\0' )
 	{
-		unsigned char clipIndex = *str;
-		++str;
+		unsigned char clipIndex = *c;
+		++c;
 		
 		m_sprite->setClip( float(m_font->getTexture()->getWidth()), float(m_font->getTexture()->getHeight()),m_font->getClip(clipIndex));
 		size_t start = verts.size();
@@ -68,7 +75,7 @@ void Text::getVertexData( std::vector<float>& verts, std::vector<float>& texCoor
 		
 		for( ; start<verts.size(); start+=3 )
 		{
-			verts[start+0] += (-totalWidth/2) + xOffset;
+			verts[start+0] += (-m_totalWidth/2) + xOffset;
 		}
 
 		xOffset += float(m_font->getClip(clipIndex).clipSize.x);
