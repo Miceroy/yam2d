@@ -1,4 +1,4 @@
-setx YAM2D_ROOT %cd%\
+setx YAM2D_ROOT "%cd%"\
 
 pause
 
