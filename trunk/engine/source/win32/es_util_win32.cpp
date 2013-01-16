@@ -21,10 +21,10 @@
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+//#define WIN32_LEAN_AND_MEAN
+#include <windowsx.h>
 #include "es_util.h"
-
+#include "es_util_win.h"
 
 namespace yam2d
 {
@@ -32,6 +32,13 @@ namespace yam2d
 // anonymous namespace for internal functions
 namespace
 {
+
+int xPos = 0;//GET_X_LPARAM(lParam); 
+int yPos = 0;//GET_Y_LPARAM(lParam); 
+bool leftClicked = false;//(wParam & MK_LBUTTON) != 0;
+bool rightClicked = false;//(wParam & MK_RBUTTON) != 0;
+bool middleClicked = false;// (wParam & MK_MBUTTON) != 0;
+
 
 LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
 {
@@ -80,7 +87,7 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		PostQuitMessage(0);             
 		break; 
       
-	case WM_CHAR:
+	/*case WM_CHAR:
 		{
 		POINT      point;
 		ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
@@ -91,8 +98,73 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		esContext->keyFunc ( esContext, (unsigned char) wParam, 
 		(int) point.x, (int) point.y );
 		}
+		break;*/
+	case WM_LBUTTONDOWN:
+		SetCapture(hWnd);
+		leftClicked = true;
+		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
 		break;
-         
+	case WM_LBUTTONUP:
+		SetCapture(0);
+		leftClicked = false;
+		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		break;
+	case WM_RBUTTONDOWN:
+		SetCapture(hWnd);
+		rightClicked = true;
+		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		break;
+	case WM_RBUTTONUP:
+		SetCapture(0);
+		rightClicked = false;
+		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		break;
+	case WM_MBUTTONDOWN:
+		SetCapture(hWnd);
+		middleClicked = true;
+		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		break;
+	case WM_MBUTTONUP:
+		SetCapture(0);
+		middleClicked = false;
+		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		break;
+
+	case  WM_CAPTURECHANGED:
+		middleClicked = false;
+		rightClicked = false;
+		leftClicked = false;
+		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		break;
+
+	case WM_MOUSEWHEEL:
+		{
+			int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+			mouseWheel( delta/WHEEL_DELTA );
+		}
+		break;
+
+	case WM_MOUSEMOVE:
+		{
+		ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+      
+		POINT point;
+		point.x = GET_X_LPARAM(lParam);
+		point.y = GET_Y_LPARAM(lParam);
+		MapWindowPoints(HWND_DESKTOP,hWnd,&point,1);
+
+		xPos = point.x;
+		yPos = point.y;
+		
+		if( (wParam & MK_LBUTTON) == 0 )
+		{
+			leftClicked = false;
+		}
+
+		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		}
+		break;
+
 	default: 
 		lRet = DefWindowProc (hWnd, uMsg, wParam, lParam); 
 		break; 
@@ -158,9 +230,11 @@ GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
    // ESWindowProc
    SetWindowLongPtr (  esContext->hWnd, GWL_USERDATA, (LONG) (LONG_PTR) esContext );
 
-
    if ( esContext->hWnd == NULL )
       return GL_FALSE;
+
+   
+ //  SetCapture(esContext->hWnd);
 
    ShowWindow ( esContext->hWnd, TRUE );
 
@@ -202,6 +276,7 @@ void winLoop ( ESContext *esContext )
       if ( !done && esContext->updateFunc != NULL )
 	  {
          esContext->updateFunc ( esContext, deltaTime );
+		 clearInput();
 	  }
    }
 

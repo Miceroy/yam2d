@@ -33,11 +33,52 @@ namespace yam2d
 // anonymous namespace for internal functions
 namespace
 {
+	bool clicks[3];
+	int mouseXValue = 0;
+	int mouseYValue = 0;
+	int mouseWheelDelta = 0;
 
 }
 
+void clearInput()
+{
+	mouseWheelDelta = 0;
+}
+
+void mouseWheel(int mouseWheel)
+{
+	mouseWheelDelta += mouseWheel;
+}
+
+void mouseState(bool leftClicked, bool rightClicked, bool middleClicked, int mouseX, int mouseY )
+{
+	clicks[0] = leftClicked;
+	clicks[1] = rightClicked;
+	clicks[2] = middleClicked;
+	mouseXValue = mouseX;
+	mouseYValue = mouseY;
+}
+
+int getMouseButtonState(MouseButtons button)
+{
+	return clicks[button];
+}
 
 
+int getMouseAxisX()
+{
+	return mouseXValue;
+}
+
+int getMouseAxisY()
+{
+	return mouseYValue;
+}
+
+int getMouseWheelDelta()
+{
+	return mouseWheelDelta;
+}
 
 int getKeyState(KeyCodes keyCode)
 {

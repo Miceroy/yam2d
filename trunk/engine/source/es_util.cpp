@@ -180,13 +180,6 @@ void esRegisterDeinitFunc ( ESContext *esContext, void (*deinitFunc) ( ESContext
 }
 
 
-void esRegisterKeyFunc ( ESContext *esContext,
-                                    void (*keyFunc) (ESContext*, unsigned char, int, int ) )
-{
-	esContext->keyFunc = keyFunc;
-}
-
-
 void esLogMessage ( const char *formatStr, ... )
 {
 	va_list params;
