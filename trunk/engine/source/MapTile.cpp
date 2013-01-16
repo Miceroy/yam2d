@@ -93,7 +93,7 @@ void SpriteGameObject::render(Layer* layer)
 	vec2 position = layer->getMap()->tileToScreenCoordinates(getPosition().x,getPosition().y);
 	m_sprite->setDepth( layer->getDepth() );
 	m_sprite->setOpacity( layer->getOpacity() );
-
+	m_sprite->setScale(getSize());
 
 	layer->getBatch()->addSprite( m_texture, m_sprite, position, getRotation(), vec2(1.0f) );
 }

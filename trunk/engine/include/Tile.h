@@ -274,6 +274,11 @@ public:
 		m_animation->update(deltaTime);
 	}
 	*/
+	void setScreenSize(int screenWidth, int screenHeight )
+	{
+		setScreenSize(screenWidth,screenHeight,float(screenWidth)/float(screenHeight),float(screenHeight));
+	}
+
 	void setScreenSize(int screenWidth, int screenHeight, float desiredAspectRatio, float screenUnitSize )
 	{
 		m_screenWidth = screenWidth;

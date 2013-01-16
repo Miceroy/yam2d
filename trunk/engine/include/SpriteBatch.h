@@ -90,7 +90,7 @@ private:
 
 
 /**
- * Class for SpriteBatchGroup.
+ * Class for SpriteBatchGroup. Sprite batch group can be used to render Sprites to screen.
  *
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com) 
@@ -98,16 +98,24 @@ private:
 class SpriteBatchGroup : public Object
 {
 public:
+	/** Constructs new empty sprite batch. */
 	SpriteBatchGroup();
 
 	virtual ~SpriteBatchGroup();
 	
+	/**
+	 * Adds new sprite to batch, which is rendered using given texture to specified transform (position, rotation, scale and pivot/offset point).
+	 *
+	 *
+	 */
 	void addSprite(Texture* texture, Sprite* sprite, const vec2& position, float rotation, const vec2& scale = vec2(1.0), const vec2& offset = vec2(0.0) );
 	
 	void addText(Texture* texture, Text* text, const vec2& position, float rotation, const vec2& scale = vec2(1.0),const vec2& offset = vec2(0.0) );
 
+	/** Clears the content of the Sprite batch. */
 	void clear();
 
+	/** Renders the content of the Sprite batch to the screen. */
 	void render(float aspectRatio = 1.0f);
 
 private:

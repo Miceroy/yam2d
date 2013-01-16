@@ -23,6 +23,7 @@
 
 #include "Map.h"
 #include "Tile.h"
+#include <Tileset.h>
 #include "Layer.h"
 #include "es_util.h"
 #include <tmx-parser/Tmx.h>
@@ -79,6 +80,9 @@ Map::Map( float tileWidth, float tileHeight, MapOrientation orientation, const P
 {
 }
 
+Map::~Map()
+{
+}
 
 vec2 Map::isometricToOrthogonal(float x, float y)
 {
@@ -149,6 +153,16 @@ vec2 Map::screenToTileCoordinates(float x, float y)
 	return vec2(0);
 }
 
+void Map::addLayer(Layers index, Layer* layer)
+{
+	assert( m_layers[index] == 0 ); // Error! There is already layen in given index!
+	m_layers[index] = layer;
+}
+
+Layer* Map::getLayer(Layers index)
+{
+	return m_layers[index].ptr();
+}
 
 bool Map::isVisible(GameObject* go, Camera* cam)
 {
@@ -396,6 +410,12 @@ TmxMap::TmxMap(Tmx::Map* map)
 		esLogMessage("Created %d objects to layer \"%s\"", numObjects, l->GetName().c_str() );
 	}
 }
+
+
+TmxMap::~TmxMap()
+{
+}
+
 
 TmxMap* TmxMap::loadFromMapFile(const std::string& mapFileName)
 {
