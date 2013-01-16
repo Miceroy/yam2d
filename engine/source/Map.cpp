@@ -178,6 +178,9 @@ bool Map::isVisible(GameObject* go, Camera* cam)
 	
 	if( m_orientation == ISOMETRIC )
 	{
+		// TODO: Visibility check for isometric levels wont work yet!
+		return true;
+
 		vec2 camPos = cam->getPosition();
 		vec2 v = isometricToOrthogonal(left,top);
 		left	= v.x;
@@ -194,7 +197,8 @@ bool Map::isVisible(GameObject* go, Camera* cam)
 		camBottom	= camPos.y + cam->getSize().y*0.5f;
 	}
 
-	if( (camTop < bottom) && (camBottom >= top) && (camRight >= left) && (camLeft < right) )
+	return true;
+	if( (camBottom >= top) && (camTop <= bottom) && (camRight >= left) && (camLeft <= right) )
 	{
 		return true;
 	}
@@ -246,11 +250,11 @@ void Map::batchLayer(Layer* layer, bool cullInvisibleObjects)
 	
 	// Sort isometric dynamic layers.
 	// TODO: There is some bug and sorting does not work correctly, mainly due GameObject sizes are incorrect etc.
-	if( !layer->isStatic() && getOrientation() == ISOMETRIC )
+/*	if( !layer->isStatic() && getOrientation() == ISOMETRIC )
 	{
 		std::qsort( &gameObjectsToBeRendered[0], gameObjectsToBeRendered.size(), sizeof(GameObject*), compareXY );
 		delta = 1.0f/gameObjectsToBeRendered.size(); 
-	}
+	}*/
 	
 	// Render all GameObjects.
 	for( size_t i=0; i<gameObjectsToBeRendered.size(); ++i )
@@ -328,19 +332,29 @@ void Map::update( float deltaTime )
 }
 
 
-TmxMap::TmxMap(Tmx::Map* map)
-	: Map( float(map->GetTileWidth()), float(map->GetTileHeight()), (map->GetOrientation() == Tmx::TMX_MO_ISOMETRIC) ? ISOMETRIC : ORTHOGONAL )
-	, m_width( float(map->GetWidth()) )
-	, m_height( float(map->GetHeight()) )
-	, m_tilesets()
-{	
-	getProperties().setValues(map->GetProperties().GetList());
+bool TmxMap::loadMapFile(const std::string& mapFileName)
+{
+	Tmx::Map map;
+	map.ParseFile(mapFileName.c_str());
+	
+	if( map.HasError() )
+	{
+		esLogMessage("Map file: %s could not be found!", mapFileName.c_str() ); 
+		return false;
+	}
+
+	m_orientation = (map.GetOrientation() == Tmx::TMX_MO_ISOMETRIC) ? ISOMETRIC : ORTHOGONAL;
+	m_tileWidth = float(map.GetTileWidth());
+	m_tileHeight = float(map.GetTileHeight());
+	m_tilesets.clear();
+
+	getProperties().setValues(map.GetProperties().GetList());
 
 	// Create tilesets
-	m_tilesets.resize(map->GetNumTilesets());
+	m_tilesets.resize(map.GetNumTilesets());
 	for( size_t i=0; i<m_tilesets.size(); ++i )
 	{
-		const Tmx::Tileset* tileset = map->GetTileset(i);
+		const Tmx::Tileset* tileset = map.GetTileset(i);
 		esLogMessage("Creating tileset: %s from texture \"%s\"", tileset->GetName().c_str(), tileset->GetImage()->GetSource().c_str() );
 		Texture* texture = new Texture( tileset->GetImage()->GetSource().c_str() );
 		
@@ -362,9 +376,9 @@ TmxMap::TmxMap(Tmx::Map* map)
 	}
 
 	// Create layers
-	for( int i=0; i<map->GetNumLayers(); ++i )
+	for( int i=0; i<map.GetNumLayers(); ++i )
 	{
-		const Tmx::Layer* l = map->GetLayer(i);
+		const Tmx::Layer* l = map.GetLayer(i);
 		PropertySet properties;
 		properties.setValues(l->GetProperties().GetList());
 		esLogMessage("Creating layer # MAPLAYER%d : \"%s\" visible: %s", i, l->GetName().c_str(), l->IsVisible() ? "true":"false" );
@@ -373,9 +387,9 @@ TmxMap::TmxMap(Tmx::Map* map)
 	}
 
 	// Create tiles
-	for( int i=0; i<map->GetNumLayers(); ++i )
+	for( int i=0; i<map.GetNumLayers(); ++i )
 	{
-		const Tmx::Layer* l = map->GetLayer(i);
+		const Tmx::Layer* l = map.GetLayer(i);
 		int numObjects = 0;
 		for( int y=0; y<l->GetHeight(); ++y )
 		{
@@ -384,10 +398,10 @@ TmxMap::TmxMap(Tmx::Map* map)
 				const Tmx::MapTile t = l->GetTile(x,y);
 				PropertySet properties;
 				Tileset* tileset = 0;
-				if(t.tilesetId >= 0 && t.tilesetId < map->GetNumTilesets() )
+				if(t.tilesetId >= 0 && t.tilesetId < map.GetNumTilesets() )
 				{
 					tileset = m_tilesets[t.tilesetId];
-					const Tmx::Tileset* ts = map->GetTileset(t.tilesetId);
+					const Tmx::Tileset* ts = map.GetTileset(t.tilesetId);
 					const Tmx::Tile* tile = ts->GetTile(t.id);
 					if( tile != 0 )
 					{
@@ -409,6 +423,16 @@ TmxMap::TmxMap(Tmx::Map* map)
 
 		esLogMessage("Created %d objects to layer \"%s\"", numObjects, l->GetName().c_str() );
 	}
+
+	return true;
+}
+
+TmxMap::TmxMap()
+	: Map( 0, 0, ORTHOGONAL )
+	, m_width( 0 )
+	, m_height( 0 )
+	, m_tilesets()
+{	
 }
 
 
@@ -417,12 +441,12 @@ TmxMap::~TmxMap()
 }
 
 
-TmxMap* TmxMap::loadFromMapFile(const std::string& mapFileName)
+/*TmxMap* TmxMap::loadFromMapFile(const std::string& mapFileName)
 {
 	Tmx::Map map;
 	map.ParseFile(mapFileName.c_str());
 	return new TmxMap(&map);
-}
+}*/
 
 
 Tileset* TmxMap::createNewTileset(const std::string name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties )

@@ -34,6 +34,7 @@
 #include "SpriteAnimation.h"
 #include "Map.h"
 #include "Tileset.h"
+#include "Text.h"
 
 namespace yam2d
 {
@@ -71,18 +72,25 @@ public:
 		, m_flippedDiagonally(flippedDiagonally)
 	{
 		GameObject::setPosition(position);
-		GameObject::setOrigin( vec2(tileset->getTileOffsetX(),tileset->getTileOffsetY()) );
-
 		Sprite::PixelClip clip = tileset->getSpriteSheet()->getClip(getTileId());
-		setSize( vec2(clip.clipSize.x/levelTileSizeX,clip.clipSize.y/levelTilesizeY) );
-		//Texture* tex = tileset->getSpriteSheet()->getTexture();
-		//m_sprite->setClip(float(tex->getWidth()), float(tex->getHeight()), clip);
 
+		// Set origin to be center of the tile
+		vec2 offset(0);
+	
+		offset.x += 0.5f*clip.clipSize.x/levelTileSizeX;
+		offset.y -= 0.5f*clip.clipSize.y/levelTilesizeY;
+
+		offset.x -= 0.5f;
+		offset.y += 0.5f;
+
+		setOffset( offset );
+		
+		setSize( vec2(clip.clipSize.x/levelTileSizeX,clip.clipSize.y/levelTilesizeY) );
 	}
 
 	virtual ~Tile() {}
 
-	Tileset* getTileset() const { return m_tileset; }
+	Tileset* getTileset() const { return m_tileset.ptr(); }
 	unsigned getTileId() const { return m_id; }
 	bool isFlippedHorizontally() const { return m_flippedHorizontally; }
 	bool isFlippedVertically() const { return m_flippedVertically; }
@@ -91,8 +99,8 @@ public:
 	void render(Layer* layer);
 
 private:
-	Sprite* m_sprite;
-	Tileset* m_tileset;				// Tileset
+	Ref<Sprite> m_sprite;
+	Ref<Tileset> m_tileset;				// Tileset
 	unsigned m_id;					// Id.
 	bool m_flippedHorizontally;		// True when the tile should be drawn flipped horizontally.
 	bool m_flippedVertically;		// True when the tile should be drawn flipped vertically.
@@ -125,11 +133,11 @@ public:
 
 	void render( Layer* layer);
 
-	Sprite* getSprite() const { return m_sprite; }
+	Sprite* getSprite() const { return m_sprite.ptr(); }
 private:
 		
-	Sprite*			m_sprite;
-	Texture*		m_texture;
+	Ref<Sprite>			m_sprite;
+	Ref<Texture>		m_texture;
 
 	SpriteGameObject();
 	SpriteGameObject(const SpriteGameObject& o);
@@ -157,7 +165,7 @@ public:
 	void render( Layer* layer);
 
 private:
-	Text*		m_text;
+	Ref<Text>		m_text;
 
 	TextGameObject();
 	TextGameObject(const TextGameObject& o);
@@ -191,8 +199,8 @@ public:
 	void render(Layer* layer);
 
 private:
-	SpriteSheet*	m_spriteSheet;	// Sprite sheet
-	unsigned		m_id;			// Id at sprite sheet
+	Ref<SpriteSheet>	m_spriteSheet;	// Sprite sheet
+	unsigned			m_id;			// Id at sprite sheet
 
 	SpriteSheetGameObject();
 	SpriteSheetGameObject(const SpriteSheetGameObject& o);
@@ -240,7 +248,7 @@ public:
 	void render( Layer* layer);
 
 private:
-	SpriteAnimation* m_animation;
+	Ref<SpriteAnimation> m_animation;
 
 	AnimatedSpriteGameObject();
 	AnimatedSpriteGameObject(const AnimatedSpriteGameObject& o);
@@ -276,10 +284,15 @@ public:
 	*/
 	void setScreenSize(int screenWidth, int screenHeight )
 	{
-		setScreenSize(screenWidth,screenHeight,float(screenWidth)/float(screenHeight),float(screenHeight));
+		setScreenSize(screenWidth,screenHeight,float(screenHeight));
 	}
 
-	void setScreenSize(int screenWidth, int screenHeight, float desiredAspectRatio, float screenUnitSize )
+	void setScreenSize(int screenWidth, int screenHeight,  float screenUnitSize )
+	{
+		setScreenSize(screenWidth, screenHeight, screenUnitSize, float(screenWidth)/float(screenHeight) );
+	}
+
+	void setScreenSize(int screenWidth, int screenHeight,  float screenUnitSize, float desiredAspectRatio )
 	{
 		m_screenWidth = screenWidth;
 		m_screenHeight = screenHeight;
@@ -289,6 +302,11 @@ public:
 
 	virtual void render( Layer* layer);
 	
+	float getScale()
+	{
+		return m_screenUnitSize/m_screenHeight;
+	}
+
 private:
 	int m_screenWidth;
 	int m_screenHeight;
