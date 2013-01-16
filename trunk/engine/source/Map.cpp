@@ -27,6 +27,7 @@
 #include "Layer.h"
 #include "es_util.h"
 #include <tmx-parser/Tmx.h>
+#include <Texture.h>
 
 namespace yam2d
 {
@@ -129,6 +130,12 @@ vec2 Map::tileToScreenCoordinates(float x, float y)
 }
 
 
+vec2 Map::tileToScreenCoordinates(const vec2& pos)
+{
+	return tileToScreenCoordinates(pos.x,pos.y);
+}
+	
+
 vec2 Map::screenToTileCoordinates(float x, float y)
 {
 	if( m_orientation == ISOMETRIC )
@@ -153,16 +160,61 @@ vec2 Map::screenToTileCoordinates(float x, float y)
 	return vec2(0);
 }
 
+
+vec2 Map::screenToTileCoordinates(const vec2& pos)
+{
+	return screenToTileCoordinates(pos.x,pos.y);
+}
+
+
+float Map::getTileHeight() const 
+{ 
+	return m_tileHeight;
+}
+
+
+float Map::getTileWidth() const
+{ 
+	return m_tileWidth;
+}
+
+
+Map::MapOrientation Map::getOrientation() const
+{ 
+	return m_orientation;
+}
+
+
+Map::LayerMap& Map::getLayers()
+{
+	return m_layers;
+}
+
+
 void Map::addLayer(Layers index, Layer* layer)
 {
 	assert( m_layers[index] == 0 ); // Error! There is already layen in given index!
 	m_layers[index] = layer;
 }
 
+
 Layer* Map::getLayer(Layers index)
 {
 	return m_layers[index].ptr();
 }
+
+
+PropertySet& Map::getProperties()
+{
+	return m_properties; 
+}
+	
+
+Camera* Map::getCamera() const
+{
+	return m_mainCamera.ptr();
+}
+
 
 bool Map::isVisible(GameObject* go, Camera* cam)
 {

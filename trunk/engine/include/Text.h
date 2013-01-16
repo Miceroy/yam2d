@@ -26,12 +26,12 @@
 #include <vector>
 #include <string>
 #include <Object.h>
+#include <Ref.h>
 
 namespace yam2d
 {
-	
-class SpriteSheet;
 class Sprite;
+class SpriteSheet;
 
 /**
  * Class for Text.
@@ -61,11 +61,11 @@ public:
 	 */
 	void setColor( float r, float g, float b, float a = 1.0f );
 	void setOpacity( float a );
-	SpriteSheet* getFont() const { return m_font; }
-	int getWidth() { return m_totalWidth; }
+	SpriteSheet* getFont() const;
+	int getWidth();
 private:
-	SpriteSheet* m_font;
-	Sprite* m_sprite;
+	Ref<SpriteSheet> m_font;
+	Ref<Sprite> m_sprite;
 	int m_totalWidth;
 	std::string m_text;
 };

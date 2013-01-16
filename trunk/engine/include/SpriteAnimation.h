@@ -23,9 +23,8 @@
 #ifndef SPRITEANIMATION_H
 #define SPRITEANIMATION_H
 
-
+#include <Object.h>
 #include <vector>
-#include "Sprite.h"
 
 namespace yam2d
 {

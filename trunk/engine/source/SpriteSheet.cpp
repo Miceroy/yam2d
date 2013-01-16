@@ -392,5 +392,29 @@ SpriteSheet::SpriteSheet(Texture* texture, std::vector<Sprite::PixelClip> clips)
 {
 }
 
+
+SpriteSheet::~SpriteSheet() 
+{
+}
+
+
+Texture* SpriteSheet::getTexture()
+{
+	return m_texture;
+}
+
+
+const Texture* SpriteSheet::getTexture() const 
+{
+	return m_texture.ptr(); 
+}
+
+
+const Sprite::PixelClip& SpriteSheet::getClip(int index) const
+{ 
+	return m_clips[index]; 
+}
+
+
 }
 

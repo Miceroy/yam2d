@@ -213,6 +213,9 @@
     <ClCompile Include="Source\Object.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="source\GameObject.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\es_assert.h">

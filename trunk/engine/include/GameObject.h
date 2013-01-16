@@ -23,12 +23,9 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include "vec2.h"
-#include <algorithm>
-#include "es_assert.h"
-#include <string>
-
 #include <Object.h>
+#include <vec2.h>
+#include <string>
 
 namespace yam2d
 {
@@ -45,63 +42,36 @@ class Layer;
 class GameObject : public Object
 {
 public:
-	GameObject(int type)
-	: m_name()
-	, m_position(0.0f)
-	, m_offset(0.0f)
-	, m_topLeft(0.0f)
-	, m_bottomRight(0.0f)
-	, m_rotation(0.0f)
-	, m_size(0.0f)
-	, m_type(type)
-	{
-		recalcExtens();
-	}
+	GameObject(int type);
 
-	virtual ~GameObject() {}
+	virtual ~GameObject();
 
-	virtual void update( float deltaTime ) {};
+	virtual void update( float deltaTime );
 	
-	virtual void render( Layer* layer ) {};
+	virtual void render( Layer* layer );
 
-	void setName( const std::string& name ) { m_name = name; }
-	void setPosition( const vec2& position ) { m_position = position; recalcExtens(); } 
-	void setOffset( const vec2& offset ) { m_offset = offset; } 
-	void setRotation( float rotation ) { m_rotation = rotation; } 
-	void setSize( float sizeX, float sizeY ) { setSize(vec2(sizeX,sizeY)); }
-	void setSize( const vec2& size ) { assert(size.x >= 0.0f && size.y >= 0.0f); m_size = size; recalcExtens();  }
+	void setName( const std::string& name );
+	void setPosition( const vec2& position );
+	void setOffset( const vec2& offset );
+	void setRotation( float rotation );
+	void setSize( float sizeX, float sizeY );
+	void setSize( const vec2& size );
 
-	const std::string& getName() const { return m_name; }
-	const vec2& getPosition() const { return m_position; } 
-	//const vec2& getOffset() const { return m_offset; } 
-	float getRotation() const { return m_rotation; } 
-	const vec2& getSize() const { return m_size; }
-	int getType() const { return m_type; }
+	const std::string& getName() const;
+	const vec2& getPosition() const;
+	float getRotation() const;
+	const vec2& getSize() const;
+	int getType() const;
 
-	float getLeft() const { return m_topLeft.x; }
-	float getRight() const { return m_bottomRight.x; }
-	float getTop() const { return m_topLeft.y; }
-	float getBottom() const { return m_bottomRight.y; }
+	float getLeft() const;
+	float getRight() const;
+	float getTop() const;
+	float getBottom() const;
 	
-	bool isInside(const vec2& worldPosition)
-	{
-		return getRight()	>= worldPosition.x
-			&& getLeft()	<= worldPosition.x
-			&& getBottom()	>= worldPosition.y
-			&& getTop()		<= worldPosition.y;
-	}
-
+	bool isInside(const vec2& worldPosition);
 
 private:
-	void recalcExtens()
-	{
-		assert(m_size.x >= 0.0f);
-		assert(m_size.y >= 0.0f);
-		m_topLeft.x		= m_position.x - (m_size.x*0.5f) + m_offset.x;
-		m_topLeft.y		= m_position.y - (m_size.y*0.5f) + m_offset.y;
-		m_bottomRight.x	= m_position.x + (m_size.x*0.5f) + m_offset.x;
-		m_bottomRight.y	= m_position.y + (m_size.y*0.5f) + m_offset.y;
-	}
+	void recalcExtens();
 
 	GameObject();
 	GameObject(const GameObject&);

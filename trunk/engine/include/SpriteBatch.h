@@ -23,17 +23,19 @@
 #ifndef SPRITEBATCH_H_
 #define SPRITEBATCH_H_
 
-
-#include "Texture.h"
-#include "Sprite.h"
+#include <Object.h>
 
 #include <map>
+#include <vector>
 #include <Ref.h>
+#include <vec2.h>
 
 namespace yam2d
 {
 	
 class Text;
+class Texture;
+class Sprite;
 
 /**
  * Class for SpriteBatch.
@@ -65,6 +67,7 @@ public:
 	static int getNumSpritesBatched();
 
 	SpriteBatch();
+
 	virtual ~SpriteBatch();
 
 	void setTexture(Texture* texture);
@@ -74,12 +77,10 @@ public:
 	void addText(Text* text, const vec2& position, float rotation, const vec2& scale = vec2(1.0), const vec2& offset = vec2(0.0) );
 
 	void clear();
+
 	void render(float aspectRatio = 1.0f);
 
-	Texture* getTexture() const
-	{
-		return m_texture.ptr();
-	}
+	Texture* getTexture() const;
 
 private:
 	std::vector<float>	m_positions;
@@ -121,18 +122,7 @@ public:
 private:
 	std::map<Texture*,Ref<SpriteBatch> > m_spriteBatches;
 
-	SpriteBatch* getBatch(Texture* texture)
-	{
-		SpriteBatch* batch = m_spriteBatches[texture];
-		if( batch == 0 )
-		{
-			batch = new SpriteBatch();
-			batch->setTexture(texture);
-			m_spriteBatches[texture] = batch;
-		}
-
-		return batch;
-	}
+	SpriteBatch* getBatch(Texture* texture);
 
 };
 
