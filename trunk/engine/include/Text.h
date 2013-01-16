@@ -24,7 +24,7 @@
 #define TEXT_H_
 
 #include <vector>
-
+#include <string>
 #include <Object.h>
 
 namespace yam2d
@@ -46,6 +46,7 @@ public:
 
 	virtual ~Text() {}
 
+	void setText( const std::string& str );
 	void setText( const char* str );
 
 	void getVertexData( std::vector<float>& verts, std::vector<float>& texCoords, std::vector<float>& colors ) const;
@@ -61,10 +62,12 @@ public:
 	void setColor( float r, float g, float b, float a = 1.0f );
 	void setOpacity( float a );
 	SpriteSheet* getFont() const { return m_font; }
+	int getWidth() { return m_totalWidth; }
 private:
 	SpriteSheet* m_font;
 	Sprite* m_sprite;
-	const char* m_text;
+	int m_totalWidth;
+	std::string m_text;
 };
 
 
