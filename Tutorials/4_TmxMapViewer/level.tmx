@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="200" height="22" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="area01_level_tiles" tilewidth="16" tileheight="16">
+  <image source="area01_level_tiles.png" trans="ff00ff" width="320" height="200"/>
+ </tileset>
+ <tileset firstgid="241" name="page_background_1280" tilewidth="1280" tileheight="352">
+  <image source="page_background_1280.png" width="1280" height="352"/>
+ </tileset>
+ <layer name="Background" width="200" height="22">
+  <data encoding="base64" compression="zlib">
+   eJzt0AkJAAAMxLDz73YO5mIPJApKEwAAAAAAAAAAAAAAAAAAAAAm1XbAc/7d0mNcAeM=
+  </data>
+ </layer>
+ <layer name="BackgroundProps" width="200" height="22">
+  <data encoding="base64" compression="zlib">
+   eJzt1tEJwCAMBUAnaHdod2j336wLBCKKRfTuMyFgwAcpBQAAAAAAAAAAmMER1M5kJuvDKq6gdiczWf9vUcYzMk6NFfIR7ZCZbQfm1JKPd8RDOjwNM/JBjSgfs/3/EXbYkX4ttwnsouU2AQAAYA8f6X4DHA==
+  </data>
+ </layer>
+ <layer name="Objects" width="200" height="22">
+  <data encoding="base64" compression="zlib">
+   eJztmklygzAQRVVkPIJzhJjkCGaf7DKfIFNll12mu6cpW1U/SgvbUoMZ/qv6hbCEBFJ/CQzO2XJiXB/ZPTPRXsdKiaNZysV1DP0xPugPO+iP8dGlPxaO/iDDguuHHfTH+PD+OHU2awP9QcYE1w876I9hsC8qV6pAB0pZ+sMOa39cia5FT6Ib0a3obrWPuhc9GLedC8Ygau6WsTiH/Vg5X7aC/TpPi+NtiMW8Nn70hx3W/niE9LPoRfQaKftm3HYubcZVbj9b+mOb5wr6I5963i3cco78EH2KvtboW/SzOtbPs++Qxrm3hHxtHvbth3N7WE8474d1TcUffbm+qfjDj0dqH+WOQ2o8hHWdiY5b0nlC32xyblq9lv64EF1ukE9/xLHyR9NY+P8q2/RHH/DPQH49TqFNn1v6f0r+WCTWpcX2oehI+X0K/qhj259f7prTd6bkj9z1o8kTmK+1kTpfjj3++s5U/OHjM3WNHfqcT9KYij9y0PzR9P/jrs+X2EF/rGfbeyPeE40H+oOQOPQHIXGG4I/6nh6/eStgH987V7AtgzS+u8bvjzAP6wzLhGXDcto3TmXkWJ/WzgPl2yhgW0Iaj8N6sE3si3Crlcd+1N7tF+7vdc/d/37AevFYnw7HIvyOoOl7AixbKL9p9WljoqXx+nxeHXt9x+o9K0WlqO90/Z6VolDW/AIIGU0y
+  </data>
+ </layer>
+ <layer name="ForegoundProps" width="200" height="22">
+  <data encoding="base64" compression="zlib">
+   eJzt2bEJgEAQRNGLtQctwna0B+0/8QowEOGYBd+Diffn2xoAAACMN/XN6Qgoaulb0xHw0h64uQVuwhdnOoDfONIBUNiVDgAAAAAAAACGqvAzr9AATyr8zCs0AAA5N3wcA7w=
+  </data>
+ </layer>
+ <layer name="Tile Layer 5" width="200" height="22">
+  <data encoding="base64" compression="zlib">
+   eJztwSEBAAAAAiDv+P+gH8xAAwAAAAAAAAAAAAAAAAAAAADwGUglACo=
+  </data>
+ </layer>
+</map>
