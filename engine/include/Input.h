@@ -23,6 +23,9 @@
 #ifndef INPUT_H_
 #define INPUT_H_
 
+namespace yam2d
+{
+
 enum KeyCodes
 {
 	KEY_BACK		= 0x08,
@@ -132,6 +135,8 @@ enum KeyCodes
  * Returns key button state. Returns 0 if button is not pressed returns 1. if button is pressed down.
  */
 int getKeyState(KeyCodes keyCode);
+
+}
 
 
 #endif
