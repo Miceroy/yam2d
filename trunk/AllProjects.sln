@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2_LowLevelDraw", "Tutorials
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3_SimpleMap", "Tutorials\3_SimpleMap\SimpleMap.vcxproj", "{5FF150AD-27A0-4198-957E-DEEDF81EA9FA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4_TmxMapViewer", "Tutorials\4_TmxMapViewer\TmxMapViewer.vcxproj", "{57A6AA53-FF7E-4643-A5B7-1FD369244BF2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4_TmxMapLoading", "Tutorials\4_TmxMapLoading\TmxMapLoading.vcxproj", "{57A6AA53-FF7E-4643-A5B7-1FD369244BF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
