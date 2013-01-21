@@ -399,6 +399,8 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 	m_orientation = (map.GetOrientation() == Tmx::TMX_MO_ISOMETRIC) ? ISOMETRIC : ORTHOGONAL;
 	m_tileWidth = float(map.GetTileWidth());
 	m_tileHeight = float(map.GetTileHeight());
+	m_width = float(map.GetWidth());
+	m_height = float(map.GetHeight());
 	m_tilesets.clear();
 
 	getProperties().setValues(map.GetProperties().GetList());

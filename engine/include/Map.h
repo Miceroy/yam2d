@@ -189,7 +189,10 @@ public:
 	/** Loads map file */
 	bool loadMapFile(const std::string& mapFileName);
 
+	/** Returns map width in tiles. */
 	float getWidth() const { return m_width; }
+
+	/** Returns map height in tiles. */
 	float getHeight() const { return m_height; }
 protected:
 	/** Can be overwritten in derived class for create custom Tilesets. */
