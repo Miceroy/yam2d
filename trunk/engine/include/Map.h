@@ -179,6 +179,18 @@ private:
 class TmxMap : public Map
 {
 public:
+	typedef Tileset* (*CreateNewTilesetFuncType)(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
+	typedef Layer* (*CreateNewLayerFuncType)(void* userData, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties);
+	typedef Tile* (*CreateNewTileFuncType)(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
+
+	class MapCreateCallbacks
+	{
+	public:
+		virtual Tileset* createNewTileset( const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
+		virtual Layer* createNewLayer( Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties);
+		virtual Tile* createNewTile( Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
+	};
+
 	/**
 	 * Creates new map.
 	 */
@@ -194,19 +206,31 @@ public:
 
 	/** Returns map height in tiles. */
 	float getHeight() const { return m_height; }
+
+	void setCallBackData(void* userData) { m_userData = userData; }
+
+	void registerCreateNewTilesetFunc( CreateNewTilesetFuncType createNewTileset ) { m_createNewTileset = createNewTileset; }
+	void registerCreateNewLayerFunc( CreateNewLayerFuncType createNewLayer ) { m_createNewLayer = createNewLayer; }
+	void registerCreateNewTileFunc( CreateNewTileFuncType createNewTile ) { m_createNewTile = createNewTile; }
+
+	void registerMapCreateCallbacks(MapCreateCallbacks* callbacks);
 protected:
-	/** Can be overwritten in derived class for create custom Tilesets. */
-	virtual Tileset* createNewTileset(const std::string name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
+/*	/** Can be overwritten in derived class for create custom Tilesets. */
+//	static Tileset* createNewTileset(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
 
 	/** Can be overwritten in derived class for create custom Layers. */
-	virtual Layer* createNewLayer(Map* map, std::string name, float opacity, bool visible, const PropertySet& properties);
+//	static Layer* createNewLayer(void* userData, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties);
 
 	/** Can be overwritten in derived class for create custom Tiles. */
-	virtual Tile* createNewTile(Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
+//	static Tile* createNewTile(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
 
 private:
 	float						m_width;
 	float						m_height;
+	void*						m_userData;
+	CreateNewTilesetFuncType	m_createNewTileset;
+	CreateNewLayerFuncType		m_createNewLayer;
+	CreateNewTileFuncType		m_createNewTile;
 	std::vector< Ref<Tileset> > m_tilesets;
 
 	// Hidden

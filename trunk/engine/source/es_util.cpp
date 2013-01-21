@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <OGLES/Include/GLES/gl.h>
 #include <OGLES/Include/EGL/egl.h>
-
+#include <config.h>
 
 namespace yam2d
 {
@@ -191,6 +191,37 @@ void esLogMessage ( const char *formatStr, ... )
 	printf ( "%s\n", buf );
     
 	va_end ( params );
+}
+
+
+void esLogEngineError( const char *formatStr, ... )
+{
+#if defined(ERROR_LOGS_ENABLED)
+	va_list params;
+	char buf[BUFSIZ];
+
+	va_start ( params, formatStr );
+	vsprintf_s ( buf, sizeof(buf),  formatStr, params );
+    
+	printf ( "Error: %s\n", buf );
+    
+	va_end ( params );
+#endif
+}
+
+void esLogEngineDebug( const char *formatStr, ... )
+{
+#if defined(DEBUG_LOGS_ENABLED)
+	va_list params;
+	char buf[BUFSIZ];
+
+	va_start ( params, formatStr );
+	vsprintf_s ( buf, sizeof(buf),  formatStr, params );
+    
+	printf ( "Engine: %s\n", buf );
+    
+	va_end ( params );
+#endif
 }
 
 

@@ -41,13 +41,6 @@ namespace yam2d
 {
 	
 
-enum GameObjectType
-{
-	SingleSpriteGameObjectType,
-	SingleTextGameObjectType,
-	TileGameObjectType
-};
-
 class Tileset;
 class Map;
 class SpriteSheet;
