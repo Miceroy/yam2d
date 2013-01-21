@@ -23,7 +23,15 @@ bool init ( ESContext *esContext )
 	map = new TmxMap();
 
 	// Load map file
-	return map->loadMapFile("level.tmx");
+	bool okay = map->loadMapFile("level.tmx");
+
+	if( okay )
+	{
+		// Move camera to middle of map.
+		map->getCamera()->setPosition( vec2(map->getWidth()/2.0f, map->getHeight()/2.0f));
+	}
+
+	return okay;
 }
 
 // Deinitialize the game
