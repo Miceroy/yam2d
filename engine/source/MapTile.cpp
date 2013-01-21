@@ -69,8 +69,8 @@ void Tile::render(Layer* layer)
 		p.y += clip.clipSize.y*0.5f;
 		p.x -= layer->getMap()->getTileWidth()*0.5f;
 		p.y -= layer->getMap()->getTileHeight()*0.5f;
-		p.x += tileset->getTileOffsetX();
-		p.y += tileset->getTileOffsetY();
+		p.x -= tileset->getTileOffsetX();
+		p.y -= tileset->getTileOffsetY();
 
 		vec2 offset(0.0f);
 
