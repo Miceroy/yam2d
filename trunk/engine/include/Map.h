@@ -1,4 +1,4 @@
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+﻿// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // http://code.google.com/p/yam2d/
 //
 // Copyright (c) 2013 Mikko Romppainen
@@ -207,12 +207,27 @@ public:
 	/** Returns map height in tiles. */
 	float getHeight() const { return m_height; }
 
+	/** Sets user data, which is passed to registerCreateNewTilesetFunc, registerCreateNewLayerFunc, and registerCreateNewTileFunc when they are called during loadMapFile call */
 	void setCallBackData(void* userData) { m_userData = userData; }
 
+	/** 
+	 * Registers callback function, which is called each time, when new Tileset is needed to be create during loadMapFile call.
+	 */
 	void registerCreateNewTilesetFunc( CreateNewTilesetFuncType createNewTileset ) { m_createNewTileset = createNewTileset; }
-	void registerCreateNewLayerFunc( CreateNewLayerFuncType createNewLayer ) { m_createNewLayer = createNewLayer; }
-	void registerCreateNewTileFunc( CreateNewTileFuncType createNewTile ) { m_createNewTile = createNewTile; }
 
+	/**
+	 * Registers callback function, which is called each time, when new Layer is needed to be create during loadMapFile call. 
+	 */	
+	void registerCreateNewLayerFunc( CreateNewLayerFuncType createNewLayer ) { m_createNewLayer = createNewLayer; }
+	
+	/**
+	 * Registers callback function, which is called each time, when new Tile is needed to be create during loadMapFile call.
+	 */
+	void registerCreateNewTileFunc( CreateNewTileFuncType createNewTile ) { m_createNewTile = createNewTile; }
+	
+	/**
+	 * Registers callback object, which corresponding method is called each time, when new Tileset, Layer orTile is needed to be create during loadMapFile call.
+	 */
 	void registerMapCreateCallbacks(MapCreateCallbacks* callbacks);
 protected:
 /*	/** Can be overwritten in derived class for create custom Tilesets. */
