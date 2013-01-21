@@ -23,35 +23,12 @@
 #ifndef VEC2_H_
 #define VEC2_H_
 
+#include <Box2D/Common/b2Math.h>
+
 namespace yam2d
 {
 
-
-/**
- * Class for vec2.
- *
- * @ingroup yam2d
- * @author Mikko Romppainen (mikko@kajakbros.com) 
- */
-class vec2
-{
-public:
-	vec2(float x0, float y0)
-	: x(x0)
-	, y(y0)
-	{
-	}
-
-	vec2(float v)
-	: x(v)
-	, y(v)
-	{
-	}
-
-
-	float x;
-	float y;
-};
+typedef	b2Vec2 vec2;
 
 class vec2int
 {
