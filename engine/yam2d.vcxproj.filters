@@ -671,6 +671,9 @@
     <ClInclude Include="external\Box2D\Rope\b2Rope.h">
       <Filter>Box2D</Filter>
     </ClInclude>
+    <ClInclude Include="include\config.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Ref.inl">

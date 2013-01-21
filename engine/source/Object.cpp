@@ -27,9 +27,7 @@
 #include <typeinfo>
 #include <es_util.h>
 
-//#define MEMORY_LEAK_DEBUGGING
-#define SHOW_LEAKS
-//#define ASSERT_ON_LEAKS
+#include <config.h>
 
 namespace yam2d
 {
@@ -49,7 +47,7 @@ namespace
 #if defined(SHOW_LEAKS)
             if( refs != 0 )
             {
-				esLogMessage("%d Memory leaks detected!\n", refs);
+				esLogEngineError("[%s] %d Memory leaks detected!\n", __FUNCTION__, refs);
 #if defined(MEMORY_LEAK_DEBUGGING)
                 for( size_t i=0; i<m_objects.size(); ++i )
                 {
@@ -59,7 +57,7 @@ namespace
             }
             else
             {
-                esLogMessage("No memory leaks detected!\n");
+				esLogEngineDebug("No memory leaks detected!\n");
             }
 #if defined(ASSERT_ON_LEAKS)
             assert( refs == 0 );

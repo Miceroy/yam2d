@@ -272,6 +272,7 @@
     <ClInclude Include="external\zlib-1.2.7\zlib.h" />
     <ClInclude Include="external\zlib-1.2.7\zutil.h" />
     <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\config.h" />
     <ClInclude Include="Include\ElapsedTimer.h" />
     <ClInclude Include="Include\es_util_win.h" />
     <ClInclude Include="Include\es_util.h" />

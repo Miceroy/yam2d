@@ -26,7 +26,7 @@
 #include "es_util.h"
 #include <stdlib.h>
 #include "es_assert.h"
-
+#include <config.h>
 
 namespace yam2d
 {
@@ -38,7 +38,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 	FILE *fp = fopen(fileName, "rb");
 	if (!fp)
 	{
-		esLogMessage("[read_png_file] File %s could not be opened for reading", fileName);
+		esLogEngineError("[%s] File %s could not be opened for reading", __FUNCTION__, fileName);
 		return false;
 	}
 	
@@ -46,7 +46,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 	fread(header, 1, 8, fp);
 	if (png_sig_cmp(header, 0, 8))
 	{
-		esLogMessage("[read_png_file] File %s is not recognized as a PNG file", fileName);
+		esLogEngineError("[%s] File %s is not recognized as a PNG file", __FUNCTION__, fileName);
 		fclose(fp);
 		return false;
 	}
@@ -56,7 +56,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 
 	if (!png_ptr)
 	{
-		esLogMessage("[read_png_file] png_create_read_struct failed");
+		esLogEngineError("[%s] png_create_read_struct failed", __FUNCTION__);
 		fclose(fp);
 		return false;
 	}
@@ -64,7 +64,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 	png_infop info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr)
 	{
-		esLogMessage("[read_png_file] png_create_info_struct failed");
+		esLogEngineError("[%s] png_create_info_struct failed", __FUNCTION__);
 		fclose(fp);
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		return false;
@@ -72,7 +72,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		esLogMessage("[read_png_file] Error during init_io");
+		esLogEngineError("[%s] Error during init_io", __FUNCTION__);
 		fclose(fp);
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		return false;
@@ -102,7 +102,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 
 	if( *bytesPerPixel == 0 )
 	{
-		esLogMessage("[read_png_file] Color type %d not supported", color_type );
+		esLogEngineError("[%s] Color type %d not supported", __FUNCTION__, color_type );
         fclose(fp);
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 	}
@@ -117,7 +117,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 		// read file 
 		if (setjmp(png_jmpbuf(png_ptr)))
 		{
-			esLogMessage("[read_png_file] Error during read_image");
+			esLogEngineError("[%s] Error during read_image", __FUNCTION__);
 			fclose(fp);
 			png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 			return false;

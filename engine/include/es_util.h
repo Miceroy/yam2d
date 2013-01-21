@@ -157,7 +157,6 @@ void esRegisterKeyFunc ( ESContext *esContext, void (*drawFunc) ( ESContext*, un
  */
 void esLogMessage ( const char *formatStr, ... );
 
-
 /**
  * Loads a 24-bit PNG image from a file.
  *

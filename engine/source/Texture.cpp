@@ -24,7 +24,7 @@
 #include "Texture.h"
 #include "es_util.h"
 #include <es_assert.h>
-
+#include <config.h>
 
 namespace yam2d
 {
@@ -47,7 +47,7 @@ Texture::Texture(const char* const fileName)
 		return;
 	}
 
-	esLogMessage("Image loaded w:%d, h:%d, bpp:%d", m_width, m_height, m_bpp);
+	esLogEngineDebug("Image loaded w:%d, h:%d, bpp:%d", __FUNCTION__, m_width, m_height, m_bpp);
 	
 	GLenum fmt;
 	if( m_bpp == 4 )
@@ -60,7 +60,7 @@ Texture::Texture(const char* const fileName)
 	}
 	else
 	{
-		esLogMessage("Unsupported bytes per pixel: %d", m_bpp);
+		esLogEngineError("[%s] Unsupported bytes per pixel: %d", __FUNCTION__, m_bpp);
 		return;
 	}
 
@@ -168,7 +168,7 @@ void Texture::setTransparentColor(unsigned char r, unsigned char g, unsigned cha
 	}
 	else
 	{
-		esLogMessage("Unsupported bytes per pixel: %d", m_bpp);
+		esLogEngineError("[%s] Unsupported bytes per pixel: %d", __FUNCTION__, m_bpp);
 		return;
 	}
 	

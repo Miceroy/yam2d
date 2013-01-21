@@ -29,6 +29,7 @@
 #include <tmx-parser/Tmx.h>
 #include <Texture.h>
 #include <Camera.h>
+#include <config.h>
 
 namespace yam2d
 {
@@ -49,6 +50,50 @@ namespace
 
 		return int((p1.y-p2.y)*2000.0f);
 	}
+
+	Tileset* defaultCreateNewTileset(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties )
+	{
+		return new Tileset(name, spriteSheet, tileOffsetX, tileOffsetY, properties);
+	}
+
+
+	Layer* defaultCreateNewLayer(void* userData, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties)
+	{
+		return new Layer(map, name, opacity, visible, false, properties); //create dynamic layer
+	}
+
+
+	Tile* defaultCreateNewTile(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
+	{
+		return new Tile(0, properties, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, map->getTileWidth(), map->getTileHeight());
+	}
+
+	Tileset* createNewTileset_MapCreateCallbacks(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties )
+	{
+		TmxMap::MapCreateCallbacks* o = static_cast<TmxMap::MapCreateCallbacks*>(userData);
+		assert(o != 0);
+		return o->createNewTileset(name,spriteSheet,tileOffsetX,tileOffsetY,properties);
+	}
+
+
+	Layer* createNewLayer_MapCreateCallbacks(void* userData, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties)
+	{
+		TmxMap::MapCreateCallbacks* o = static_cast<TmxMap::MapCreateCallbacks*>(userData);
+		assert(o != 0);
+		return o->createNewLayer(map,name,opacity,visible,properties);
+	}
+
+
+	Tile* createNewTile_MapCreateCallbacks(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
+	{
+		TmxMap::MapCreateCallbacks* o = static_cast<TmxMap::MapCreateCallbacks*>(userData);
+		assert(o != 0);
+		return o->createNewTile(map,layer,position,tileset,id,flippedHorizontally,flippedVertically,flippedDiagonally,properties);
+	}
+
+
+	
+
 
 	/*
 	bool compareXY(GameObject* go1, GameObject* go2 )
@@ -385,6 +430,26 @@ void Map::update( float deltaTime )
 }
 
 
+Tileset* TmxMap::MapCreateCallbacks::createNewTileset( const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties )
+{
+	return defaultCreateNewTileset(0, name, spriteSheet, tileOffsetX, tileOffsetY, properties);
+}
+
+Layer* TmxMap::MapCreateCallbacks::createNewLayer( Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties)
+{
+	return defaultCreateNewLayer(0, map, name, opacity, visible, properties);
+}
+
+Tile* TmxMap::MapCreateCallbacks::createNewTile( Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
+{
+	return defaultCreateNewTile(0, map, layer, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, properties);
+}
+
+
+
+
+
+
 bool TmxMap::loadMapFile(const std::string& mapFileName)
 {
 	Tmx::Map map;
@@ -392,7 +457,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 	
 	if( map.HasError() )
 	{
-		esLogMessage("Map file: %s could not be found!", mapFileName.c_str() ); 
+		esLogEngineError("[%s] Map file: %s could not be found!", __FUNCTION__, mapFileName.c_str() ); 
 		return false;
 	}
 
@@ -410,7 +475,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 	for( size_t i=0; i<m_tilesets.size(); ++i )
 	{
 		const Tmx::Tileset* tileset = map.GetTileset(i);
-		esLogMessage("Creating tileset: %s from texture \"%s\"", tileset->GetName().c_str(), tileset->GetImage()->GetSource().c_str() );
+		esLogEngineDebug("Creating tileset: %s from texture \"%s\"", tileset->GetName().c_str(), tileset->GetImage()->GetSource().c_str() );
 		Texture* texture = new Texture( tileset->GetImage()->GetSource().c_str() );
 		
 		// convert transparent_color
@@ -426,8 +491,9 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 		SpriteSheet* spriteSheet = SpriteSheet::generateSpriteSheet(texture, tileset->GetTileWidth(), tileset->GetTileHeight(), tileset->GetMargin(), tileset->GetSpacing() );
 		PropertySet properties;
 		properties.setValues(tileset->GetProperties().GetList());
-		m_tilesets[i] = createNewTileset(tileset->GetName(), spriteSheet, float(tileset->GetTileOffsetX()) , float(tileset->GetTileOffsetY()),properties);
-		assert( m_tilesets[i] != 0);
+		assert( m_createNewTileset != 0 );
+		m_tilesets[i] = m_createNewTileset(m_userData, tileset->GetName(), spriteSheet, float(tileset->GetTileOffsetX()) , float(tileset->GetTileOffsetY()),properties);
+		assert( m_tilesets[i] != 0 ); // You must return new Tileset in createTileset callback!!
 	}
 
 	// Create layers
@@ -436,9 +502,10 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 		const Tmx::Layer* l = map.GetLayer(i);
 		PropertySet properties;
 		properties.setValues(l->GetProperties().GetList());
-		esLogMessage("Creating layer # MAPLAYER%d : \"%s\" visible: %s", i, l->GetName().c_str(), l->IsVisible() ? "true":"false" );
-		getLayers()[MAPLAYER0+i] = createNewLayer( this, l->GetName(), l->GetOpacity(), l->IsVisible(), properties );
-		assert(getLayers()[MAPLAYER0+i] != 0);
+		esLogEngineDebug("Creating layer # MAPLAYER%d : \"%s\" visible: %s", i, l->GetName().c_str(), l->IsVisible() ? "true":"false" );
+		assert( m_createNewLayer != 0 );
+		getLayers()[MAPLAYER0+i] = m_createNewLayer(m_userData, this, l->GetName(), l->GetOpacity(), l->IsVisible(), properties );
+		assert(getLayers()[MAPLAYER0+i] != 0); // You must return new Layer in createLayer callback!!
 	}
 
 	// Create tiles
@@ -467,7 +534,8 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 				if( tileset != 0 )
 				{
 					++numObjects;
-					Tile* tNew = createNewTile( this, getLayers()[MAPLAYER0+i], vec2(float(x),float(y)), tileset, t.id, t.flippedHorizontally, t.flippedVertically, t.flippedDiagonally, properties );
+					assert( m_createNewTile != 0 );
+					Tile* tNew = m_createNewTile(m_userData, this, getLayers()[MAPLAYER0+i], vec2(float(x),float(y)), tileset, t.id, t.flippedHorizontally, t.flippedVertically, t.flippedDiagonally, properties );
 					if( tNew != 0 )
 					{
 						getLayers()[MAPLAYER0+i]->addGameObject(tNew);
@@ -476,7 +544,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 			}
 		}
 
-		esLogMessage("Created %d objects to layer \"%s\"", numObjects, l->GetName().c_str() );
+		esLogEngineDebug("Created %d objects to layer \"%s\"", numObjects, l->GetName().c_str() );
 	}
 
 	return true;
@@ -486,8 +554,12 @@ TmxMap::TmxMap()
 	: Map( 0, 0, ORTHOGONAL )
 	, m_width( 0 )
 	, m_height( 0 )
+	, m_userData( 0 )
+	, m_createNewTileset( defaultCreateNewTileset )
+	, m_createNewLayer( defaultCreateNewLayer )
+	, m_createNewTile( defaultCreateNewTile )
 	, m_tilesets()
-{	
+{
 }
 
 
@@ -495,31 +567,14 @@ TmxMap::~TmxMap()
 {
 }
 
-
-/*TmxMap* TmxMap::loadFromMapFile(const std::string& mapFileName)
+void TmxMap::registerMapCreateCallbacks(MapCreateCallbacks* callbacks)
 {
-	Tmx::Map map;
-	map.ParseFile(mapFileName.c_str());
-	return new TmxMap(&map);
-}*/
-
-
-Tileset* TmxMap::createNewTileset(const std::string name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties )
-{
-	return new Tileset(name,spriteSheet,tileOffsetX,tileOffsetY,properties);
+	setCallBackData(callbacks);
+	registerCreateNewTilesetFunc( createNewTileset_MapCreateCallbacks );
+	registerCreateNewLayerFunc( createNewLayer_MapCreateCallbacks );
+	registerCreateNewTileFunc( createNewTile_MapCreateCallbacks );
 }
 
-
-Layer* TmxMap::createNewLayer(Map* map, std::string name, float opacity, bool visible, const PropertySet& properties)
-{
-	return new Layer(map,name,opacity,visible,false,properties); //create dynamic layer
-}
-
-
-Tile* TmxMap::createNewTile(Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
-{
-	return new Tile(TileGameObjectType, properties, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, map->getTileWidth(),map->getTileHeight());
-}
 
 }
 
