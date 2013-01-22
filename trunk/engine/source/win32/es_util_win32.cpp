@@ -25,6 +25,9 @@
 #include <windowsx.h>
 #include "es_util.h"
 #include "es_util_win.h"
+#include <es_assert.h>
+#include <config.h>
+#include <ElapsedTimer.h>
 
 namespace yam2d
 {
@@ -43,7 +46,7 @@ bool middleClicked = false;// (wParam & MK_MBUTTON) != 0;
 LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
 {
 	LRESULT  lRet = 1; 
-
+	assert( hWnd != 0 );
 	switch (uMsg) 
 	{
 	case WM_CREATE:
@@ -51,35 +54,42 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 	case WM_PAINT:
 		{
-		ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
-            
-		if ( esContext && esContext->drawFunc )
-		{
-			esContext->drawFunc ( esContext );
-			eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
-		}   
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr (hWnd, GWL_USERDATA );
+			assert( esContext != 0 );
 
-		ValidateRect( esContext->hWnd, NULL );
+			if ( esContext->drawFunc )
+			{
+				esContext->drawFunc ( esContext );
+				eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
+			}   
+
+			ValidateRect( esContext->hWnd, NULL );
 		}
 		break;
 	
 	case WM_SIZING:
 		{
-		ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
-		RECT rc;
-		GetClientRect(hWnd,&rc);
-		esContext->height = rc.bottom - rc.top;
-		esContext->width = rc.right - rc.left;
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			assert( esContext != 0 );
+			RECT rc;
+			GetClientRect(hWnd,&rc);
+			esContext->height = rc.bottom - rc.top;
+			esContext->width = rc.right - rc.left;
 		}
 		break;
 
 	case WM_SIZE:
 		{
-		ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
-		RECT rc;
-		GetClientRect(hWnd,&rc);
-		esContext->height = rc.bottom - rc.top;
-		esContext->width = rc.right - rc.left;
+			RECT rc;
+			GetClientRect(hWnd,&rc);
+			int w = rc.right - rc.left;
+			int h = rc.bottom - rc.top;
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			if( esContext != 0 )
+			{
+				esContext->height = h;
+				esContext->width = w;
+			}
 		}
 		break;
 
@@ -87,28 +97,19 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		PostQuitMessage(0);             
 		break; 
       
-	/*case WM_CHAR:
-		{
-		POINT      point;
-		ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
-            
-		GetCursorPos( &point );
 
-		if ( esContext && esContext->keyFunc )
-		esContext->keyFunc ( esContext, (unsigned char) wParam, 
-		(int) point.x, (int) point.y );
-		}
-		break;*/
 	case WM_LBUTTONDOWN:
 		SetCapture(hWnd);
 		leftClicked = true;
 		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
 		break;
+
 	case WM_LBUTTONUP:
 		SetCapture(0);
 		leftClicked = false;
 		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
 		break;
+
 	case WM_RBUTTONDOWN:
 		SetCapture(hWnd);
 		rightClicked = true;
@@ -119,6 +120,7 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		rightClicked = false;
 		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
 		break;
+
 	case WM_MBUTTONDOWN:
 		SetCapture(hWnd);
 		middleClicked = true;
@@ -146,22 +148,22 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 	case WM_MOUSEMOVE:
 		{
-		ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
-      
-		POINT point;
-		point.x = GET_X_LPARAM(lParam);
-		point.y = GET_Y_LPARAM(lParam);
-		MapWindowPoints(HWND_DESKTOP,hWnd,&point,1);
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			assert( esContext != 0 );
+			POINT point;
+			point.x = GET_X_LPARAM(lParam);
+			point.y = GET_Y_LPARAM(lParam);
+			MapWindowPoints(HWND_DESKTOP,hWnd,&point,1);
 
-		xPos = point.x;
-		yPos = point.y;
+			xPos = point.x;
+			yPos = point.y;
 		
-		if( (wParam & MK_LBUTTON) == 0 )
-		{
-			leftClicked = false;
-		}
+			if( (wParam & MK_LBUTTON) == 0 )
+			{
+				leftClicked = false;
+			}
 
-		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+			mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
 		}
 		break;
 
@@ -178,109 +180,116 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
 {
-   WNDCLASS wndclass = {0}; 
-   DWORD    wStyle   = 0;
-   RECT     windowRect;
-   HINSTANCE hInstance = GetModuleHandle(NULL);
+	assert( esContext != 0 );
+
+	WNDCLASS wndclass = {0}; 
+	DWORD    wStyle   = 0;
+	RECT     windowRect;
+	HINSTANCE hInstance = GetModuleHandle(NULL);
 
 
-   wndclass.style         = CS_OWNDC;
-   wndclass.lpfnWndProc   = (WNDPROC)ESWindowProc; 
-   wndclass.hInstance     = hInstance; 
-   wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH); 
-   wndclass.lpszClassName = "opengles1.x"; 
+	wndclass.style         = CS_OWNDC;
+	wndclass.lpfnWndProc   = (WNDPROC)ESWindowProc; 
+	wndclass.hInstance     = hInstance; 
+	wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH); 
+	wndclass.lpszClassName = "opengles1.x"; 
 
-   if (!RegisterClass (&wndclass) ) 
-      return FALSE; 
+	if (!RegisterClass (&wndclass) ) 
+	{
+		esLogEngineError("Failed to register wndclass");
+		return FALSE; 
+	}
 
-   if( resizable )
-   {
-	   wStyle = WS_VISIBLE | WS_MAXIMIZEBOX | WS_BORDER | WS_SYSMENU | WS_CAPTION | WS_THICKFRAME;
-   }
-   else
-   {
-	   wStyle = WS_VISIBLE | WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION;
-   }
+	if( resizable )
+	{
+		wStyle = WS_VISIBLE | WS_MAXIMIZEBOX | WS_BORDER | WS_SYSMENU | WS_CAPTION | WS_THICKFRAME;
+	}
+	else
+	{
+		wStyle = WS_VISIBLE | WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION;
+	}
 
-   // Adjust the window rectangle so that the client area has
-   // the correct number of pixels
-   windowRect.left = 0;
-   windowRect.top = 0;
-   windowRect.right = esContext->width;
-   windowRect.bottom = esContext->height;
+	// Adjust the window rectangle so that the client area has
+	// the correct number of pixels
+	windowRect.left = 0;
+	windowRect.top = 0;
+	windowRect.right = esContext->width;
+	windowRect.bottom = esContext->height;
 
-   AdjustWindowRect ( &windowRect, wStyle, FALSE );
+	AdjustWindowRect ( &windowRect, wStyle, FALSE );
+	
+	esContext->hWnd = CreateWindow(
+									"opengles1.x",
+									title,
+									wStyle,
+									10,
+									10,
+									windowRect.right - windowRect.left,
+									windowRect.bottom - windowRect.top,
+									NULL,
+									NULL,
+									hInstance,
+									NULL);
 
+	if ( esContext->hWnd == NULL )
+	{
+		esLogEngineError("Failed to create window");
+		return GL_FALSE;
+	}
 
+	// Set user data
+	SetWindowLongPtr( esContext->hWnd, GWL_USERDATA, (LONG) (LONG_PTR) esContext );
+	
+	// Show window
+	ShowWindow ( esContext->hWnd, TRUE );
 
-   esContext->hWnd = CreateWindow(
-                         "opengles1.x",
-                         title,
-                         wStyle,
-                         10,
-                         10,
-                         windowRect.right - windowRect.left,
-                         windowRect.bottom - windowRect.top,
-                         NULL,
-                         NULL,
-                         hInstance,
-                         NULL);
-
-   // Set the ESContext* to the GWL_USERDATA so that it is available to the 
-   // ESWindowProc
-   SetWindowLongPtr (  esContext->hWnd, GWL_USERDATA, (LONG) (LONG_PTR) esContext );
-
-   if ( esContext->hWnd == NULL )
-      return GL_FALSE;
-
-   
- //  SetCapture(esContext->hWnd);
-
-   ShowWindow ( esContext->hWnd, TRUE );
-
-   return GL_TRUE;
+	return GL_TRUE;
 }
 
 
 void winLoop ( ESContext *esContext )
 {
-   MSG msg = { 0 };
-   bool done = false;
-   DWORD lastTime = GetTickCount();
-   
-   while (!done)
-   {
-      int gotMsg = (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0);
-      DWORD curTime = GetTickCount();
-      float deltaTime = (float)( curTime - lastTime ) / 1000.0f;
-      lastTime = curTime;
+	assert( esContext != 0 );
+	MSG msg = { 0 };
+	bool done = false;
+	ElapsedTimer timer;
+	timer.reset();
 
-      if ( gotMsg )
-      {
-         if (msg.message==WM_QUIT)
-         {
-             done = true;
-         }
-         else
-         {
-             TranslateMessage(&msg); 
-             DispatchMessage(&msg); 
-         }
-      }
-      else
-	  {
-         SendMessage( esContext->hWnd, WM_PAINT, 0, 0 );
-	  }
+	while (!done)
+	{
+		int gotMsg = (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0);
 
-      // Call update function if registered
-      if ( !done && esContext->updateFunc != NULL )
-	  {
-         esContext->updateFunc ( esContext, deltaTime );
-		 clearInput();
-	  }
-   }
+		if ( gotMsg )
+		{
+			if (msg.message==WM_QUIT)
+			{
+				done = true;
+			}
+			else
+			{
+				TranslateMessage(&msg); 
+				DispatchMessage(&msg); 
+			}
+		}
+		else
+		{
+			SendMessage( esContext->hWnd, WM_PAINT, 0, 0 );
+		}
 
-    if ( esContext->deinitFunc != NULL )
+		// Call update function if registered
+		if ( !done && esContext->updateFunc != NULL )
+		{
+			float deltaTime = timer.getTime();
+			if( deltaTime > 0.0f )
+			{
+				esContext->updateFunc ( esContext, deltaTime );
+			}
+			timer.reset();
+			clearInput();
+		}
+	}
+
+	if ( esContext->deinitFunc != NULL )
 	{
 		esContext->deinitFunc ( esContext );
 	}

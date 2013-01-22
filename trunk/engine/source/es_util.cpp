@@ -22,6 +22,7 @@
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 #include "es_util.h"
+#include <es_assert.h>
 #include "es_util_win.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -47,6 +48,10 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
                               EGLContext* eglContext, EGLSurface* eglSurface,
                               EGLint attribList[])
 {
+	assert(eglDisplay != 0);
+	assert(eglSurface != 0);
+	assert(eglContext != 0);
+
 	EGLint numConfigs;
 	EGLint majorVersion;
 	EGLint minorVersion;
@@ -60,24 +65,28 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
 	display = eglGetDisplay(GetDC(hWnd));
 	if ( display == EGL_NO_DISPLAY )
 	{
+		esLogEngineError("eglGetDisplay failed");
 		return EGL_FALSE;
 	}
 
 	// Initialize EGL
 	if ( !eglInitialize(display, &majorVersion, &minorVersion) )
 	{
+		esLogEngineError("eglInitialize failed");
 		return EGL_FALSE;
 	}
 
 	// Get configs
 	if ( !eglGetConfigs(display, NULL, 0, &numConfigs) )
 	{
+		esLogEngineError("eglGetConfigs failed");
 		return EGL_FALSE;
 	}
 
 	// Choose config
 	if ( !eglChooseConfig(display, attribList, &config, 1, &numConfigs) )
 	{
+		esLogEngineError("eglChooseConfig failed");
 		return EGL_FALSE;
 	}
 
@@ -85,6 +94,7 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
 	surface = eglCreateWindowSurface(display, config, (EGLNativeWindowType)hWnd, NULL);
 	if ( surface == EGL_NO_SURFACE )
 	{
+		esLogEngineError("eglCreateWindowSurface failed");
 		return EGL_FALSE;
 	}
 
@@ -92,12 +102,14 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
 	context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs );
 	if ( context == EGL_NO_CONTEXT )
 	{
+		esLogEngineError("eglCreateContext failed");
 		return EGL_FALSE;
 	}   
    
 	// Make the context current
 	if ( !eglMakeCurrent(display, surface, surface, context) )
 	{
+		esLogEngineError("eglMakeCurrent failed");
 		return EGL_FALSE;
 	}
    
@@ -110,15 +122,14 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
 
 void esInitContext ( ESContext *esContext )
 {
-	if ( esContext != NULL )
-	{
-		memset( esContext, 0, sizeof( ESContext) );
-	}
+	assert ( esContext != NULL );
+	memset( esContext, 0, sizeof( ESContext) );
 }
 
 
 GLboolean esCreateWindow ( ESContext *esContext, const char* title, GLint width, GLint height, GLint flags )
 {
+	assert( esContext != 0 );
 	EGLint attribList[] =
 	{
 		EGL_RED_SIZE,       8,
@@ -133,6 +144,7 @@ GLboolean esCreateWindow ( ESContext *esContext, const char* title, GLint width,
    
 	if ( esContext == NULL )
 	{
+		esLogEngineError("Given ESContext is NULL");
 		return GL_FALSE;
 	}
 
