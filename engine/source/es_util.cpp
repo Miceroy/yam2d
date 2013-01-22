@@ -264,6 +264,28 @@ void esViewportTearEdges(int sx, int sy, float desiredAspectRatio)
 }
 
 
+std::string getPath( const std::string& fileName )
+{
+	std::string path = fileName;
+	int last = path.find_last_of('\\');
+
+	if( last < 0 )
+	{
+		last = path.find_last_of('/');
+	}
+	
+	if( last > 0 )
+	{		
+		path = path.substr(0,last+1);
+	}
+	else
+	{
+		path = "";
+	}
+
+	return path;
+}
+
 std::vector<unsigned short> readFile(const char* const fileName)
 {
 	FILE* fp = fopen (fileName,"rb");

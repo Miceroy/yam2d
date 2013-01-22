@@ -452,6 +452,8 @@ Tile* TmxMap::MapCreateCallbacks::createNewTile( Map* map, Layer* layer, const v
 
 bool TmxMap::loadMapFile(const std::string& mapFileName)
 {
+	std::string path = getPath(mapFileName);	
+
 	Tmx::Map map;
 	map.ParseFile(mapFileName.c_str());
 	
@@ -475,8 +477,9 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 	for( size_t i=0; i<m_tilesets.size(); ++i )
 	{
 		const Tmx::Tileset* tileset = map.GetTileset(i);
-		esLogEngineDebug("Creating tileset: %s from texture \"%s\"", tileset->GetName().c_str(), tileset->GetImage()->GetSource().c_str() );
-		Texture* texture = new Texture( tileset->GetImage()->GetSource().c_str() );
+		std::string texFileName = path + tileset->GetImage()->GetSource();
+		esLogEngineDebug("Creating tileset: %s from texture \"%s\"", tileset->GetName().c_str(), texFileName.c_str() );
+		Texture* texture = new Texture( texFileName.c_str() );
 		
 		// convert transparent_color
 		std::string transparentColor = tileset->GetImage()->GetTransparentColor();
