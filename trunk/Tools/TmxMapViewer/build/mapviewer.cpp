@@ -145,7 +145,7 @@ void draw ( ESContext *esContext )
 	glClear ( GL_COLOR_BUFFER_BIT );
 
 	// Set screen size to camera.
-	map->getCamera()->setScreenSize( esContext->width, esContext->height, esContext->height/zoom); 
+	map->getCamera()->setScreenSize( esContext->width, esContext->height, float(esContext->height)/float(zoom)); 
 
 	// Render map and all of its layers containing GameObjects to screen.
 	map->render();
