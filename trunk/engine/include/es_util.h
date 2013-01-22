@@ -176,6 +176,15 @@ bool esLoadPNG (const char *fileName, unsigned char *buffer, int *width, int *he
  */
 void esViewportTearEdges(int sx, int sy, float desiredAspectRatio);
 
+/**
+ * Returns file path, from full file name
+ * 
+ * Function detects bots forward slash and back slash as directory separator. If path exist in 
+ * given fileName, returned string contains trailing slash or back slash, depending on given 
+ * input string format. If path does not existin given fileName, returned value is zero length string.
+ */
+std::string getPath( const std::string& fileName );
+
 
 /**
  * Reads file data to vector.
