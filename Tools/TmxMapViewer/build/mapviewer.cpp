@@ -158,11 +158,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	{
 		MessageBox(0, L"Missing map file!", L"TMX map viewer", MB_ICONERROR );
 		return 0;
-	}
-
-
-	std::string path = getPath( lpCmdLine );
-	SetCurrentDirectoryA(path.c_str());
+	}	
 
 	ESContext esContext;
 	esInitContext ( &esContext );
