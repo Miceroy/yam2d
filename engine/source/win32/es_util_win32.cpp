@@ -115,6 +115,7 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		rightClicked = true;
 		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
 		break;
+
 	case WM_RBUTTONUP:
 		SetCapture(0);
 		rightClicked = false;
@@ -126,6 +127,7 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		middleClicked = true;
 		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
 		break;
+
 	case WM_MBUTTONUP:
 		SetCapture(0);
 		middleClicked = false;
@@ -141,6 +143,7 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 	case WM_MOUSEWHEEL:
 		{
+			esLogEngineError("WM_MOUSEWHEEL");
 			int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 			mouseWheel( delta/WHEEL_DELTA );
 		}
@@ -280,12 +283,12 @@ void winLoop ( ESContext *esContext )
 		if ( !done && esContext->updateFunc != NULL )
 		{
 			float deltaTime = timer.getTime();
+			timer.reset();
 			if( deltaTime > 0.0f )
 			{
 				esContext->updateFunc ( esContext, deltaTime );
-			}
-			timer.reset();
-			clearInput();
+				clearInput();
+			}			
 		}
 	}
 
