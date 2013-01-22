@@ -161,9 +161,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 
 
-	std::string path = lpCmdLine;
-	int last = path.find_last_of('\\');
-	path = path.substr(0,last);
+	std::string path = getPath( lpCmdLine );
 	SetCurrentDirectoryA(path.c_str());
 
 	ESContext esContext;
