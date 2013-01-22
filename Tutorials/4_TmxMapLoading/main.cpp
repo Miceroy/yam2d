@@ -71,7 +71,7 @@ int main ( int argc, char *argv[] )
 {
 	ESContext esContext;
 	esInitContext ( &esContext );
-	esCreateWindow( &esContext, "TMX map viewer", 1280, 720, ES_WINDOW_DEFAULT );
+	esCreateWindow( &esContext, "TMX map loading", 1280, 720, ES_WINDOW_DEFAULT );
 
 	if ( !init ( &esContext ) )
 		return 0;
