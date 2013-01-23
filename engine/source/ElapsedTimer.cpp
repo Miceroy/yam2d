@@ -23,7 +23,7 @@
 
 #include "ElapsedTimer.h"	
 #include "es_assert.h"
-
+#include <config.h>
 
 namespace yam2d
 {
@@ -33,19 +33,34 @@ namespace
 {
 #if defined(_WIN32)
 	#include <Windows.h>
-	
-	inline unsigned long getTicks()
+
+	static LARGE_INTEGER pcFreq;
+	static BOOL pcAvailable = QueryPerformanceFrequency(&pcFreq);
+	static const float perfFreq = float(pcFreq.QuadPart);
+
+	/** Returns time in seconds */
+	inline float getTimeInSeconds()
 	{
-		return GetTickCount();
+		LARGE_INTEGER curTime;
+
+		if( pcAvailable && QueryPerformanceCounter(&curTime) )
+		{
+			return float(curTime.QuadPart)/perfFreq;
+		}
+		else
+		{
+			return float(GetTickCount())*1000.0f;
+		}
 	}
+
 #else
-You need to have unsigned long getTicks() implementation on this platform.
+You need to have unsigned long getTime() implementation on this platform.
 #endif
 }
 
 
 ElapsedTimer::ElapsedTimer()
-: m_startTime(unsigned long(-1))
+: m_startTime(-1.0f)
 {
 }
 
@@ -57,16 +72,18 @@ ElapsedTimer::~ElapsedTimer()
 
 void ElapsedTimer::reset()
 {
-	m_startTime = GetTickCount();
+	m_startTime = getTimeInSeconds();
 }
 
 
 float ElapsedTimer::getTime() const
 {
-	assert(m_startTime != unsigned long(-1) ); // You must call reset atleast once before firs call to getTime.
-	unsigned long curTime = GetTickCount();
-	assert( curTime >= m_startTime ); // WTF? Overflow
-	return float(curTime-m_startTime)*0.001f;
+	assert(m_startTime >= 0.0f ); // You must call reset atleast once before first call to getTime.
+	float curTime = getTimeInSeconds();
+
+	float deltaTime = curTime-m_startTime;
+	assert( deltaTime >= 0.0f ); // WTF? 
+	return deltaTime;
 }	
 
 }

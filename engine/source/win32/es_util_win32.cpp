@@ -252,6 +252,11 @@ GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
 
 void winLoop ( ESContext *esContext )
 {
+	// We must set thread affinity mask for this thread, inorder that QueryPerformanceCounter does not cause troubles for us.
+	// See atricle "Game Timing and Multicore Processors (Windows)" http://msdn.microsoft.com/en-us/library/windows/desktop/ee417693(v=vs.85).aspx
+	// Enable only core 1, by using mask 0x01.
+	SetThreadAffinityMask(GetCurrentThread(), 0x01);
+
 	assert( esContext != 0 );
 	MSG msg = { 0 };
 	bool done = false;

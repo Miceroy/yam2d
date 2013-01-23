@@ -61,7 +61,7 @@ public:
 	float getTime() const;
 
 private:
-	unsigned long m_startTime;
+	float m_startTime;
 };
 
 }
