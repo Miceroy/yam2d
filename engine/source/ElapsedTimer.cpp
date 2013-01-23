@@ -34,24 +34,46 @@ namespace
 #if defined(_WIN32)
 	#include <Windows.h>
 
-	static LARGE_INTEGER pcFreq;
-	static BOOL pcAvailable = QueryPerformanceFrequency(&pcFreq);
-	static const float perfFreq = float(pcFreq.QuadPart);
+#if defined(ELAPSED_TIMER_USES_GETTICCOUNT)
+	inline  __int64 getTimeScale()
+	{
+		return 1000;
+	}
 
 	/** Returns time in seconds */
-	inline float getTimeInSeconds()
+	inline __int64 getTotalTime()
+	{
+		return GetTickCount();
+	}
+#else
+	static LARGE_INTEGER pcFreq;
+	static BOOL pcAvailable = QueryPerformanceFrequency(&pcFreq);
+
+	inline  __int64 getTimeScale()
+	{
+		if( pcAvailable )
+		{
+			return pcFreq.QuadPart;
+		}
+
+		return 1000;
+	}
+
+	/** Returns time in seconds */
+	inline __int64 getTotalTime()
 	{
 		LARGE_INTEGER curTime;
 
 		if( pcAvailable && QueryPerformanceCounter(&curTime) )
 		{
-			return float(curTime.QuadPart)/perfFreq;
+			return curTime.QuadPart;
 		}
 		else
 		{
-			return float(GetTickCount())*1000.0f;
+			return GetTickCount();
 		}
 	}
+#endif
 
 #else
 You need to have unsigned long getTime() implementation on this platform.
@@ -60,7 +82,7 @@ You need to have unsigned long getTime() implementation on this platform.
 
 
 ElapsedTimer::ElapsedTimer()
-: m_startTime(-1.0f)
+: m_startTime((-1))
 {
 }
 
@@ -72,16 +94,16 @@ ElapsedTimer::~ElapsedTimer()
 
 void ElapsedTimer::reset()
 {
-	m_startTime = getTimeInSeconds();
+	m_startTime = getTotalTime();
 }
 
 
 float ElapsedTimer::getTime() const
 {
-	assert(m_startTime >= 0.0f ); // You must call reset atleast once before first call to getTime.
-	float curTime = getTimeInSeconds();
+	assert(m_startTime != __int64(-1) ); // You must call reset atleast once before first call to getTime.
+	__int64 curTime = getTotalTime();
 
-	float deltaTime = curTime-m_startTime;
+	float deltaTime = float(curTime-m_startTime)/float(getTimeScale());
 	assert( deltaTime >= 0.0f ); // WTF? 
 	return deltaTime;
 }	

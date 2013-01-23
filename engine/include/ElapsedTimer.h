@@ -61,7 +61,11 @@ public:
 	float getTime() const;
 
 private:
-	float m_startTime;
+#if defined(_WIN32)
+	__int64 m_startTime;
+#else
+	long m_startTime;
+#endif
 };
 
 }

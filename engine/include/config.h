@@ -32,6 +32,11 @@
 //#define DEBUG_LOGS_ENABLED
 #define ERROR_LOGS_ENABLED
 
+#if defined(_WIN32)
+// If you disable this flag, then ElapsetTimer uses QueryPerformanceCounter.
+#define ELAPSED_TIMER_USES_GETTICCOUNT
+#endif
+
 namespace yam2d
 {
 
