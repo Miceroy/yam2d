@@ -24,6 +24,7 @@
 #define TEXTURE_H_
 
 #include <Object.h>
+#include <string>
 
 namespace yam2d
 {
@@ -37,7 +38,7 @@ namespace yam2d
 class Texture : public Object
 {
 public:
-	Texture(const char* const fileName);
+	Texture(const std::string& fileName);
 	Texture(unsigned int nativeId, int bytesPerPixel);
 	virtual ~Texture();
 
