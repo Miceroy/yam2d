@@ -26,7 +26,7 @@ namespace
 	{
 		// Calculate camera move direction from key presses. 
 		int dirX = getKeyState(KEY_RIGHT)-getKeyState(KEY_LEFT);
-		int dirY = getKeyState(KEY_DOWN) -getKeyState(KEY_UP);
+		int dirY = getKeyState(KEY_DOWN)-getKeyState(KEY_UP);
 
 		float speed = 30.0f; // Tiles per second
 
@@ -76,8 +76,7 @@ namespace
 			vec2 delta((curX-trackStartX), (curY-trackStartY));
 			
 			// Scale it with camera scale
-			delta.y *= -map->getCamera()->getScale();
-			delta.x *= map->getCamera()->getScale();
+			delta *= map->getCamera()->getScale();
 
 			// Convert screen coordinates to tile coordinates
 			vec2 newCameraPos = map->screenToTileCoordinates(originalCameraPos.x-delta.x, originalCameraPos.y-delta.y);
