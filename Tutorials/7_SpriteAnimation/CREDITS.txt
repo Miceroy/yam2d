@@ -1,0 +1,4 @@
+Tilesets taken from GfxLib-Fuzed: http://www.spicypixel.net/2008/01/10/gfxlib-fuzed-a-free-developer-graphic-library/
+
+Explosion:
+http://www.avanderw.co.za/animated-sprites-in-flixel/
