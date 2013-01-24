@@ -52,6 +52,7 @@ public:
 
 	void setName( const std::string& name );
 	void setPosition( const vec2& position );
+	void setPosition( float x, float y ) { setPosition(vec2(x,y)); }
 	void setOffset( const vec2& offset );
 	void setRotation( float rotation );
 	void setSize( float sizeX, float sizeY );
