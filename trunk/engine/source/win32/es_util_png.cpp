@@ -90,42 +90,27 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 
 	*bytesPerPixel = 0;
 	
-	if(color_type&PNG_COLOR_MASK_COLOR) 
+	png_set_packing(png_ptr);
+	png_set_expand(png_ptr);
+	
+	int number_of_passes = png_set_interlace_handling(png_ptr);
+	png_read_update_info(png_ptr, info_ptr);
+	
+	// read file 
+	if (setjmp(png_jmpbuf(png_ptr)))
 	{
-		*bytesPerPixel += 3;
-	}
-
-	if( color_type&PNG_COLOR_MASK_ALPHA )
-	{
-		*bytesPerPixel += 1;
-	}
-
-	if( *bytesPerPixel == 0 )
-	{
-		esLogEngineError("[%s] Color type %d not supported", __FUNCTION__, color_type );
-        fclose(fp);
+		esLogEngineError("[%s] Error during read_image", __FUNCTION__);
+		fclose(fp);
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+		return false;
 	}
 
+	png_bytep * row_pointers = new png_bytep[*height];
+	unsigned int row_bytes = png_get_rowbytes(png_ptr, info_ptr);
+	
+	*bytesPerPixel = row_bytes/(*width);
 	if( buffer != 0 )
 	{
-		//png_read_png(png_ptr, info_ptr, 0, NULL);
-
-		int number_of_passes = png_set_interlace_handling(png_ptr);
-		png_read_update_info(png_ptr, info_ptr);
-	
-		// read file 
-		if (setjmp(png_jmpbuf(png_ptr)))
-		{
-			esLogEngineError("[%s] Error during read_image", __FUNCTION__);
-			fclose(fp);
-			png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-			return false;
-		}
-
-		png_bytep * row_pointers = new png_bytep[*height];
-		unsigned int row_bytes = png_get_rowbytes(png_ptr, info_ptr);
-		assert( row_bytes == (*width)*(*bytesPerPixel) ); // Image is not 3 bytex per pixel nor 4 bytes per pixel
 		for (int y=0; y<(*height); y++)
 		{
 			row_pointers[y] = new png_byte[row_bytes];
@@ -133,7 +118,6 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 
 		png_read_image(png_ptr, row_pointers);
 	
-
 		for (int i = 0; i <(*height); i++) 
 		{
 			memcpy(buffer+((*width)*(*bytesPerPixel) * i), row_pointers[i], row_bytes);
