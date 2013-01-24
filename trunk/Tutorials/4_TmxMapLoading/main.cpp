@@ -28,7 +28,7 @@ bool init ( ESContext *esContext )
 	if( okay )
 	{
 		// Move camera to middle of map.
-		map->getCamera()->setPosition( vec2(map->getWidth()/2.0f, map->getHeight()/2.0f));
+		map->getCamera()->setPosition( vec2(map->getWidth()/2.0f-0.5f, map->getHeight()/2.0f-0.5f));
 	}
 
 	return okay;
