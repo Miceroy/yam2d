@@ -139,6 +139,9 @@ public:
 	/** Gets layer by index. */
 	Layer* getLayer(Layers index);
 
+	/** Gets layer by name. */
+	Layer* getLayer(const std::string& name);
+	
 	/** Returns properties of this map */
 	PropertySet& getProperties();
 	
