@@ -105,7 +105,7 @@ void TextGameObject::render(Layer* layer)
 	m_text->setDepth( layer->getDepth() );
 	m_text->setOpacity( layer->getOpacity() );
 
-	layer->getBatch()->addText( m_text->getFont()->getTexture(), m_text, getPosition(), -getRotation() );
+	layer->getBatch()->addText( m_text->getFont()->getTexture(), m_text, position, -getRotation() );
 }
 
 
