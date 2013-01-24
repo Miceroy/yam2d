@@ -156,6 +156,95 @@ vec2 Map::tileToScreenCoordinates(float x, float y)
 	{
 		vec2 res = isometricToOrthogonal(x,y);
 		res.x *= m_tileWidth;
+		res.y *= m_tileHeight;
+		return res;
+	}
+	else if( m_orientation == ORTHOGONAL )
+	{
+		float tileWidth = float(m_tileWidth);
+		float tileHeight = float(m_tileHeight);
+		float x_pos = (x * tileWidth );
+		float y_pos = (y * tileHeight);
+		return vec2(x_pos,y_pos);
+	}
+	else
+	{
+		assert(0);
+	}
+
+	return vec2(0);
+}
+
+
+vec2 Map::tileToScreenCoordinates(const vec2& pos)
+{
+	return tileToScreenCoordinates(pos.x,pos.y);
+}
+
+/*vec2 Map::mapToScreenCoordinates(float x, float y)
+{
+	return mapToScreenCoordinates(vec2(x,y));
+}
+
+vec2 Map::mapToScreenCoordinates(const vec2& pos)
+{
+	as
+	//return getCamera()->getPosition() + pos;
+
+	//tileToScreenCoordinates();
+//	return mapToScreenCoordinates(pos.x,pos.y);	
+}
+*/
+
+vec2 Map::screenToTileCoordinates(float x, float y)
+{
+	if( m_orientation == ISOMETRIC )
+	{
+		vec2 res = isometricToOrthogonal(x,y);
+		res.x /= m_tileWidth;
+		res.y /= m_tileHeight;
+		return res;
+	}
+	else if( m_orientation == ORTHOGONAL )
+	{
+		float tileWidth = float(m_tileWidth);
+		float tileHeight = float(m_tileHeight);
+		float x_pos = (x / tileWidth );
+		float y_pos = (y / tileHeight);
+		return vec2(x_pos,y_pos);
+	}
+	else
+	{
+		assert(0);
+	}
+
+	return vec2(0);
+}
+
+vec2 Map::screenToTileCoordinates(const vec2& pos)
+{
+	return screenToTileCoordinates(pos.x,pos.y);
+}
+
+vec2 Map::screenToMapCoordinates(float x, float y)
+{
+	return screenToMapCoordinates(vec2(x,y));
+}
+
+vec2 Map::screenToMapCoordinates(const vec2& pos)
+{
+	vec2 camHalfSize =  getCamera()->getSize();
+	camHalfSize *= 0.5f;
+	vec2 res = screenToTileCoordinates(pos) + getCamera()->getPosition() - camHalfSize;
+	return res;
+}
+
+vec2 Map::tileToDeviceCoordinates(float x, float y)
+{
+	if( m_orientation == ISOMETRIC )
+	{
+		vec2 res = isometricToOrthogonal(x,y);
+		res.x *= m_tileWidth;
 		res.y *= -m_tileHeight;
 		return res;
 	}
@@ -175,14 +264,12 @@ vec2 Map::tileToScreenCoordinates(float x, float y)
 	return vec2(0);
 }
 
-
-vec2 Map::tileToScreenCoordinates(const vec2& pos)
+vec2 Map::tileToDeviceCoordinates(const vec2& pos)
 {
-	return tileToScreenCoordinates(pos.x,pos.y);
+	return tileToDeviceCoordinates(pos.x,pos.y);
 }
-	
 
-vec2 Map::screenToTileCoordinates(float x, float y)
+vec2 Map::screenToDeviceCoordinates(float x, float y)
 {
 	if( m_orientation == ISOMETRIC )
 	{
@@ -207,9 +294,9 @@ vec2 Map::screenToTileCoordinates(float x, float y)
 }
 
 
-vec2 Map::screenToTileCoordinates(const vec2& pos)
+vec2 Map::screenToDeviceCoordinates(const vec2& pos)
 {
-	return screenToTileCoordinates(pos.x,pos.y);
+	return screenToDeviceCoordinates(pos.x,pos.y);
 }
 
 

@@ -113,13 +113,29 @@ public:
 	 */
 	void update( float deltaTime );
 
-	/** Converts tile-coodrinate value to screen coordinates. */
+	/** Converts tile-coodrinate value to screen coordinates. Ignores camera position. */
 	vec2 tileToScreenCoordinates(float x, float y);
 	vec2 tileToScreenCoordinates(const vec2& pos);
 
-	/** Converts screen-coodrinate value to tile coordinates. */
+	/** Converts map-coodrinate value to screen coordinates. Takes camera position into account. */
+	vec2 mapToScreenCoordinates(float x, float y);
+	vec2 mapToScreenCoordinates(const vec2& pos);
+
+	/** Converts tile-coodrinate values to device (OpenGL) coordinates. */
+	vec2 tileToDeviceCoordinates(float x, float y);
+	vec2 tileToDeviceCoordinates(const vec2& pos);
+
+	/** Converts screen-coodrinate value to tile coordinates. Ignores camera position. */
 	vec2 screenToTileCoordinates(float x, float y);
 	vec2 screenToTileCoordinates(const vec2& pos);
+
+	/** Converts screen-coodrinate value to map coordinates. Takes camera position into account. */
+	vec2 screenToMapCoordinates(float x, float y);
+	vec2 screenToMapCoordinates(const vec2& pos);
+
+	/** Converts screen-coodrinate value to device (OpenGL) coordinates. */
+	vec2 screenToDeviceCoordinates(float x, float y);
+	vec2 screenToDeviceCoordinates(const vec2& pos);
 
 	/** Returns tile width */
 	float getTileHeight() const;
