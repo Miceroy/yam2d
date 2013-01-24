@@ -44,7 +44,7 @@ void Tile::render(Layer* layer)
 {
 	if( getTileset() != 0 )
 	{
-		vec2 position = layer->getMap()->tileToScreenCoordinates(getPosition().x,getPosition().y);
+		vec2 position = layer->getMap()->tileToDeviceCoordinates(getPosition().x,getPosition().y);
 		m_sprite->setDepth( layer->getDepth() );
 		m_sprite->setOpacity( layer->getOpacity() );
 		Tileset* tileset = getTileset();
@@ -90,21 +90,22 @@ void SpriteSheetGameObject::render(Layer* layer)
 
 void SpriteGameObject::render(Layer* layer)
 {
-	vec2 position = layer->getMap()->tileToScreenCoordinates(getPosition().x,getPosition().y);
+	vec2 position = layer->getMap()->tileToDeviceCoordinates(getPosition().x,getPosition().y);
 	m_sprite->setDepth( layer->getDepth() );
 	m_sprite->setOpacity( layer->getOpacity() );
 	m_sprite->setScale(getSize());
 
-	layer->getBatch()->addSprite( m_texture, m_sprite, position, getRotation(), vec2(1.0f) );
+	layer->getBatch()->addSprite( m_texture, m_sprite, position, -getRotation(), vec2(1.0f) );
 }
 
 
 void TextGameObject::render(Layer* layer)
 {
-	vec2 position = layer->getMap()->tileToScreenCoordinates(getPosition().x,getPosition().y);
+	vec2 position = layer->getMap()->tileToDeviceCoordinates(getPosition().x,getPosition().y);
 	m_text->setDepth( layer->getDepth() );
 	m_text->setOpacity( layer->getOpacity() );
-	layer->getBatch()->addText( m_text->getFont()->getTexture(), m_text, getPosition(), getRotation() );
+
+	layer->getBatch()->addText( m_text->getFont()->getTexture(), m_text, getPosition(), -getRotation() );
 }
 
 
@@ -155,7 +156,7 @@ void Camera::render(Layer* layer)
 	glLoadIdentity();
 
 
-	vec2 camPos = layer->getMap()->tileToScreenCoordinates(getPosition());
+	vec2 camPos = layer->getMap()->tileToDeviceCoordinates(getPosition());
 	glTranslatef( -camPos.x, -camPos.y, 0);
 
 	float sizeX = (m_desiredAspectRatio*m_screenUnitSize);
