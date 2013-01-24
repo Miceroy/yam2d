@@ -91,6 +91,7 @@ public:
 	{
 		m_totalTime = 0.0f;
 		m_animationId = animationId;
+		m_isFinished = false;
 	}
 
 	int getActiveAnimation()
@@ -98,10 +99,21 @@ public:
 		return m_animationId;
 	}
 
+	int getNumAnimations()
+	{
+		return m_clips.size();
+	}
+
+	bool isFinished()
+	{
+		return m_isFinished;
+	}
+
 private:
 	std::vector<SpriteAnimationClip>	m_clips;
 	int									m_animationId;
 	float								m_totalTime;
+	bool								m_isFinished;
 
 	// Hidden
 	SpriteAnimation(const SpriteAnimation&);
