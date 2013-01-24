@@ -32,6 +32,7 @@ namespace yam2d
 SpriteAnimation::SpriteAnimation()
 	: m_animationId(-1)
 	, m_totalTime(0)
+	, m_isFinished(true)
 {
 }
 
@@ -48,7 +49,7 @@ int SpriteAnimation::getCurrentClipIndex()
 		return -1;
 
 	int index = int(m_totalTime * m_clips[m_animationId].animationFPS);
-
+	m_isFinished = false;
 	if( m_clips[m_animationId].loop )
 	{
 		index %= m_clips[m_animationId].indices.size();
@@ -58,6 +59,7 @@ int SpriteAnimation::getCurrentClipIndex()
 		if( index >= int(m_clips[m_animationId].indices.size()) )
 		{
 			index = m_clips[m_animationId].indices.size()-1;
+			m_isFinished = true;
 		}
 	}
 
