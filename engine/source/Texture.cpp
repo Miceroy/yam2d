@@ -29,20 +29,20 @@
 namespace yam2d
 {
 
-Texture::Texture(const char* const fileName)
+Texture::Texture(const std::string& fileName)
 : m_nativeId(0)
 , m_width(0)
 , m_height(0)
 , m_bpp(0)
 , m_data(0)
 {
-	if( false == esLoadPNG(fileName, 0, &m_width, &m_height, &m_bpp ) )
+	if( false == esLoadPNG(fileName.c_str(), 0, &m_width, &m_height, &m_bpp ) )
 	{
 		return;
 	}
 	
 	m_data = new unsigned char[m_width*m_height*m_bpp];
-	if( false == esLoadPNG(fileName, m_data, &m_width, &m_height, &m_bpp ) )
+	if( false == esLoadPNG(fileName.c_str(), m_data, &m_width, &m_height, &m_bpp ) )
 	{
 		return;
 	}
