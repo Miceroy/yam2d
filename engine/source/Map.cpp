@@ -249,6 +249,21 @@ Layer* Map::getLayer(Layers index)
 	return m_layers[index].ptr();
 }
 
+Layer* Map::getLayer(const std::string& name)
+{
+	// Render visible layers
+	for( int i=0; i<NUM_LAYERS; ++i )
+	{
+		Layer* layer = m_layers[i];
+
+		if( layer && layer->getName() == name )
+		{
+			return layer;
+		}
+	}
+
+	return 0;
+}
 
 PropertySet& Map::getProperties()
 {
