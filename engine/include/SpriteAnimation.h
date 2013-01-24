@@ -44,24 +44,21 @@ public:
 	struct SpriteAnimationClip
 	{
 		SpriteAnimationClip()
-			: indices(0)
-			, sizeOfIndices(0)
+			: indices()
 			, animationFPS(0)
 			, xScale(1.0f)
 		{
 		}
 
-		SpriteAnimationClip( const int* indices, int sizeOfIndices, float animationFPS, float xScale, bool loop )
-			: indices(indices)
-			, sizeOfIndices(sizeOfIndices)
+		SpriteAnimationClip( const std::vector<int>& ind, float animationFPS, float xScale, bool loop )
+			: indices(ind)
 			, animationFPS(animationFPS)
 			, xScale(xScale)
 			, loop(loop)
 		{
 		}
 
-		const int*	indices;
-		int			sizeOfIndices;
+		std::vector<int> indices;
 		float		animationFPS;
 		float		xScale;
 		bool		loop;

@@ -56,6 +56,7 @@ public:
 	Texture* getTexture();
 	const Texture* getTexture() const;
 	const Sprite::PixelClip& getClip(int index) const;
+	int getClipCount() const;
 
 	static SpriteSheet* autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel = isWhiteOrTransparentPixel);
 	static SpriteSheet* autoFindFontFromTexture(Texture* texture, const char* const fontWidthBinFileName = 0);
