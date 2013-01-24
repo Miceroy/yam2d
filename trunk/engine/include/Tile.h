@@ -158,6 +158,7 @@ public:
 
 	void render( Layer* layer);
 
+	Text* getText() const { return m_text.ptr(); }
 private:
 	Ref<Text>		m_text;
 
@@ -232,6 +233,16 @@ public:
 	int getActiveAnimation()
 	{
 		return m_animation->getActiveAnimation();
+	}
+
+	bool isFinished()
+	{
+		return m_animation->isFinished();
+	}
+
+	int getNumAnimations()
+	{
+		return m_animation->getNumAnimations();
 	}
 
 	void update(float deltaTime)
