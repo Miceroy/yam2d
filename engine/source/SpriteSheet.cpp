@@ -336,7 +336,7 @@ SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int tileWidth, i
 
 bool isWhiteOrTransparentPixel(const unsigned char* const data, int bpp)
 {
-	if( bpp == 4 && data[3] == 0x00 )
+	if( bpp == 4 && data[3] <= 16 )
 	{
 		return false;
 	}
