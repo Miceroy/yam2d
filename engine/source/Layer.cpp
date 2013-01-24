@@ -24,7 +24,7 @@
 #include "Layer.h"
 #include "es_assert.h"
 #include "GameObject.h"
-
+#include <config.h>
 
 namespace yam2d
 {
@@ -48,8 +48,24 @@ void Layer::addGameObject(GameObject* gameObject)
 {
 	assert( gameObject != 0 );
 	m_gameObjects.push_back(gameObject);
+	esLogEngineDebug("Added GameObject: %s to layer: %s", gameObject->getName().c_str(), getName().c_str());
 }
 
+void Layer::deleteGameObject(GameObject* gameObject)
+{
+	assert( !isStatic() ); // Can not remove objects from static layer.
+	assert( gameObject != 0 );
+	for( size_t i=0; i<m_gameObjects.size(); ++i )
+	{
+		if( m_gameObjects[i].ptr() == gameObject )
+		{
+			m_objectsToDelete.push_back(gameObject);
+			return;
+		}
+	}
+
+	assert(0); // Game object not found!!
+}
 
 Layer::GameObjectList Layer::getGameObjects() 
 {
@@ -77,6 +93,24 @@ void Layer::update(float deltaTime)
 	}
 }
 
+void Layer::deleteUnneededObjects()
+{
+	for( size_t i=0; i<m_objectsToDelete.size(); ++i )
+	{
+		for( size_t j=0; j<m_gameObjects.size(); ++j )
+		{
+			if(m_objectsToDelete[i] == m_gameObjects[j] )
+			{
+				m_gameObjects.erase(m_gameObjects.begin()+j);
+			}
+		}
+
+		esLogEngineDebug("Deleting game object: %s from Layer: %s", m_objectsToDelete[i]->getName().c_str(), getName().c_str() );
+		m_objectsToDelete[i] = 0; // Actual call to destructor.
+	}
+
+	m_objectsToDelete.clear();
+}
 
 const std::string& Layer::getName() const
 {

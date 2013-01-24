@@ -529,6 +529,17 @@ void Map::update( float deltaTime )
 			layer->update(deltaTime);
 		}
 	}
+	
+	// Delete unneeded layer gameobjects
+	for( int i=0; i<NUM_LAYERS; ++i )
+	{
+		Layer* layer = m_layers[i];
+
+		if( layer && !layer->isStatic() )
+		{
+			layer->deleteUnneededObjects();
+		}
+	}
 }
 
 

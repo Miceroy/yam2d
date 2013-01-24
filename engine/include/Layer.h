@@ -62,6 +62,9 @@ public:
 
 	/** Adds given GameObject to this layer. */
 	void addGameObject(GameObject* gameObject);
+
+	/** Removes given GameObject from this layer. Note GameObjects from static layer can not be removed */
+	void deleteGameObject(GameObject* gameObject);
 	
 	/** Returns all GameObjects from this Layer. */
 	GameObjectList getGameObjects();
@@ -75,10 +78,17 @@ public:
 	/** Updates all layer GameObjects. Typically this method is not needed to be called by game developer. */
 	void update(float deltaTime);
 
+	/** 
+	 * Deletes all game objects, which has added to list using deleteGameObject. 
+	 * Game objects are deleted on map update, after all objects has uptaded. This "delayed destruction"
+	 * makes possible of suicide of game objects. Typically this method is not needed to be called by game developer.
+	 */
+	void deleteUnneededObjects();
+
 	/** Returns name of this Layer. */
 	const std::string& getName() const;
 
-	/** Returns true, if this layer is visible. i.e. needed to be rendered. */
+	/** Returns true, if this layer is visible. i.e. needed to be rendered. Typically this method is not needed to be called by game developer. */
 	bool isVisible() const;
 
 	/** Returns the PropertySet attached to this Layer. */
@@ -106,6 +116,8 @@ private:
 	Ref<SpriteBatchGroup>			m_batch;
 	float							m_depthValue;
 	bool							m_static;
+
+	GameObjectList					m_objectsToDelete;
 
 	// Hidden
 	Layer();
