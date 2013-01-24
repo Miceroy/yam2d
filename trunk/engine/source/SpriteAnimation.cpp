@@ -51,13 +51,13 @@ int SpriteAnimation::getCurrentClipIndex()
 
 	if( m_clips[m_animationId].loop )
 	{
-		index %= m_clips[m_animationId].sizeOfIndices;
+		index %= m_clips[m_animationId].indices.size();
 	}
 	else
 	{
-		if( index >= m_clips[m_animationId].sizeOfIndices )
+		if( index >= int(m_clips[m_animationId].indices.size()) )
 		{
-			index = m_clips[m_animationId].sizeOfIndices-1;
+			index = m_clips[m_animationId].indices.size()-1;
 		}
 	}
 
