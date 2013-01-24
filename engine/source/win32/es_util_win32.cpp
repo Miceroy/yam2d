@@ -156,6 +156,7 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			POINT point;
 			point.x = GET_X_LPARAM(lParam);
 			point.y = GET_Y_LPARAM(lParam);
+			ClientToScreen(hWnd,&point);
 			MapWindowPoints(HWND_DESKTOP,hWnd,&point,1);
 
 			xPos = point.x;
