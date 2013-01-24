@@ -111,7 +111,7 @@ void TextGameObject::render(Layer* layer)
 void AnimatedSpriteGameObject::render( Layer* layer)
 {
 	int index = m_animation->getCurrentClipIndex();
-	if( index > 0 )
+	if( index >= 0 )
 	{
 		SpriteSheetGameObject::setIdInSpriteSheet( index );
 	}
