@@ -58,6 +58,11 @@ public:
 	const Sprite::PixelClip& getClip(int index) const;
 	int getClipCount() const;
 
+	void addClip(Sprite::PixelClip clip)
+	{
+		m_clips.push_back(clip);
+	}
+
 	static SpriteSheet* autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel = isWhiteOrTransparentPixel);
 	static SpriteSheet* autoFindFontFromTexture(Texture* texture, const char* const fontWidthBinFileName = 0);
 	static SpriteSheet* generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing );
