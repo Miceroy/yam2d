@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tileset_grass" tilewidth="32" tileheight="32">
+  <image source="tileset_grass.png" trans="008a76" width="256" height="256"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="50">
+  <properties>
+   <property name="static" value="1"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJytl2tv00AQRdeOQaIIpKQFiSKQ+gCJUh7//9fhSB715PiuG6R+GNlZ27vzuPfOZNdaG2cbluuE37TdYnU/6n4K92X8PWIf7+v3aq1sxH19z/12WPOz5O8Y3uHZ9Il+7PTtqGeDvqfvjJmxjFgb9c7Q1nE7vnTG0Pq+O/eMZadnqW7Gi9/xOcy3c85apxpObV1D19yYGtupf6yjc2/spLiMaZ7h84d2Wgdzyji2H3zf+B/0bAvbKRfMgfGT6m582IwP1pf+TW1dd8eUfLUvU1vnxLgxByZ97z3tg/3uYaqHE9eGa4kTPV2ynrje3iv5Yp2zn8TYLtwnDU265rwlDXaPoE89nUna2tOwpHFJ2xLmrMOpT52jYa5X0nLH7fokHrsWqffRt96aMZG4kc6ynjkXPQyYr9zf/Yx59/vGX08fef96treL/Xhh+6ZaJY00Tox/59ezRT27mO1qsevZbma7w7XsFuu3i91jnd/U84e2xlzyMWEm9dCkd3V1HOWfjXHdLr/vcb3D74q14jhH790f+Mzv+v0jpt4jjg+zfTrDvqhWZYznfonDvdCcMCd7+TY/GO+xFofFLpdY9ojrgOse16ob/a+6VK1YD3PA+s2YrF2sX9LkaYmj/L9cbI/rAbbHWsVhDBZHKi7iynpJvNEnzynuL+7FVY/yv2qyb6c+1zPWqPSAOKo6OI40V5kfSeeNoTRH1DPGUZg6tNPYjmsfZ/sM+9pOtSppWPHDvceznmchr7s3JuxdtCccXbU1R+pa+bclfTbP7UviMLmcNNb91Dqd+FH35MR1O8W/tbfyX79r7aGtecx6eE6yNo96lnohcUUtIt8rporjVsZeQb5UTYofxIBzn2bKxJ2tOeXVbO9a5oD5wJ7d89sa/NDWPiR9Omce7M1YtX/VhBpU+S78sJ+TH9Rd9hPWw/klH3qaZe1iHNyPnC+ukwPUUfI26ZPj4WxC3bWf1tVRV+OJvm/NV9dtrTepXxtX5DlzcNeecEUu93jheYRrNvcjx0GfmGP2acaXZhPGUrjy3MEa+Jn7HeMyV6gh5IdjYH/2HFJ1+T3bz8X+KF7G4f7gvp76m7mcZhpqr/nBPmE82arXHfd6VLwPOv9/Oc06JExyhkz8YK+zBjk+zoKP7VQLGId5nXxzH0x9kfUjHpPuEhsJX4zxV3v6H/u3nXInzSXu0T0dpf+pluRNxeFZnBgi1tI8Zc1l3aoe1iT3Auaa7yTNMqaou4kfdU9seR5xn2R/pO56jjLmx2Cpr3ge4F6Mg/7dyFI/YWzEI3nOs4n5nj6letBfYpQ8Oc5Yb9qTdr6kfZeP7ofGE/XUnGLM/taY9T3zZ61MGp98TmuTztuFvVmnsa1jNF7TPsSneUaMbPVd89T9zPlMuju2dUzWrqRprlHqswmnrJ1x7X1cZ+9jrlsjkmbRf9fE36Z6uT6O0WcZD67ZpG9SHlhz959Je/T8t989TCceW3OSJhETrJHrxmuqmXObcLiFTfcyr23tYZ4532keYL6s5QnfCQe9vkqeDjrHufScYZw7Pn/jfmk8PddvrVVb9Z/0fsKDuW99SrifNr7j1drRO9N6xzr0fEx7e7+EBdaddTZHklakc5P2GO+eMehD2j/pTqpz0se013McMMdSDD7X/J/a2h9rGL819nsxmjv2ewhn+hnrbC4nLqVcsSYJU9ZoY9K6kDDh/FizmVNrl3U96abxyVy7n7meW9x2bnu/7YuxkHqIc+a6pv2dh3Smue+e7F4ztH4M9oXvTPq21v4Bw8tZRA==
+  </data>
+ </layer>
+ <layer name="GameObjects" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
+</map>
