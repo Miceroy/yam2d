@@ -415,6 +415,10 @@ const Sprite::PixelClip& SpriteSheet::getClip(int index) const
 	return m_clips[index]; 
 }
 
+int SpriteSheet::getClipCount() const
+{
+	return int(m_clips.size());
+}
 
 }
 
