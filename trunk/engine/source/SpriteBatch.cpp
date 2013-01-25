@@ -95,6 +95,8 @@ void SpriteBatch::setTexture(Texture* texture)
 
 void SpriteBatch::addSprite(Sprite* sprite, const vec2& position, float rotation, const vec2& scale, const vec2& offset )
 {
+	assert( fabs(offset.x) < 0.01f && fabs(offset.y) < 0.01f ); // offset is not implemented.
+
 	size_t start = m_positions.size();
 	size_t startTex = m_textureCoords.size();
 

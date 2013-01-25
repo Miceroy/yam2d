@@ -55,7 +55,7 @@ class Tile : public GameObject
 {
 public:
 	// Default constructor.
-	Tile(int gameObjectType, const PropertySet& properties, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally
+	Tile(int gameObjectType, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally
 		, float levelTileSizeX, float levelTilesizeY )
 		: GameObject(gameObjectType)
 		, m_sprite(new Sprite())

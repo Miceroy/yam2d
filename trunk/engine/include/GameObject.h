@@ -42,7 +42,7 @@ class Layer;
 class GameObject : public Object
 {
 public:
-	GameObject(int type);
+	GameObject(int type, const vec2& position=vec2(0.0f), const vec2& size=vec2(0.0f), const std::string& name="" );
 
 	virtual ~GameObject();
 

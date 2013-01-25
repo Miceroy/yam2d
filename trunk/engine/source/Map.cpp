@@ -31,6 +31,7 @@
 #include <Camera.h>
 #include <config.h>
 
+
 namespace yam2d
 {
 
@@ -51,21 +52,26 @@ namespace
 		return int((p1.y-p2.y)*2000.0f);
 	}
 
-	Tileset* defaultCreateNewTileset(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties )
+	Tileset* defaultCreateNewTileset(void*, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties )
 	{
 		return new Tileset(name, spriteSheet, tileOffsetX, tileOffsetY, properties);
 	}
 
 
-	Layer* defaultCreateNewLayer(void* userData, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties)
+	Layer* defaultCreateNewLayer(void*, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties)
 	{
 		return new Layer(map, name, opacity, visible, false, properties); //create dynamic layer
 	}
 
 
-	Tile* defaultCreateNewTile(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
+	Tile* defaultCreateNewTile(void*, Map* map, Layer* , const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& )
 	{
-		return new Tile(0, properties, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, map->getTileWidth(), map->getTileHeight());
+		return new Tile(0, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, map->getTileWidth(), map->getTileHeight());
+	}
+
+	GameObject*  defaultCreateNewGameObject(void*, Map* , Layer* , const std::string& , const vec2& position, const vec2& size, const std::string& name, const PropertySet& )
+	{
+		return new GameObject(0,position,size,name);
 	}
 
 	Tileset* createNewTileset_MapCreateCallbacks(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties )
@@ -122,7 +128,7 @@ Map::Map( float tileWidth, float tileHeight, MapOrientation orientation, const P
 	, m_tileWidth( tileWidth )
 	, m_tileHeight( tileHeight )
 	, m_layers()
-	, m_properties()
+	, m_properties(properties)
 	, m_needsBatching(true)
 {
 }
@@ -378,9 +384,8 @@ bool Map::isVisible(GameObject* go, Camera* cam)
 	
 	if( m_orientation == ISOMETRIC )
 	{
-		// TODO: Visibility check for isometric levels wont work yet!
-		return true;
-
+		assert( 0 );// TODO: Visibility check for isometric levels wont work yet!
+		
 		vec2 camPos = cam->getPosition();
 		vec2 v = isometricToOrthogonal(left,top);
 		left	= v.x;
@@ -397,7 +402,6 @@ bool Map::isVisible(GameObject* go, Camera* cam)
 		camBottom	= camPos.y + cam->getSize().y*0.5f;
 	}
 
-	return true;
 	if( (camBottom >= top) && (camTop <= bottom) && (camRight >= left) && (camLeft <= right) )
 	{
 		return true;
@@ -558,6 +562,12 @@ Tile* TmxMap::MapCreateCallbacks::createNewTile( Map* map, Layer* layer, const v
 	return defaultCreateNewTile(0, map, layer, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, properties);
 }
 
+GameObject* TmxMap::MapCreateCallbacks::createNewGameObject( Map* map, Layer* layer, const std::string& type, const vec2& position, const vec2& size, const std::string& name, const PropertySet& properties)
+{
+	return defaultCreateNewGameObject(0, map, layer, type, position, size, name, properties);
+}
+
+
 
 
 
@@ -600,7 +610,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 		{
 			int color(0);
 			sscanf_s( transparentColor.c_str(), "%X", &color );
-			texture->setTransparentColor(((color&0xff0000) >> 16), ((color&0xff00) >> 8),((color&0xff) >> 0) );
+			texture->setTransparentColor(unsigned char((color&0xff0000) >> 16), unsigned char((color&0xff00) >> 8), unsigned char((color&0xff) >> 0) );
 		}
 		
 		// Create sprite sheet
@@ -652,11 +662,14 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 				
 					if( tileset != 0 )
 					{
-						++numObjects;
 						assert( m_createNewTile != 0 );
-						Tile* tNew = m_createNewTile(m_userData, this, getLayers()[MAPLAYER0+i], vec2(float(x),float(y)), tileset, t.id, t.flippedHorizontally, t.flippedVertically, t.flippedDiagonally, properties );
+						Tile* tNew = m_createNewTile(m_userData, this, getLayers()[MAPLAYER0+i],
+							vec2(float(x),float(y)), tileset, t.id, t.flippedHorizontally,
+							t.flippedVertically, t.flippedDiagonally, properties );
+
 						if( tNew != 0 )
 						{
+							++numObjects;
 							getLayers()[MAPLAYER0+i]->addGameObject(tNew);
 						}
 					}
@@ -670,6 +683,76 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 			int numObjects = 0;
 			const Tmx::ObjectLayer* const l = dynamic_cast<const Tmx::ObjectLayer*>(map.GetLayer(i));
 			assert(l);
+			const std::vector< Tmx::Object* > objects = l->GetObjects();
+
+			for(size_t i=0; i<objects.size(); ++i )
+			{
+				const Tmx::Object* o = objects[i];
+				GameObject* tNew = 0;
+				
+				vec2 topLeft(float(o->GetLeft())/float(getTileWidth()), float(o->GetTop())/float(getTileHeight()));
+				vec2 size(float(o->GetWidth())/float(getTileWidth()), float(o->GetHeight())/float(getTileHeight()));
+				vec2 position = topLeft + 0.5f*size;
+				PropertySet properties;
+				properties.setValues( o->GetProperties().GetList() );
+
+				if( o->GetGid() > 0 )
+				{
+					esLogEngineError("Tiles not yet implemented in map load");
+				/*	size
+					position
+					o->GetGid()
+					o->GetName();
+					o->GetProperties();
+					o->GetType();
+				*/
+					// Tile
+				}
+				else if( o->GetPolygon() != 0)
+				{
+					esLogEngineError("Polygons not yet implemented in map load");
+					// polygon
+				/*	size
+					position
+					o->GetPolygon() 
+					o->GetName();
+					o->GetProperties();
+					o->GetType();*/
+				}
+				else if( o->GetPolyline() != 0 )
+				{
+					esLogEngineError("Polylines not yet implemented in map load");
+					/*size
+					position
+					o->GetPolyline() 
+					o->GetName();
+					o->GetProperties();
+					o->GetType();*/
+				}
+				else if( o->isEllipse() )
+				{
+					esLogEngineError("Ellipses not yet implemented in map load");
+					// ellipse
+				/*	size
+					position
+					o->GetPolyline() 
+					o->GetName();
+					o->GetProperties();
+					o->GetType();*/
+				}
+				else
+				{
+					// regular game object
+					tNew = m_createNewGameObject(m_userData, this, getLayers()[MAPLAYER0+i], o->GetType(), position, size, o->GetName(), properties );
+				}
+
+				if( tNew != 0 )
+				{
+					++numObjects;
+					getLayers()[MAPLAYER0+i]->addGameObject(tNew);
+				}
+			}
+
 			esLogEngineDebug("Created %d objects to object layer \"%s\"", numObjects, l->GetName().c_str() );
 		}
 
@@ -689,6 +772,7 @@ TmxMap::TmxMap()
 	, m_createNewTileset( defaultCreateNewTileset )
 	, m_createNewLayer( defaultCreateNewLayer )
 	, m_createNewTile( defaultCreateNewTile )
+	, m_createNewGameObject( defaultCreateNewGameObject )
 	, m_tilesets()
 {
 }
