@@ -53,7 +53,7 @@ void Tile::render(Layer* layer)
 		Texture* tex = tileset->getSpriteSheet()->getTexture();
 		m_sprite->setClip(float(tex->getWidth()), float(tex->getHeight()), clip);
 
-		vec2 scale = 1.0;
+		vec2 scale(1.0f);
 		if( isFlippedHorizontally() )
 		{
 			scale.x *= -1.0f;

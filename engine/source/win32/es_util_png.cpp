@@ -69,14 +69,14 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		return false;
 	}
-
-	if (setjmp(png_jmpbuf(png_ptr)))
+	/*
+	if(setjmp(png_jmpbuf(png_ptr)))
 	{
 		esLogEngineError("[%s] Error during init_io", __FUNCTION__);
 		fclose(fp);
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		return false;
-	}
+	}*/
 
 	png_init_io(png_ptr, fp);
 	png_set_sig_bytes(png_ptr, 8);
@@ -85,26 +85,26 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 
 	*width = png_get_image_width(png_ptr, info_ptr);
 	*height = png_get_image_height(png_ptr, info_ptr);
-	png_byte color_type = png_get_color_type(png_ptr, info_ptr);
-	png_byte bit_depth = png_get_bit_depth(png_ptr, info_ptr);
+//	png_byte color_type = png_get_color_type(png_ptr, info_ptr);
+//	png_byte bit_depth = png_get_bit_depth(png_ptr, info_ptr);
 
 	*bytesPerPixel = 0;
 	
 	png_set_packing(png_ptr);
 	png_set_expand(png_ptr);
 	
-	int number_of_passes = png_set_interlace_handling(png_ptr);
+//	int number_of_passes = png_set_interlace_handling(png_ptr);
 	png_read_update_info(png_ptr, info_ptr);
 	
 	// read file 
-	if (setjmp(png_jmpbuf(png_ptr)))
+/*	if (setjmp(png_jmpbuf(png_ptr)))
 	{
 		esLogEngineError("[%s] Error during read_image", __FUNCTION__);
 		fclose(fp);
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		return false;
 	}
-
+	*/
 	png_bytep * row_pointers = new png_bytep[*height];
 	unsigned int row_bytes = png_get_rowbytes(png_ptr, info_ptr);
 	

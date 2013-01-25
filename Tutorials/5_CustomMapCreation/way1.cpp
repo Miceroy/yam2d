@@ -44,7 +44,13 @@ namespace
 	Tile* createNewTile(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
 	{
 	//	esLogMessage("Creating my own tile!");
-		return new Tile(0, properties, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, map->getTileWidth(), map->getTileHeight());
+		return new Tile(0, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, map->getTileWidth(), map->getTileHeight());
+	}
+
+	GameObject* createNewGameObject(void* userData, Map* map, Layer* layer, const std::string& type, const vec2& position, const vec2& size, const std::string& name, const PropertySet& properties)
+	{
+	//	esLogMessage("Creating my own game object!");
+		return new GameObject(0, position, size, name );
 	}
 }
 
@@ -59,7 +65,8 @@ bool init ( ESContext *esContext )
 	map->registerCreateNewTilesetFunc(createNewTileset);
 	map->registerCreateNewLayerFunc(createNewLayer);
 	map->registerCreateNewTileFunc(createNewTile);
-	
+	map->registerCreateNewGameObjectFunc(createNewGameObject);
+
 	// Additionally you can register one void-pointer to be passed for each create function call in userData param.
 	// map->setCallBackData( myPointer ) 
 

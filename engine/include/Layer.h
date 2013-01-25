@@ -67,7 +67,7 @@ public:
 	void deleteGameObject(GameObject* gameObject);
 	
 	/** Returns all GameObjects from this Layer. */
-	GameObjectList getGameObjects();
+	GameObjectList& getGameObjects();
 		
 	/** Returns batch of this Layer. */
 	SpriteBatchGroup* getBatch();

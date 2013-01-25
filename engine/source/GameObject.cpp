@@ -28,14 +28,14 @@ namespace yam2d
 {
 
 
-GameObject::GameObject(int type)
-: m_name()
-, m_position(0.0f)
+GameObject::GameObject(int type, const vec2& position, const vec2& size, const std::string& name )
+: m_name(name)
+, m_position(position)
 , m_offset(0.0f)
 , m_topLeft(0.0f)
 , m_bottomRight(0.0f)
 , m_rotation(0.0f)
-, m_size(0.0f)
+, m_size(size)
 , m_type(type)
 {
 	recalcExtens();
@@ -47,12 +47,12 @@ GameObject::~GameObject()
 }
 
 
-void GameObject::update( float deltaTime )
+void GameObject::update( float )
 {
 }
 
 	
-void GameObject::render( Layer* layer )
+void GameObject::render( Layer* )
 {
 }
 

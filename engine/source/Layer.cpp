@@ -67,7 +67,7 @@ void Layer::deleteGameObject(GameObject* gameObject)
 	assert(0); // Game object not found!!
 }
 
-Layer::GameObjectList Layer::getGameObjects() 
+Layer::GameObjectList& Layer::getGameObjects() 
 {
 	return m_gameObjects; 
 }

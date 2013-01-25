@@ -194,8 +194,6 @@ namespace
 	{
 		std::list<Sprite::PixelClip> res;
 
-		int startX = 0;
-		int startY = 0;
 		int w = texture->getWidth();
 		int h = texture->getHeight();
 

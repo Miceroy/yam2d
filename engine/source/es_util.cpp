@@ -218,6 +218,8 @@ void esLogEngineError( const char *formatStr, ... )
 	printf ( "Error: %s\n", buf );
     
 	va_end ( params );
+#else
+	(void)formatStr;
 #endif
 }
 
@@ -233,6 +235,8 @@ void esLogEngineDebug( const char *formatStr, ... )
 	printf ( "Engine: %s\n", buf );
     
 	va_end ( params );
+#else
+	(void)formatStr;
 #endif
 }
 
@@ -301,7 +305,7 @@ std::vector<unsigned short> readFile(const char* const fileName)
 	res.resize((end-start)/2);
 	fseek(fp,start,SEEK_SET);
 	int bytesRead = fread(&res[0],2, res.size(), fp);
-
+	assert( bytesRead > 0 && bytesRead <= int(res.size()));
 	fclose(fp);
 	return res;
 }

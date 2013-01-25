@@ -201,6 +201,7 @@ public:
 	typedef Tileset* (*CreateNewTilesetFuncType)(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
 	typedef Layer* (*CreateNewLayerFuncType)(void* userData, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties);
 	typedef Tile* (*CreateNewTileFuncType)(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
+	typedef GameObject* (*CreateNewGameObjectFuncType)(void* userData, Map* map, Layer* layer, const std::string& type, const vec2& position, const vec2& size, const std::string& name, const PropertySet& properties);
 
 	class MapCreateCallbacks
 	{
@@ -208,6 +209,7 @@ public:
 		virtual Tileset* createNewTileset( const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
 		virtual Layer* createNewLayer( Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties);
 		virtual Tile* createNewTile( Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
+		virtual GameObject* createNewGameObject( Map* map, Layer* layer, const std::string& type, const vec2& position, const vec2& size, const std::string& name, const PropertySet& properties);
 	};
 
 	/**
@@ -245,6 +247,11 @@ public:
 	void registerCreateNewTileFunc( CreateNewTileFuncType createNewTile ) { m_createNewTile = createNewTile; }
 	
 	/**
+	 * Registers callback function, which is called each time, when new Tile is needed to be create during loadMapFile call.
+	 */
+	void registerCreateNewGameObjectFunc( CreateNewGameObjectFuncType createNewGameObject ) { m_createNewGameObject = createNewGameObject; }
+
+	/**
 	 * Registers callback object, which corresponding method is called each time, when new Tileset, Layer orTile is needed to be create during loadMapFile call.
 	 */
 	void registerMapCreateCallbacks(MapCreateCallbacks* callbacks);
@@ -265,6 +272,7 @@ private:
 	CreateNewTilesetFuncType	m_createNewTileset;
 	CreateNewLayerFuncType		m_createNewLayer;
 	CreateNewTileFuncType		m_createNewTile;
+	CreateNewGameObjectFuncType m_createNewGameObject;
 	std::vector< Ref<Tileset> > m_tilesets;
 
 	// Hidden
