@@ -47,7 +47,8 @@ namespace
 	}
 #else
 	static LARGE_INTEGER pcFreq;
-	static BOOL pcAvailable = QueryPerformanceFrequency(&pcFreq);
+	static bool pcAvailable = false;
+	static bool pcInitDone = false;
 
 	inline  __int64 getTimeScale()
 	{
@@ -62,6 +63,12 @@ namespace
 	/** Returns time in seconds */
 	inline __int64 getTotalTime()
 	{
+		if( !pcInitDone )
+		{
+			pcAvailable = QueryPerformanceFrequency(&pcFreq);
+			pcInitDone = true;
+		}
+		
 		LARGE_INTEGER curTime;
 
 		if( pcAvailable && QueryPerformanceCounter(&curTime) )
