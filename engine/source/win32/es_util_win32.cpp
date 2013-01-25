@@ -264,37 +264,36 @@ void winLoop ( ESContext *esContext )
 	ElapsedTimer timer;
 	timer.reset();
 
+	//bool gotMsg = (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0);
+
 	while (!done)
 	{
-		int gotMsg = (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0);
-
-		if ( gotMsg )
+		if( PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) )
 		{
-			if (msg.message==WM_QUIT)
+			if( msg.message==WM_QUIT )
 			{
 				done = true;
+				continue;
 			}
-			else
-			{
-				TranslateMessage(&msg); 
-				DispatchMessage(&msg); 
-			}
+
+			TranslateMessage(&msg); 
+			DispatchMessage(&msg);
 		}
 		else
-		{
-			SendMessage( esContext->hWnd, WM_PAINT, 0, 0 );
-		}
-
-		// Call update function if registered
-		if ( !done && esContext->updateFunc != NULL )
-		{
-			float deltaTime = timer.getTime();
-			timer.reset();
-			if( deltaTime > 0.0f )
+		{		
+			// Call update function if registered
+			if ( esContext->updateFunc != NULL )
 			{
-				esContext->updateFunc ( esContext, deltaTime );
-				clearInput();
-			}			
+				float deltaTime = timer.getTime();
+				timer.reset();
+				if( deltaTime > 0.0f )
+				{
+					esContext->updateFunc ( esContext, deltaTime );
+					clearInput();
+				}			
+			}
+
+			SendMessage( esContext->hWnd, WM_PAINT, 0, 0 );
 		}
 	}
 
