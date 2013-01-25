@@ -32,13 +32,11 @@
 
 namespace Tmx 
 {
-	ObjectGroup::ObjectGroup()
-		: name()
-		, width(0)
-		, height(0)
+	ObjectLayer::ObjectLayer(const Tmx::Map* map)
+		: Layer(map) 
 	{}
 
-	ObjectGroup::~ObjectGroup() 
+	ObjectLayer::~ObjectLayer() 
 	{
 		for(std::size_t i = 0; i < objects.size(); i++)
 		{
@@ -47,16 +45,10 @@ namespace Tmx
 		}
 	}
 
-	void ObjectGroup::Parse(const TiXmlNode *objectGroupNode) 
+	void ObjectLayer::Parse(const TiXmlNode *objectGroupNode) 
 	{
+		Layer::ParseLayer(objectGroupNode);
 		const TiXmlElement *objectGroupElem = objectGroupNode->ToElement();
-
-		// Read the object group attributes.
-		name = objectGroupElem->Attribute("name");
-		
-		objectGroupElem->Attribute("width", &width);
-		objectGroupElem->Attribute("height", &height);
-		objectGroupElem->Attribute("visible", &visible);
 
 		// Iterate through all of the object elements.
 		const TiXmlNode *objectNode = objectGroupNode->FirstChild("object");

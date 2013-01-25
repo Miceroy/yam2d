@@ -29,6 +29,7 @@
 
 #include <string>
 #include <vector>
+#include <tmx-parser\TmxLayer.h>
 
 class TiXmlNode;
 
@@ -40,25 +41,14 @@ namespace Tmx
 	// A class used for holding a list of objects.
 	// This class doesn't have a property set.
 	//-------------------------------------------------------------------------
-	class ObjectGroup 
+	class ObjectLayer : public Layer
 	{
 	public:
-		ObjectGroup();
-		~ObjectGroup();
+		ObjectLayer(const Tmx::Map* map);
+		virtual ~ObjectLayer();
 
 		// Parse an objectgroup node.
-		void Parse(const TiXmlNode *objectGroupNode);
-
-		// Get the name of the object group.
-		const std::string &GetName() const { return name; }
-
-		// Get the width of the object group, in pixels.
-		// Note: do not rely on this due to temporary bug in tiled.
-		int GetWidth() const { return width; }
-
-		// Get the height of the object group, in pixels.
-		// Note: do not rely on this due to temporary bug in tiled.
-		int GetHeight() const { return height; }
+		virtual void Parse(const TiXmlNode *objectGroupNode);
 
 		// Get a single object.
 		const Tmx::Object *GetObject(int index) const { return objects.at(index); }
@@ -66,18 +56,11 @@ namespace Tmx
 		// Get the number of objects in the list.
 		int GetNumObjects() const { return objects.size(); }
 
-		// Get whether the object layer is visible.
-		int GetVisibility() const { return visible; }
-
 		// Get the whole list of objects.
 		const std::vector< Tmx::Object* > &GetObjects() const { return objects; }
 
 	private:
-		std::string name;
-		
-		int width;
-		int height;
-		int visible;
+		ObjectLayer();
 
 		std::vector< Tmx::Object* > objects;
 	};
