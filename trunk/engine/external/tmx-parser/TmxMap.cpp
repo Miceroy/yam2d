@@ -48,7 +48,6 @@ namespace Tmx
 		, tile_width(0)
 		, tile_height(0)
 		, layers()
-		, object_groups()
 		, tilesets() 
 		, has_error(false)
 		, error_code(0)
@@ -57,19 +56,6 @@ namespace Tmx
 
 	Map::~Map() 
 	{
-		// Iterate through all of the object groups and delete each of them.
-		vector< ObjectGroup* >::iterator ogIter;
-		for (ogIter = object_groups.begin(); ogIter != object_groups.end(); ++ogIter) 
-		{
-			ObjectGroup *objectGroup = (*ogIter);
-			
-			if (objectGroup)
-			{
-				delete objectGroup;
-				objectGroup = NULL;
-			}
-		}
-
 		// Iterate through all of the layers and delete each of them.
 		vector< Layer* >::iterator lIter;
 		for (lIter = layers.begin(); lIter != layers.end(); ++lIter) 
@@ -215,32 +201,31 @@ namespace Tmx
 			tilesetNode = mapNode->IterateChildren("tileset", tilesetNode);
 		}
 
-		// Iterate through all of the layer elements.
-		TiXmlNode *layerNode = mapNode->FirstChild("layer");
-		while (layerNode) 
+		// Find all layers and object groups.
+		TiXmlNode *layerNode = mapNode->FirstChild();
+		while( layerNode != 0 )
 		{
-			// Allocate a new layer and parse it.
-			Layer *layer = new Layer(this);
-			layer->Parse(layerNode);
+			if( std::string("layer") == layerNode->Value() )
+			{
+				// Allocate a new layer and parse it.
+				TileLayer *layer = new TileLayer(this);
+				layer->Parse(layerNode);
 
-			// Add the layer to the list.
-			layers.push_back(layer);
+				// Add the layer to the list.
+				layers.push_back(layer);
+			}
 
-			layerNode = mapNode->IterateChildren("layer", layerNode);
-		}
-
-		// Iterate through all of the objectgroup elements.
-		TiXmlNode *objectGroupNode = mapNode->FirstChild("objectgroup");
-		while (objectGroupNode) 
-		{
-			// Allocate a new object group and parse it.
-			ObjectGroup *objectGroup = new ObjectGroup();
-			objectGroup->Parse(objectGroupNode);
+			if( std::string("objectgroup") == layerNode->Value() )
+			{
+				// Allocate a new object group and parse it.
+				ObjectLayer *objectGroup = new ObjectLayer(this);
+				objectGroup->Parse(layerNode);
 		
-			// Add the object group to the list.
-			object_groups.push_back(objectGroup);
+				// Add the object group to the list.
+				layers.push_back(objectGroup);
+			}
 
-			objectGroupNode = mapNode->IterateChildren("objectgroup", objectGroupNode);
+			layerNode = layerNode->NextSibling();
 		}
 	}
 

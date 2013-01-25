@@ -627,42 +627,57 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 	// Create tiles
 	for( int i=0; i<map.GetNumLayers(); ++i )
 	{
-		const Tmx::Layer* l = map.GetLayer(i);
-		int numObjects = 0;
-		for( int y=0; y<l->GetHeight(); ++y )
+		if( dynamic_cast<const Tmx::TileLayer*>(map.GetLayer(i)) )
 		{
-			for( int x=0; x<l->GetWidth(); ++x )
+			int numObjects = 0;
+			const Tmx::TileLayer* const l = dynamic_cast<const Tmx::TileLayer*>(map.GetLayer(i));
+
+			for( int y=0; y<l->GetHeight(); ++y )
 			{
-				const Tmx::MapTile t = l->GetTile(x,y);
-				PropertySet properties;
-				Tileset* tileset = 0;
-				if(t.tilesetId >= 0 && t.tilesetId < map.GetNumTilesets() )
+				for( int x=0; x<l->GetWidth(); ++x )
 				{
-					tileset = m_tilesets[t.tilesetId];
-					const Tmx::Tileset* ts = map.GetTileset(t.tilesetId);
-					const Tmx::Tile* tile = ts->GetTile(t.id);
-					if( tile != 0 )
+					const Tmx::MapTile t = l->GetTile(x,y);
+					PropertySet properties;
+					Tileset* tileset = 0;
+					if(t.tilesetId >= 0 && t.tilesetId < map.GetNumTilesets() )
 					{
-						properties.setValues( tile->GetProperties().GetList() );
+						tileset = m_tilesets[t.tilesetId];
+						const Tmx::Tileset* ts = map.GetTileset(t.tilesetId);
+						const Tmx::Tile* tile = ts->GetTile(t.id);
+						if( tile != 0 )
+						{
+							properties.setValues( tile->GetProperties().GetList() );
+						}
 					}
-				}
 				
-				if( tileset != 0 )
-				{
-					++numObjects;
-					assert( m_createNewTile != 0 );
-					Tile* tNew = m_createNewTile(m_userData, this, getLayers()[MAPLAYER0+i], vec2(float(x),float(y)), tileset, t.id, t.flippedHorizontally, t.flippedVertically, t.flippedDiagonally, properties );
-					if( tNew != 0 )
+					if( tileset != 0 )
 					{
-						getLayers()[MAPLAYER0+i]->addGameObject(tNew);
+						++numObjects;
+						assert( m_createNewTile != 0 );
+						Tile* tNew = m_createNewTile(m_userData, this, getLayers()[MAPLAYER0+i], vec2(float(x),float(y)), tileset, t.id, t.flippedHorizontally, t.flippedVertically, t.flippedDiagonally, properties );
+						if( tNew != 0 )
+						{
+							getLayers()[MAPLAYER0+i]->addGameObject(tNew);
+						}
 					}
 				}
 			}
+
+			esLogEngineDebug("Created %d objects to tile layer \"%s\"", numObjects, l->GetName().c_str() );
+		}
+		else
+		{
+			int numObjects = 0;
+			const Tmx::ObjectLayer* const l = dynamic_cast<const Tmx::ObjectLayer*>(map.GetLayer(i));
+			assert(l);
+			esLogEngineDebug("Created %d objects to object layer \"%s\"", numObjects, l->GetName().c_str() );
 		}
 
-		esLogEngineDebug("Created %d objects to layer \"%s\"", numObjects, l->GetName().c_str() );
+		
 	}
 
+	
+	
 	return true;
 }
 

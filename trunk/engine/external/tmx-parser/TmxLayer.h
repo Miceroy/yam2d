@@ -59,7 +59,7 @@ namespace Tmx
 	};
 
 	//-------------------------------------------------------------------------
-	// Used for storing information about the tile ids for every layer.
+	// Used for storing information about the layer.
 	// This class also have a property set.
 	//-------------------------------------------------------------------------
 	class Layer 
@@ -70,11 +70,10 @@ namespace Tmx
 
 	public:
 		Layer(const Tmx::Map *_map);
-		~Layer();
+		virtual ~Layer();
 
-		// Parse a layer node.
-		void Parse(const TiXmlNode *layerNode);
-
+		virtual void Parse(const TiXmlNode *layerNode) = 0;
+		
 		// Get the name of the layer.
 		const std::string &GetName() const { return name; }
 
@@ -91,27 +90,64 @@ namespace Tmx
 
 		// Get the property set.
 		const Tmx::PropertySet &GetProperties() const { return properties; }
+			
+		const Tmx::Map* GetMap() const { return map; }
+	protected:
+		
+		// Parse a layer node.
+		void ParseLayer(const TiXmlNode *layerNode);
+	private:
+		const Tmx::Map *map;
+
+		std::string name;
+		
+		int width;
+		int height;
+	
+		float opacity;
+		bool visible;
+
+		Tmx::PropertySet properties;
+	};
+
+
+	//-------------------------------------------------------------------------
+	// Used for storing information about the tile ids for every layer.
+	// This class also have a property set.
+	//-------------------------------------------------------------------------
+ 	class TileLayer : public Layer
+	{
+	private:
+		// Prevent copy constructor.
+		TileLayer(const TileLayer &_layer);
+
+	public:
+		TileLayer(const Tmx::Map *_map);
+		virtual ~TileLayer();
+
+		// Parse a layer node.
+		virtual void Parse(const TiXmlNode *layerNode);
 
 		// Pick a specific tile from the list.
-		unsigned GetTileId(int x, int y) const { return tile_map[y * width + x].id; }
+		unsigned GetTileId(int x, int y) const { return tile_map[y * GetWidth() + x].id; }
 
 		// Get the tileset index for a tileset from the list.
-		int GetTileTilesetIndex(int x, int y) const { return tile_map[y * width + x].tilesetId; }
+		int GetTileTilesetIndex(int x, int y) const { return tile_map[y * GetWidth() + x].tilesetId; }
 
 		// Get whether a tile is flipped horizontally.
 		bool IsTileFlippedHorizontally(int x, int y) const 
-		{ return tile_map[y * width + x].flippedHorizontally; }
+		{ return tile_map[y * GetWidth() + x].flippedHorizontally; }
 
 		// Get whether a tile is flipped vertically.
 		bool IsTileFlippedVertically(int x, int y) const 
-		{ return tile_map[y * width + x].flippedVertically; }
+		{ return tile_map[y * GetWidth() + x].flippedVertically; }
 
 		// Get whether a tile is flipped diagonally.
 		bool IsTileFlippedDiagonally(int x, int y) const
-		{ return tile_map[y * width + x].flippedDiagonally; }
+		{ return tile_map[y * GetWidth() + x].flippedDiagonally; }
 
 		// Get a tile specific to the map.
-		const Tmx::MapTile& GetTile(int x, int y) const { return tile_map[y * width + x]; }
+		const Tmx::MapTile& GetTile(int x, int y) const { return tile_map[y * GetWidth() + x]; }
 
 		// Get the type of encoding that was used for parsing the layer data.
 		// See: LayerEncodingType
@@ -125,18 +161,6 @@ namespace Tmx
 		void ParseXML(const TiXmlNode *dataNode);
 		void ParseBase64(const std::string &innerText);
 		void ParseCSV(const std::string &innerText);
-
-		const Tmx::Map *map;
-
-		std::string name;
-		
-		int width;
-		int height;
-	
-		float opacity;
-		bool visible;
-
-		Tmx::PropertySet properties;
 
 		Tmx::MapTile *tile_map;
 

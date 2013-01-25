@@ -35,7 +35,7 @@
 namespace Tmx 
 {
 	class Layer;
-	class ObjectGroup;
+	class ObjectLayer;
 	class Tileset;
 
 	//-------------------------------------------------------------------------
@@ -121,15 +121,6 @@ namespace Tmx
 		// Get the whole layers collection.
 		const std::vector< Tmx::Layer* > &GetLayers() const { return layers; }
 
-		// Get the object group at a certain index.
-		const Tmx::ObjectGroup *GetObjectGroup(int index) const { return object_groups.at(index); }
-
-		// Get the amount of object groups.
-		int GetNumObjectGroups() const { return object_groups.size(); }
-
-		// Get the whole object group collection.
-		const std::vector< Tmx::ObjectGroup* > &GetObjectGroups() const { return object_groups; }
-
 		// Find the tileset index for a tileset using a tile gid.
 		int FindTilesetIndex(int gid) const;
 
@@ -170,7 +161,6 @@ namespace Tmx
 		int tile_height;
 
 		std::vector< Tmx::Layer* > layers;
-		std::vector< Tmx::ObjectGroup* > object_groups;
 		std::vector< Tmx::Tileset* > tilesets;
 
 		bool has_error;
