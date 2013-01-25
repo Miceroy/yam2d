@@ -17,6 +17,10 @@ const char inflate_copyright[] =
   copyright string in the executable of your product.
  */
 
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
+
 /*
    Build a set of tables to decode the provided canonical Huffman code.
    The code lengths are lens[0..codes-1].  The result starts at *table,

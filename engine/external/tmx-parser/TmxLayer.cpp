@@ -161,7 +161,7 @@ namespace Tmx
 	void TileLayer::ParseXML(const TiXmlNode *dataNode) 
 	{
 		const TiXmlNode *tileNode = dataNode->FirstChild("tile");
-		int tileCount = 0;
+		size_t tileCount = 0;
 
 		while (tileNode) 
 		{
@@ -186,7 +186,7 @@ namespace Tmx
 			else
 			{
 				// Otherwise, make it null.
-				tile_map[tileCount] = MapTile(gid, 0, -1);
+				tile_map[tileCount] = MapTile(gid, 0, (unsigned int)-1);
 			}
 
 			tileNode = dataNode->IterateChildren("tile", tileNode);
@@ -246,7 +246,7 @@ namespace Tmx
 				else
 				{
 					// Otherwise, make it null.
-					tile_map[y * GetWidth() + x] = MapTile(gid, 0, -1);
+					tile_map[y * GetWidth() + x] = MapTile(gid, 0, (unsigned int)-1);
 				}
 			}
 		}
@@ -262,7 +262,7 @@ namespace Tmx
 		
 		// Iterate through every token of ';' in the CSV string.
 		char *pch = strtok(csv, ",");
-		int tileCount = 0;
+		size_t tileCount = 0;
 		
 		while (pch) 
 		{
@@ -280,7 +280,7 @@ namespace Tmx
 			else
 			{
 				// Otherwise, make it null.
-				tile_map[tileCount] = MapTile(gid, 0, -1);
+				tile_map[tileCount] = MapTile(gid, 0, (unsigned int)-1);
 			}
 
 			pch = strtok(NULL, ",");

@@ -31,12 +31,12 @@
 
 namespace Tmx 
 {
-	Polygon::Polygon()
+	PointList::PointList()
 		: points()
 	{
 	}
 
-	void Polygon::Parse(const TiXmlNode *polygonNode)
+	void PointList::Parse(const TiXmlNode *polygonNode)
 	{
 		char *pointsLine = _strdup(polygonNode->ToElement()->Attribute("points"));
 		

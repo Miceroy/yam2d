@@ -21,6 +21,10 @@
    enough memory, Z_BUF_ERROR if there was not enough room in the output
    buffer, or Z_DATA_ERROR if the input data was corrupted.
 */
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
+
 int ZEXPORT uncompress (dest, destLen, source, sourceLen)
     Bytef *dest;
     uLongf *destLen;

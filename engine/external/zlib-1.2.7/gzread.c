@@ -5,6 +5,10 @@
 
 #include "gzguts.h"
 
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
+
 /* Local functions */
 local int gz_load OF((gz_statep, unsigned char *, unsigned, unsigned *));
 local int gz_avail OF((gz_statep));
@@ -446,7 +450,7 @@ int ZEXPORT gzungetc(c, file)
     if (state->x.have == 0) {
         state->x.have = 1;
         state->x.next = state->out + (state->size << 1) - 1;
-        state->x.next[0] = c;
+        state->x.next[0] = (unsigned char)c;
         state->x.pos--;
         state->past = 0;
         return c;
@@ -468,7 +472,7 @@ int ZEXPORT gzungetc(c, file)
     }
     state->x.have++;
     state->x.next--;
-    state->x.next[0] = c;
+    state->x.next[0] = (unsigned char)c;
     state->x.pos--;
     state->past = 0;
     return c;

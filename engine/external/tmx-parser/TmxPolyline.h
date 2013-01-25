@@ -35,6 +35,7 @@ class TiXmlNode;
 
 namespace Tmx
 {
+	/*
 	//-------------------------------------------------------------------------
 	// Class to store a Polyline of an Object.
 	//-------------------------------------------------------------------------
@@ -54,5 +55,5 @@ namespace Tmx
 
 	private:
 		std::vector< Tmx::Point > points;
-	};
+	};*/
 };

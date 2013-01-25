@@ -5,6 +5,10 @@
 
 #include "gzguts.h"
 
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
+
 /* Local functions */
 local int gz_init OF((gz_statep));
 local int gz_comp OF((gz_statep, int));
@@ -270,13 +274,13 @@ int ZEXPORT gzputc(file, c)
     if (strm->avail_in < state->size) {
         if (strm->avail_in == 0)
             strm->next_in = state->in;
-        strm->next_in[strm->avail_in++] = c;
+		strm->next_in[strm->avail_in++] = (Bytef)c;
         state->x.pos++;
         return c & 0xff;
     }
 
     /* no room in buffer or not initialized, use gz_write() */
-    buf[0] = c;
+    buf[0] = (unsigned char)c;
     if (gzwrite(file, buf, 1) != 1)
         return -1;
     return c & 0xff;

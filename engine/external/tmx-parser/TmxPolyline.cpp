@@ -31,7 +31,7 @@
 
 namespace Tmx 
 {
-	Polyline::Polyline()
+/*	Polyline::Polyline()
 		: points()
 	{
 	}
@@ -52,5 +52,5 @@ namespace Tmx
 		}
 
 		free(pointsLine);
-	}
+	}*/
 }

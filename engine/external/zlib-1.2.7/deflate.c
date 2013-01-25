@@ -51,6 +51,10 @@
 
 #include "deflate.h"
 
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
+
 const char deflate_copyright[] =
    " deflate 1.2.7 Copyright 1995-2012 Jean-loup Gailly and Mark Adler ";
 /*
@@ -806,7 +810,7 @@ int ZEXPORT deflate (strm, flush)
                     }
                 }
                 val = s->gzhead->name[s->gzindex++];
-                put_byte(s, val);
+				put_byte(s, (Bytef)val);
             } while (val != 0);
             if (s->gzhead->hcrc && s->pending > beg)
                 strm->adler = crc32(strm->adler, s->pending_buf + beg,
@@ -837,7 +841,7 @@ int ZEXPORT deflate (strm, flush)
                     }
                 }
                 val = s->gzhead->comment[s->gzindex++];
-                put_byte(s, val);
+				put_byte(s, (Bytef)val);
             } while (val != 0);
             if (s->gzhead->hcrc && s->pending > beg)
                 strm->adler = crc32(strm->adler, s->pending_buf + beg,
@@ -1374,6 +1378,10 @@ local void check_match(s, start, match, length)
 #else
 #  define check_match(s, start, match, length)
 #endif /* DEBUG */
+
+#if defined (_MSC_VER)
+#pragma warning( disable : 4127 )
+#endif
 
 /* ===========================================================================
  * Fill the window when the lookahead becomes insufficient.
