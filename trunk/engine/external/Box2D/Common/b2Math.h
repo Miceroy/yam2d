@@ -64,13 +64,13 @@ inline float32 b2InvSqrt(float32 x)
 struct b2Vec2
 {
 	/// Default constructor. Makes zero vector (behaviour changed different from original to yam2d, for reducing user bugs)
-	b2Vec2() :  x(0.0f), y(0.0f) {}
+	//b2Vec2() :  x(0.0f), y(0.0f) {}
 
 	/// Construct using coordinates.
 	b2Vec2(float32 x, float32 y) : x(x), y(y) {}
 
 	/// Construct using single coordinate, which is put to both components. Added to Yam2d.
-	b2Vec2(float32 v) : x(v), y(v) {}
+	explicit b2Vec2(float32 v = 0.0f) : x(v), y(v) {}
 
 	/// Set this vector to all zeros.
 	void SetZero() { x = 0.0f; y = 0.0f; }

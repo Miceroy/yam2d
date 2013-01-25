@@ -48,7 +48,6 @@ namespace Tmx
 	void ObjectLayer::Parse(const TiXmlNode *objectGroupNode) 
 	{
 		Layer::ParseLayer(objectGroupNode);
-		const TiXmlElement *objectGroupElem = objectGroupNode->ToElement();
 
 		// Iterate through all of the object elements.
 		const TiXmlNode *objectNode = objectGroupNode->FirstChild("object");

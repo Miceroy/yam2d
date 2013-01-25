@@ -71,6 +71,10 @@ char ZLIB_INTERNAL *gz_strwinerror (error)
 
 #endif /* UNDER_CE */
 
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
+
 /* Reset gzip file state */
 local void gz_reset(state)
     gz_statep state;

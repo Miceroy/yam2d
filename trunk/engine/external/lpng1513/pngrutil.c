@@ -277,6 +277,10 @@ png_crc_error(png_structp png_ptr)
       return (0);
 }
 
+#if defined (_MSC_VER)
+#pragma warning( disable : 4127 )
+#endif
+
 #ifdef PNG_READ_COMPRESSED_TEXT_SUPPORTED
 static png_size_t
 png_inflate(png_structp png_ptr, png_bytep data, png_size_t size,

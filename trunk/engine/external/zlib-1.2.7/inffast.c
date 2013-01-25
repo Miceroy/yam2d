@@ -64,6 +64,10 @@
       requires strm->avail_out >= 258 for each loop to avoid checking for
       output space.
  */
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
+
 void ZLIB_INTERNAL inflate_fast(strm, start)
 z_streamp strm;
 unsigned start;         /* inflate()'s starting value for strm->avail_out */

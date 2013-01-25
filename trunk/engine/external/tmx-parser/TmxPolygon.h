@@ -38,10 +38,10 @@ namespace Tmx
 	//-------------------------------------------------------------------------
 	// Class to store a Polygon of an Object.
 	//-------------------------------------------------------------------------
-	class Polygon
+	class PointList
 	{
 	public:
-		Polygon();
+		PointList();
 
 		// Parse the polygon node.
 		void Parse(const TiXmlNode *polygonNode);

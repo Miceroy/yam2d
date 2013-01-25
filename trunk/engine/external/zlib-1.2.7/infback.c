@@ -15,6 +15,10 @@
 #include "inflate.h"
 #include "inffast.h"
 
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 ; disable : 4127 )
+#endif
+
 /* function prototypes */
 local void fixedtables OF((struct inflate_state FAR *state));
 

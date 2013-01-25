@@ -30,6 +30,10 @@
 
 #include "zutil.h"      /* for STDC and FAR definitions */
 
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
+
 #define local static
 
 /* Definitions for doing the crc four data bytes at a time. */
@@ -195,6 +199,10 @@ const z_crc_t FAR * ZEXPORT get_crc_table()
 #endif /* DYNAMIC_CRC_TABLE */
     return (const z_crc_t FAR *)crc_table;
 }
+
+#if defined (_MSC_VER)
+#pragma warning( disable : 4127 )
+#endif
 
 /* ========================================================================= */
 #define DO1 crc = crc_table[0][((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8)

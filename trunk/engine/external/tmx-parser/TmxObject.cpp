@@ -43,6 +43,7 @@ namespace Tmx
 		, gid(0)
 		, polygon(0)
 		, polyline(0)
+		, ellipse(false)
 		, properties() 
 	{}
 
@@ -84,7 +85,7 @@ namespace Tmx
 			if (polygon != 0)
 				delete polygon;
 
-			polygon = new Polygon();
+			polygon = new PointList();
 			polygon->Parse(polygonNode);
 		}
 		const TiXmlNode *polylineNode = objectNode->FirstChild("polyline");
@@ -93,10 +94,16 @@ namespace Tmx
 			if (polyline != 0)
 				delete polyline;
 
-			polyline = new Polyline();
+			polyline = new PointList();
 			polyline->Parse(polylineNode);
 		}
 
+		const TiXmlNode *ellipseNode = objectNode->FirstChild("ellipse");
+		if (ellipseNode)
+		{
+			ellipse = true;
+		}
+		
 		// Read the properties of the object.
 		const TiXmlNode *propertiesNode = objectNode->FirstChild("properties");
 		if (propertiesNode) 

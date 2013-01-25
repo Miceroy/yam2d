@@ -130,6 +130,9 @@ void ZLIB_INTERNAL z_error (m)
 }
 #endif
 
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
 /* exported to allow conversion of error code to string for compress() and
  * uncompress()
  */

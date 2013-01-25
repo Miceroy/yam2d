@@ -7,7 +7,9 @@
 
 #define ZLIB_INTERNAL
 #include "zlib.h"
-
+#if defined (_MSC_VER)
+#pragma warning( disable : 4131 )
+#endif
 /* ===========================================================================
      Compresses the source buffer into the destination buffer. The level
    parameter has the same meaning as in deflateInit.  sourceLen is the byte

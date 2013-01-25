@@ -35,8 +35,7 @@ class TiXmlNode;
 
 namespace Tmx 
 {
-	class Polygon;
-	class Polyline;
+	class PointList;
 
 	//-------------------------------------------------------------------------
 	// Class used for representing a single object from the objectgroup.
@@ -57,10 +56,10 @@ namespace Tmx
 		const std::string &GetType() const { return type; }
 
 		// Get the left side of the object, in pixels.
-		int GetX() const { return x; }
+		int GetLeft() const { return x; }
 
 		// Get the top side of the object, in pixels.
-		int GetY() const { return y; }
+		int GetTop() const { return y; }
 		
 		// Get the width of the object, in pixels.
 		int GetWidth() const { return width; }
@@ -72,14 +71,15 @@ namespace Tmx
 		int GetGid() const { return gid; }
 
 		// Get the Polygon.
-		const Tmx::Polygon *GetPolygon() const { return polygon; }
+		const Tmx::PointList *GetPolygon() const { return polygon; }
 
 		// Get the Polyline.
-		const Tmx::Polyline *GetPolyline() const { return polyline; }
+		const Tmx::PointList *GetPolyline() const { return polyline; }
 
 		// Get the property set.
 		const Tmx::PropertySet &GetProperties() const { return properties; }
 
+		bool isEllipse() const { return ellipse; }
 	private:
 		std::string name;
 		std::string type;
@@ -90,8 +90,9 @@ namespace Tmx
 		int height;
 		int gid;
 
-		Tmx::Polygon *polygon;
-		Tmx::Polyline *polyline;
+		Tmx::PointList *polygon;
+		Tmx::PointList *polyline;
+		bool ellipse;
 
 		Tmx::PropertySet properties;
 	};
