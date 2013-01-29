@@ -151,8 +151,6 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 	case WM_MOUSEMOVE:
 		{
-			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
-			assert( esContext != 0 );
 			POINT point;
 			point.x = GET_X_LPARAM(lParam);
 			point.y = GET_Y_LPARAM(lParam);
