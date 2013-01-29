@@ -36,6 +36,11 @@ namespace yam2d
 // anonymous namespace for internal functions
 namespace
 {
+#if defined(YAM_WRITING_LOGS_TO_FILE)
+	const char* const logFileName = 	YAM_WRITING_LOGS_TO_FILE;
+	FILE* logFileHandle = (strlen(logFileName) > 0) ? fopen (logFileName,"w") : NULL;
+#endif
+
 	int toInteger(double v)
 	{
 		return int(v+0.5);
@@ -202,6 +207,13 @@ void esLogMessage ( const char *formatStr, ... )
     
 	printf ( "%s\n", buf );
     
+#if defined(YAM_WRITING_LOGS_TO_FILE)
+	if( logFileHandle != NULL )
+	{
+		fprintf(logFileHandle, "%s\n", buf );
+	}
+#endif
+
 	va_end ( params );
 }
 
@@ -216,7 +228,14 @@ void esLogEngineError( const char *formatStr, ... )
 	vsprintf_s ( buf, sizeof(buf),  formatStr, params );
     
 	printf ( "Error: %s\n", buf );
-    
+
+#if defined(YAM_WRITING_LOGS_TO_FILE)
+	if( logFileHandle != NULL )
+	{
+		fprintf(logFileHandle, "Error: %s\n", buf );
+	}
+#endif
+
 	va_end ( params );
 #else
 	(void)formatStr;
@@ -271,13 +290,11 @@ void esViewportTearEdges(int sx, int sy, float desiredAspectRatio)
 std::string getPath( const std::string& fileName )
 {
 	std::string path = fileName;
-	int last = path.find_last_of('\\');
-
-	if( last < 0 )
-	{
-		last = path.find_last_of('/');
-	}
+	int last1 = path.find_last_of('\\');
+	int last2 = path.find_last_of('/');
 	
+	int last = max(last1,last2);
+
 	if( last > 0 )
 	{		
 		path = path.substr(0,last+1);
@@ -285,6 +302,26 @@ std::string getPath( const std::string& fileName )
 	else
 	{
 		path = "";
+	}
+
+	return path;
+}
+
+std::string getFileName( const std::string& fileName )
+{
+	std::string path = fileName;
+	int last1 = path.find_last_of('\\');
+	int last2 = path.find_last_of('/');
+	
+	int last = max(last1,last2);
+
+	if( last > 0 )
+	{		
+		path = path.substr(last+1, path.size());
+	}
+	else
+	{
+		path = fileName;
 	}
 
 	return path;
@@ -305,6 +342,7 @@ std::vector<unsigned short> readFile(const char* const fileName)
 	res.resize((end-start)/2);
 	fseek(fp,start,SEEK_SET);
 	int bytesRead = fread(&res[0],2, res.size(), fp);
+	(void)bytesRead;
 	assert( bytesRead > 0 && bytesRead <= int(res.size()));
 	fclose(fp);
 	return res;
