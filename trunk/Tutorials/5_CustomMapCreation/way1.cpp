@@ -41,7 +41,7 @@ namespace
 		return new Layer(map, name, opacity, visible, false, properties); 
 	}
 
-	Tile* createNewTile(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
+	GameObject* createNewTile(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
 	{
 	//	esLogMessage("Creating my own tile!");
 		return new Tile(0, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, map->getTileWidth(), map->getTileHeight());

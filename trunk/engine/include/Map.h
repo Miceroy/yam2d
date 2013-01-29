@@ -83,6 +83,26 @@ public:
 		MAPLAYER7,
 		MAPLAYER8,
 		MAPLAYER9,
+		MAPLAYER10,
+		MAPLAYER11,
+		MAPLAYER12,
+		MAPLAYER13,
+		MAPLAYER14,
+		MAPLAYER15,
+		MAPLAYER16,
+		MAPLAYER17,
+		MAPLAYER18,
+		MAPLAYER19,
+		MAPLAYER20,
+		MAPLAYER21,
+		MAPLAYER22,
+		MAPLAYER23,
+		MAPLAYER24,
+		MAPLAYER25,
+		MAPLAYER26,
+		MAPLAYER27,
+		MAPLAYER28,
+		MAPLAYER29,
 		GUILAYER0,
 		GUILAYER1,
 		GUILAYER2,
@@ -150,10 +170,10 @@ public:
 	LayerMap& getLayers();
 
 	/** Adds new layer to Map. */
-	void addLayer(Layers index, Layer* layer);
+	void addLayer(int index, Layer* layer);
 
 	/** Gets layer by index. */
-	Layer* getLayer(Layers index);
+	Layer* getLayer(int index);
 
 	/** Gets layer by name. */
 	Layer* getLayer(const std::string& name);
@@ -169,6 +189,8 @@ public:
 
 	/** Utility function for converting orthogonal coordinates to isometric coordinates */
 	static vec2 orthogonalToIsometric(float x, float y);
+
+	void deleteGameObject(GameObject* gameObject);
 
 private:
 	bool isVisible(GameObject* go,Camera* cam);
@@ -200,7 +222,7 @@ class TmxMap : public Map
 public:
 	typedef Tileset* (*CreateNewTilesetFuncType)(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
 	typedef Layer* (*CreateNewLayerFuncType)(void* userData, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties);
-	typedef Tile* (*CreateNewTileFuncType)(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
+	typedef GameObject* (*CreateNewTileFuncType)(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
 	typedef GameObject* (*CreateNewGameObjectFuncType)(void* userData, Map* map, Layer* layer, const std::string& type, const vec2& position, const vec2& size, const std::string& name, const PropertySet& properties);
 
 	class MapCreateCallbacks
@@ -208,7 +230,7 @@ public:
 	public:
 		virtual Tileset* createNewTileset( const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
 		virtual Layer* createNewLayer( Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties);
-		virtual Tile* createNewTile( Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
+		virtual GameObject* createNewTile( Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
 		virtual GameObject* createNewGameObject( Map* map, Layer* layer, const std::string& type, const vec2& position, const vec2& size, const std::string& name, const PropertySet& properties);
 	};
 
