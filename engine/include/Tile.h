@@ -121,6 +121,7 @@ public:
 		, m_sprite(new Sprite())
 		, m_texture(texture)
 	{
+		setSize(float(texture->getWidth()),float(texture->getHeight()));
 	}
 
 	virtual ~SpriteGameObject() {}

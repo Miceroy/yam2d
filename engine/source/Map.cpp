@@ -64,7 +64,7 @@ namespace
 	}
 
 
-	Tile* defaultCreateNewTile(void*, Map* map, Layer* , const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& )
+	GameObject* defaultCreateNewTile(void*, Map* map, Layer* , const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& )
 	{
 		return new Tile(0, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, map->getTileWidth(), map->getTileHeight());
 	}
@@ -90,7 +90,7 @@ namespace
 	}
 
 
-	Tile* createNewTile_MapCreateCallbacks(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
+	GameObject* createNewTile_MapCreateCallbacks(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
 	{
 		TmxMap::MapCreateCallbacks* o = static_cast<TmxMap::MapCreateCallbacks*>(userData);
 		assert(o != 0);
@@ -155,6 +155,17 @@ vec2 Map::orthogonalToIsometric(float x, float y)
 	return vec2(x1,y1);
 }
 
+void Map::deleteGameObject(GameObject* gameObject)
+{
+	for( int l=0; l<NUM_LAYERS; ++l )
+	{
+		Layer* layer = m_layers[l];
+		if( layer )
+		{
+			layer->deleteGameObjectIfExist(gameObject);
+		}
+	}
+}
 
 vec2 Map::tileToScreenCoordinates(float x, float y)
 {
@@ -330,15 +341,17 @@ Map::LayerMap& Map::getLayers()
 }
 
 
-void Map::addLayer(Layers index, Layer* layer)
+void Map::addLayer(int index, Layer* layer)
 {
 	assert( m_layers[index] == 0 ); // Error! There is already layen in given index!
+	layer->setLayerIndex(index);
 	m_layers[index] = layer;
 }
 
 
-Layer* Map::getLayer(Layers index)
+Layer* Map::getLayer(int index)
 {
+	assert( m_layers[index] != 0 );
 	return m_layers[index].ptr();
 }
 
@@ -506,7 +519,8 @@ void Map::render()
 			}
 		}
 	}
-		
+	
+	//m_mainCamera->render();
 	// Render visible layers
 	for( int i=0; i<NUM_LAYERS; ++i )
 	{
@@ -528,7 +542,7 @@ void Map::update( float deltaTime )
 	{
 		Layer* layer = m_layers[i];
 
-		if( layer && !layer->isStatic() )
+		if( layer && layer->isUpdatable() )
 		{
 			layer->update(deltaTime);
 		}
@@ -557,7 +571,7 @@ Layer* TmxMap::MapCreateCallbacks::createNewLayer( Map* map, const std::string& 
 	return defaultCreateNewLayer(0, map, name, opacity, visible, properties);
 }
 
-Tile* TmxMap::MapCreateCallbacks::createNewTile( Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
+GameObject* TmxMap::MapCreateCallbacks::createNewTile( Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties)
 {
 	return defaultCreateNewTile(0, map, layer, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, properties);
 }
@@ -630,7 +644,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 		properties.setValues(l->GetProperties().GetList());
 		esLogEngineDebug("Creating layer # MAPLAYER%d : \"%s\" visible: %s", i, l->GetName().c_str(), l->IsVisible() ? "true":"false" );
 		assert( m_createNewLayer != 0 );
-		getLayers()[MAPLAYER0+i] = m_createNewLayer(m_userData, this, l->GetName(), l->GetOpacity(), l->IsVisible(), properties );
+		addLayer(MAPLAYER0+i, m_createNewLayer(m_userData, this, l->GetName(), l->GetOpacity(), l->IsVisible(), properties ) );
 		assert(getLayers()[MAPLAYER0+i] != 0); // You must return new Layer in createLayer callback!!
 	}
 
@@ -663,7 +677,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 					if( tileset != 0 )
 					{
 						assert( m_createNewTile != 0 );
-						Tile* tNew = m_createNewTile(m_userData, this, getLayers()[MAPLAYER0+i],
+						GameObject* tNew = m_createNewTile(m_userData, this, getLayers()[MAPLAYER0+i],
 							vec2(float(x),float(y)), tileset, t.id, t.flippedHorizontally,
 							t.flippedVertically, t.flippedDiagonally, properties );
 
@@ -685,9 +699,9 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 			assert(l);
 			const std::vector< Tmx::Object* > objects = l->GetObjects();
 
-			for(size_t i=0; i<objects.size(); ++i )
+			for(size_t x=0; x<objects.size(); ++x )
 			{
-				const Tmx::Object* o = objects[i];
+				const Tmx::Object* o = objects[x];
 				GameObject* tNew = 0;
 				
 				vec2 topLeft(float(o->GetLeft())/float(getTileWidth()), float(o->GetTop())/float(getTileHeight()));
