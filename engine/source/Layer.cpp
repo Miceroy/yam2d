@@ -40,6 +40,8 @@ Layer::Layer(Map* map, std::string name, float opacity, bool visible, bool isSta
 , m_batch( new SpriteBatchGroup() )
 , m_opacity(opacity)
 , m_static(isStaticLayer)
+, m_isUpdatable(true)
+, m_layerNumber(-1)
 {
 }
 
@@ -48,7 +50,7 @@ void Layer::addGameObject(GameObject* gameObject)
 {
 	assert( gameObject != 0 );
 	m_gameObjects.push_back(gameObject);
-	esLogEngineDebug("Added GameObject: %s to layer: %s", gameObject->getName().c_str(), getName().c_str());
+	//esLogEngineDebug("Added GameObject: %s to layer: %s", gameObject->getName().c_str(), getName().c_str());
 }
 
 void Layer::deleteGameObject(GameObject* gameObject)
@@ -65,6 +67,20 @@ void Layer::deleteGameObject(GameObject* gameObject)
 	}
 
 	assert(0); // Game object not found!!
+}
+
+void Layer::deleteGameObjectIfExist(GameObject* gameObject)
+{	
+	assert( gameObject != 0 );
+	for( size_t i=0; i<m_gameObjects.size(); ++i )
+	{
+		if( m_gameObjects[i].ptr() == gameObject )
+		{
+			assert( !isStatic() ); // Can not remove objects from static layer.
+			m_objectsToDelete.push_back(gameObject);
+			return;
+		}
+	}
 }
 
 Layer::GameObjectList& Layer::getGameObjects() 

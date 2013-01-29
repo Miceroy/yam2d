@@ -66,6 +66,8 @@ public:
 	/** Removes given GameObject from this layer. Note GameObjects from static layer can not be removed */
 	void deleteGameObject(GameObject* gameObject);
 	
+	void deleteGameObjectIfExist(GameObject* gameObject);
+
 	/** Returns all GameObjects from this Layer. */
 	GameObjectList& getGameObjects();
 		
@@ -84,6 +86,8 @@ public:
 	 * makes possible of suicide of game objects. Typically this method is not needed to be called by game developer.
 	 */
 	void deleteUnneededObjects();
+
+	void setLayerIndex(int layerIndex ) { m_layerNumber = layerIndex; }
 
 	/** Returns name of this Layer. */
 	const std::string& getName() const;
@@ -106,6 +110,9 @@ public:
 	/** Returns true, if this Layer is static. */
 	bool isStatic() const;
 	
+	bool isUpdatable() const { return m_isUpdatable; }
+	void disableUpdate() { m_isUpdatable = false; }
+	int getLayerIndex() const { return m_layerNumber; }
 private:
 	Map*							m_map;
 	std::string						m_name;
@@ -116,7 +123,8 @@ private:
 	Ref<SpriteBatchGroup>			m_batch;
 	float							m_depthValue;
 	bool							m_static;
-
+	bool m_isUpdatable;
+	int m_layerNumber;
 	GameObjectList					m_objectsToDelete;
 
 	// Hidden
