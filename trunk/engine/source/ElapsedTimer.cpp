@@ -47,7 +47,7 @@ namespace
 	}
 #else
 	static LARGE_INTEGER pcFreq;
-	static bool pcAvailable = false;
+	static BOOL pcAvailable = false;
 	static bool pcInitDone = false;
 
 	inline  __int64 getTimeScale()
