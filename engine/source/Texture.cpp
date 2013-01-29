@@ -47,7 +47,7 @@ Texture::Texture(const std::string& fileName)
 		return;
 	}
 
-	esLogEngineDebug("Image loaded w:%d, h:%d, bpp:%d", __FUNCTION__, m_width, m_height, m_bpp);
+	esLogEngineDebug("[%s] Image loaded w:%d, h:%d, bpp:%d", __FUNCTION__, m_width, m_height, m_bpp);
 	
 	GLenum fmt;
 	if( m_bpp == 4 )
