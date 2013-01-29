@@ -32,9 +32,14 @@
 //#define DEBUG_LOGS_ENABLED
 #define ERROR_LOGS_ENABLED
 
+#if defined(DEBUG_LOGS_ENABLED) || defined(ERROR_LOGS_ENABLED)
+// Log file name set to "" if you want to disable log writing to file.
+#define YAM_WRITING_LOGS_TO_FILE "debug_log.txt"
+#endif
+
 #if defined(_WIN32)
 // If you disable this flag, then ElapsetTimer uses QueryPerformanceCounter.
-#define ELAPSED_TIMER_USES_GETTICCOUNT
+//#define ELAPSED_TIMER_USES_GETTICCOUNT
 #endif
 
 namespace yam2d
