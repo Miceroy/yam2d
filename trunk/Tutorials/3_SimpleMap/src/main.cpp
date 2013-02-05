@@ -4,6 +4,7 @@
 #include <Map.h>
 // Tile
 #include <Tile.h>
+#include <SpriteGameObject.h>
 // Layer
 #include <Layer.h>
 // Texture

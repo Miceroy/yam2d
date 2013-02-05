@@ -20,51 +20,76 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef VEC2_H_
-#define VEC2_H_
+#ifndef SPRITEGAMEOBJECT_H_
+#define SPRITEGAMEOBJECT_H_
 
-#include <Box2D/Common/b2Math.h>
+#include <vector>
+#include <string>
+#include <map>
+#include "SpriteBatch.h"
+
+#include "GameObject.h"
+#include "PropertySet.h"
+#include "SpriteSheet.h"
+#include "SpriteAnimation.h"
+#include "Map.h"
+#include "Tileset.h"
+#include "Text.h"
+#include <Texture.h>
 
 namespace yam2d
 {
+	
 
-typedef	b2Vec2 vec2;
-
-class vec2int
-{
-public:
-	vec2int(int x0, int y0)
-	: x(x0)
-	, y(y0)
-	{
-	}
-
-	vec2int(int v=0)
-	: x(v)
-	, y(v)
-	{
-	}
+class Tileset;
+class Map;
+class SpriteSheet;
 
 
-	int x;
-	int y;
-};
 
 /**
- * Rotates given vector according to given angle.
+ * Class for SpriteGameObject.
+ *
+ * @ingroup yam2d
+ * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-inline vec2 rotateVector(const vec2& vec, float angle )
+class SpriteGameObject : public GameObject
 {
-	vec2 res;
-	// Rotate vector according to angle (see http://en.wikipedia.org/wiki/Rotation_(mathematics))
-	float sinAngle = sinf(angle);
-	float cosAngle = cosf(angle);
-	res.x = vec.x*cosAngle - vec.y*sinAngle;
-	res.y = vec.x*sinAngle + vec.y*cosAngle;
-	return res;
-}
+public:
+	/**
+	 * Constructor.
+	 *
+	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
+	 * @param texture Texture for SpriteGameObject.
+	 */
+	SpriteGameObject(int gameObjectType, Texture* texture )
+		: GameObject(gameObjectType)
+		, m_sprite(new Sprite())
+		, m_texture(texture)
+	{
+		setSize(float(texture->getWidth()),float(texture->getHeight()));
+	}
+
+	virtual ~SpriteGameObject() {}
+
+	void render( Layer* layer);
+
+	Sprite* getSprite() const { return m_sprite.ptr(); }
+private:
+		
+	Ref<Sprite>			m_sprite;
+	Ref<Texture>		m_texture;
+
+	SpriteGameObject();
+	SpriteGameObject(const SpriteGameObject& o);
+	SpriteGameObject& operator=(const SpriteGameObject& o);
+};
+
 
 }
 
 #endif
+
+
+
 

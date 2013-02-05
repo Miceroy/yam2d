@@ -29,7 +29,6 @@
 
 #include "TmxObject.h"
 #include "TmxPolygon.h"
-#include "TmxPolyline.h"
 
 namespace Tmx 
 {

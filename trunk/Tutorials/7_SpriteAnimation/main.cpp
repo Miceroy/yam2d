@@ -4,7 +4,8 @@
 #include <Map.h>
 // Camera class
 #include <Camera.h>
-#include <Tile.h>
+#include <AnimatedSpriteGameObject.h>
+#include <TextGameObject.h>
 #include <Layer.h>
 #include <Input.h>
 

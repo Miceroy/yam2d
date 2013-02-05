@@ -35,6 +35,5 @@
 #include "TmxObject.h"
 #include "TmxObjectGroup.h"
 #include "TmxPolygon.h"
-#include "TmxPolyline.h"
 #include "TmxPropertySet.h"
 #include "TmxUtil.h"

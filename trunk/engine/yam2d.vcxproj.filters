@@ -90,9 +90,6 @@
     <ClCompile Include="external\tmx-parser\TmxPolygon.cpp">
       <Filter>tmx-parser</Filter>
     </ClCompile>
-    <ClCompile Include="external\tmx-parser\TmxPolyline.cpp">
-      <Filter>tmx-parser</Filter>
-    </ClCompile>
     <ClCompile Include="external\tmx-parser\TmxPropertySet.cpp">
       <Filter>tmx-parser</Filter>
     </ClCompile>
@@ -434,9 +431,6 @@
     <ClInclude Include="external\tmx-parser\TmxPolygon.h">
       <Filter>tmx-parser</Filter>
     </ClInclude>
-    <ClInclude Include="external\tmx-parser\TmxPolyline.h">
-      <Filter>tmx-parser</Filter>
-    </ClInclude>
     <ClInclude Include="external\tmx-parser\TmxPropertySet.h">
       <Filter>tmx-parser</Filter>
     </ClInclude>
@@ -672,6 +666,18 @@
       <Filter>Box2D</Filter>
     </ClInclude>
     <ClInclude Include="include\config.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AnimatedSpriteGameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpriteGameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpriteSheetGameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TextGameObject.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

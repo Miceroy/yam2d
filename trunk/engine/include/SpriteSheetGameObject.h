@@ -20,51 +20,76 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef VEC2_H_
-#define VEC2_H_
+#ifndef SPRITESHEETGAMEOBJECT_H_
+#define SPRITESHEETGAMEOBJECT_H_
 
-#include <Box2D/Common/b2Math.h>
+#include <vector>
+#include <string>
+#include <map>
 
+
+#include <SpriteGameObject.h>
+/*
+#include "GameObject.h"
+#include "PropertySet.h"
+#include "SpriteSheet.h"
+#include "SpriteAnimation.h"
+#include "Map.h"
+#include "Tileset.h"
+#include "Text.h"
+#include "Texture.h"
+*/
 namespace yam2d
 {
+	
 
-typedef	b2Vec2 vec2;
-
-class vec2int
-{
-public:
-	vec2int(int x0, int y0)
-	: x(x0)
-	, y(y0)
-	{
-	}
-
-	vec2int(int v=0)
-	: x(v)
-	, y(v)
-	{
-	}
+class Tileset;
+class Map;
+class SpriteSheet;
 
 
-	int x;
-	int y;
-};
 
 /**
- * Rotates given vector according to given angle.
+ * Class for SpriteSheetGameObject.
+ *
+ * @ingroup yam2d
+ * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-inline vec2 rotateVector(const vec2& vec, float angle )
+class SpriteSheetGameObject : public SpriteGameObject
 {
-	vec2 res;
-	// Rotate vector according to angle (see http://en.wikipedia.org/wiki/Rotation_(mathematics))
-	float sinAngle = sinf(angle);
-	float cosAngle = cosf(angle);
-	res.x = vec.x*cosAngle - vec.y*sinAngle;
-	res.y = vec.x*sinAngle + vec.y*cosAngle;
-	return res;
-}
+public:
+	// Default constructor.
+	SpriteSheetGameObject(int gameObjectType, SpriteSheet* spriteSheet, int idInSpriteSheet )
+		: SpriteGameObject(gameObjectType,spriteSheet->getTexture())
+		, m_spriteSheet(spriteSheet)
+		, m_id(idInSpriteSheet)
+	{
+	}
+
+	virtual ~SpriteSheetGameObject() {}
+
+	void setIdInSpriteSheet(int idInSpriteSheet)
+	{
+		m_id = idInSpriteSheet;
+	}
+
+	void render(Layer* layer);
+
+private:
+	Ref<SpriteSheet>	m_spriteSheet;	// Sprite sheet
+	unsigned			m_id;			// Id at sprite sheet
+
+	SpriteSheetGameObject();
+	SpriteSheetGameObject(const SpriteSheetGameObject& o);
+	SpriteSheetGameObject& operator=(const SpriteSheetGameObject& o);
+};
+
+
 
 }
 
 #endif
+
+
+
 

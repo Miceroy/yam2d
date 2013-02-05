@@ -20,51 +20,42 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef VEC2_H_
-#define VEC2_H_
+#ifndef ENEMY_H_
+#define ENEMY_H_ 
 
-#include <Box2D/Common/b2Math.h>
+// Include base class
+#include <SpriteGameObject.h>
 
-namespace yam2d
-{
-
-typedef	b2Vec2 vec2;
-
-class vec2int
+// Use SpriteGameObject as base class for our player, 
+// because player have non animated sprite. SpriteGameObject provides 
+// "automatic rendering of sprite" to corrent position on map.
+class Enemy : public yam2d::SpriteGameObject
 {
 public:
-	vec2int(int x0, int y0)
-	: x(x0)
-	, y(y0)
-	{
-	}
+	/** Constructor of player. 
+	 *
+	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
+	 * @param texture Texture for our game object.
+	 */
+	Enemy(int gameObjectType, yam2d::Texture* texture);
+	virtual ~Enemy(void);
 
-	vec2int(int v=0)
-	: x(v)
-	, y(v)
-	{
-	}
+	// This virtual method is automatically called byt map/layer, when update is called from main.cpp
+	virtual void update( float deltaTime );
 
+	/** 
+	 * Sets waypoints for this enemy, where this should go. 
+	 */
+	void setWayoints(const std::vector<yam2d::vec2>& waypoints );
 
-	int x;
-	int y;
+	/**
+	 * Returns true, if enemy has reached its final destination.
+	 */
+	bool hasReachedGoal();
+private:
+	std::vector<yam2d::vec2> m_waypoints;
+
 };
 
-/**
- * Rotates given vector according to given angle.
- */
-inline vec2 rotateVector(const vec2& vec, float angle )
-{
-	vec2 res;
-	// Rotate vector according to angle (see http://en.wikipedia.org/wiki/Rotation_(mathematics))
-	float sinAngle = sinf(angle);
-	float cosAngle = cosf(angle);
-	res.x = vec.x*cosAngle - vec.y*sinAngle;
-	res.y = vec.x*sinAngle + vec.y*cosAngle;
-	return res;
-}
-
-}
 
 #endif
-

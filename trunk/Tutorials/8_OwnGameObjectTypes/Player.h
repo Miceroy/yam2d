@@ -20,51 +20,29 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef VEC2_H_
-#define VEC2_H_
+#ifndef PLAYER_H_
+#define PLAYER_H_ 
 
-#include <Box2D/Common/b2Math.h>
+// Include base class
+#include <SpriteGameObject.h>
 
-namespace yam2d
-{
-
-typedef	b2Vec2 vec2;
-
-class vec2int
+// Use SpriteGameObject as base class for our player, 
+// because player have non animated sprite. SpriteGameObject provides 
+// "automatic rendering of sprite" to corrent position on map.
+class Player : public yam2d::SpriteGameObject
 {
 public:
-	vec2int(int x0, int y0)
-	: x(x0)
-	, y(y0)
-	{
-	}
+	/** Constructor of player. 
+	 *
+	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
+	 * @param texture Texture for our game object.
+	 */
+	Player(int gameObjectType, yam2d::Texture* texture);
+	virtual ~Player(void);
 
-	vec2int(int v=0)
-	: x(v)
-	, y(v)
-	{
-	}
-
-
-	int x;
-	int y;
+	// This virtual method is automatically called byt map/layer, when update is called from main.cpp
+	virtual void update( float deltaTime );
 };
 
-/**
- * Rotates given vector according to given angle.
- */
-inline vec2 rotateVector(const vec2& vec, float angle )
-{
-	vec2 res;
-	// Rotate vector according to angle (see http://en.wikipedia.org/wiki/Rotation_(mathematics))
-	float sinAngle = sinf(angle);
-	float cosAngle = cosf(angle);
-	res.x = vec.x*cosAngle - vec.y*sinAngle;
-	res.y = vec.x*sinAngle + vec.y*cosAngle;
-	return res;
-}
-
-}
 
 #endif
-
