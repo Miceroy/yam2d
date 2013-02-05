@@ -6,7 +6,7 @@
 #include <Camera.h>
 #include <Layer.h>
 #include <Texture.h>
-#include <Tile.h>
+#include <SpriteGameObject.h>
 #include <Input.h>
 
 using namespace yam2d;

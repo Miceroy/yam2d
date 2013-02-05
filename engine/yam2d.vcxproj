@@ -149,7 +149,6 @@
     <ClCompile Include="external\tmx-parser\TmxObject.cpp" />
     <ClCompile Include="external\tmx-parser\TmxObjectGroup.cpp" />
     <ClCompile Include="external\tmx-parser\TmxPolygon.cpp" />
-    <ClCompile Include="external\tmx-parser\TmxPolyline.cpp" />
     <ClCompile Include="external\tmx-parser\TmxPropertySet.cpp" />
     <ClCompile Include="external\tmx-parser\TmxTile.cpp" />
     <ClCompile Include="external\tmx-parser\TmxTileset.cpp" />
@@ -257,7 +256,6 @@
     <ClInclude Include="external\tmx-parser\TmxObjectGroup.h" />
     <ClInclude Include="external\tmx-parser\TmxPoint.h" />
     <ClInclude Include="external\tmx-parser\TmxPolygon.h" />
-    <ClInclude Include="external\tmx-parser\TmxPolyline.h" />
     <ClInclude Include="external\tmx-parser\TmxPropertySet.h" />
     <ClInclude Include="external\tmx-parser\TmxTile.h" />
     <ClInclude Include="external\tmx-parser\TmxTileset.h" />
@@ -273,6 +271,7 @@
     <ClInclude Include="external\zlib-1.2.7\zconf.h" />
     <ClInclude Include="external\zlib-1.2.7\zlib.h" />
     <ClInclude Include="external\zlib-1.2.7\zutil.h" />
+    <ClInclude Include="include\AnimatedSpriteGameObject.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\config.h" />
     <ClInclude Include="Include\ElapsedTimer.h" />
@@ -289,8 +288,11 @@
     <ClInclude Include="Include\Sprite.h" />
     <ClInclude Include="Include\SpriteAnimation.h" />
     <ClInclude Include="Include\SpriteBatch.h" />
+    <ClInclude Include="include\SpriteGameObject.h" />
     <ClInclude Include="Include\SpriteSheet.h" />
+    <ClInclude Include="include\SpriteSheetGameObject.h" />
     <ClInclude Include="Include\Text.h" />
+    <ClInclude Include="include\TextGameObject.h" />
     <ClInclude Include="Include\Texture.h" />
     <ClInclude Include="Include\Tile.h" />
     <ClInclude Include="Include\Tileset.h" />

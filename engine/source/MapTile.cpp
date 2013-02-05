@@ -32,6 +32,11 @@
 #include "Text.h"
 #include "Layer.h"
 #include <Camera.h>
+#include <SpriteGameObject.h>
+#include <SpriteSheetGameObject.h>
+#include <AnimatedSpriteGameObject.h>
+#include <TextGameObject.h>
+
 
 namespace yam2d
 {

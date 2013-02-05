@@ -20,51 +20,87 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef VEC2_H_
-#define VEC2_H_
+#ifndef ANIMATEDSPRITEGAMEOBJECT_H_
+#define ANIMATEDSPRITEGAMEOBJECT_H_
 
-#include <Box2D/Common/b2Math.h>
+#include <vector>
+#include <string>
+#include <map>
+
+#include <SpriteSheetGameObject.h>
 
 namespace yam2d
 {
+	
 
-typedef	b2Vec2 vec2;
+class Tileset;
+class Map;
+class SpriteSheet;
 
-class vec2int
-{
-public:
-	vec2int(int x0, int y0)
-	: x(x0)
-	, y(y0)
-	{
-	}
-
-	vec2int(int v=0)
-	: x(v)
-	, y(v)
-	{
-	}
-
-
-	int x;
-	int y;
-};
 
 /**
- * Rotates given vector according to given angle.
+ * Class for AnimatedSpriteGameObject.
+ *
+ * @ingroup yam2d
+ * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-inline vec2 rotateVector(const vec2& vec, float angle )
+class AnimatedSpriteGameObject : public SpriteSheetGameObject
 {
-	vec2 res;
-	// Rotate vector according to angle (see http://en.wikipedia.org/wiki/Rotation_(mathematics))
-	float sinAngle = sinf(angle);
-	float cosAngle = cosf(angle);
-	res.x = vec.x*cosAngle - vec.y*sinAngle;
-	res.y = vec.x*sinAngle + vec.y*cosAngle;
-	return res;
-}
+public:
+	// Default constructor.
+	AnimatedSpriteGameObject(int gameObjectType, SpriteSheet* spriteSheet )
+		: SpriteSheetGameObject(gameObjectType,spriteSheet,0)
+		, m_animation(new SpriteAnimation())
+	{
+	}
+
+	virtual ~AnimatedSpriteGameObject() {}
+
+	void addAnimation( int animationId, const SpriteAnimation::SpriteAnimationClip& clip )
+	{
+		m_animation->addAnimation(animationId,clip);
+	}
+
+	void setActiveAnimation(int animationId)
+	{
+		m_animation->setActiveAnimation(animationId);
+	}
+
+	int getActiveAnimation()
+	{
+		return m_animation->getActiveAnimation();
+	}
+
+	bool isFinished()
+	{
+		return m_animation->isFinished();
+	}
+
+	int getNumAnimations()
+	{
+		return m_animation->getNumAnimations();
+	}
+
+	void update(float deltaTime)
+	{
+		m_animation->update(deltaTime);
+	}
+
+	void render( Layer* layer);
+
+private:
+	Ref<SpriteAnimation> m_animation;
+
+	AnimatedSpriteGameObject();
+	AnimatedSpriteGameObject(const AnimatedSpriteGameObject& o);
+	AnimatedSpriteGameObject& operator=(const AnimatedSpriteGameObject& o);
+};
+
 
 }
 
 #endif
+
+
+
 

@@ -20,51 +20,45 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef VEC2_H_
-#define VEC2_H_
+#include "Player.h" // Include Player class header
 
-#include <Box2D/Common/b2Math.h>
+#include "Input.h"
 
-namespace yam2d
+using namespace yam2d; // Use namespace yam3d implicitily.
+
+
+
+Player::Player(int gameObjectType, Texture* texture)
+	: SpriteGameObject(gameObjectType,texture) // Initalize base class by giving parameres to it
 {
-
-typedef	b2Vec2 vec2;
-
-class vec2int
-{
-public:
-	vec2int(int x0, int y0)
-	: x(x0)
-	, y(y0)
-	{
-	}
-
-	vec2int(int v=0)
-	: x(v)
-	, y(v)
-	{
-	}
-
-
-	int x;
-	int y;
-};
-
-/**
- * Rotates given vector according to given angle.
- */
-inline vec2 rotateVector(const vec2& vec, float angle )
-{
-	vec2 res;
-	// Rotate vector according to angle (see http://en.wikipedia.org/wiki/Rotation_(mathematics))
-	float sinAngle = sinf(angle);
-	float cosAngle = cosf(angle);
-	res.x = vec.x*cosAngle - vec.y*sinAngle;
-	res.y = vec.x*sinAngle + vec.y*cosAngle;
-	return res;
 }
 
+
+Player::~Player(void)
+{
 }
 
-#endif
+void Player::update( float deltaTime )
+{
+	float rotationSpeed = 1.0f; // Radians / second
+	float moveSpeed = 4.0f; // tiles / second
+
+	// Rotate gameobject accorging to keys
+	float rotate = float(getKeyState(KEY_RIGHT)-getKeyState(KEY_LEFT));
+	setRotation(getRotation() + deltaTime*rotate*rotationSpeed ); // Update rotation
+
+	// Get move direction from keyboard
+	float forward = float(getKeyState(KEY_UP)-getKeyState(KEY_DOWN));
+
+	if( fabsf(forward) > 0.1f )
+	{
+		// Rotate forward direction according to game object rotation
+		vec2 direction = rotateVector( vec2(forward,0), getRotation() );
+		direction.Normalize(); // Make sure that lenght of direction vector is 1
+
+		// Update position (euler integration)
+		setPosition(getPosition() + deltaTime*moveSpeed*direction );
+	}
+
+}
 
