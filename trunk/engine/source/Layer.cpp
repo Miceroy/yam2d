@@ -25,6 +25,7 @@
 #include "es_assert.h"
 #include "GameObject.h"
 #include <config.h>
+#include <Map.h>
 
 namespace yam2d
 {
@@ -49,6 +50,7 @@ Layer::Layer(Map* map, std::string name, float opacity, bool visible, bool isSta
 void Layer::addGameObject(GameObject* gameObject)
 {
 	assert( gameObject != 0 );
+	gameObject->setTileSize( vec2(m_map->getTileHeight(),m_map->getTileWidth()) );
 	m_gameObjects.push_back(gameObject);
 	//esLogEngineDebug("Added GameObject: %s to layer: %s", gameObject->getName().c_str(), getName().c_str());
 }

@@ -76,9 +76,9 @@ public:
 		offset.x -= 0.5f;
 		offset.y += 0.5f;
 
-		setOffset( offset );
+//		setOffset( offset );
 		
-		setSize( vec2(clip.clipSize.x/levelTileSizeX,clip.clipSize.y/levelTilesizeY) );
+		setSize( vec2(float(clip.clipSize.x),float(clip.clipSize.y)) );
 	}
 
 	virtual ~Tile() {}

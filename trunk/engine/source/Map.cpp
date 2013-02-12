@@ -385,7 +385,7 @@ Camera* Map::getCamera() const
 
 bool Map::isVisible(GameObject* go, Camera* cam)
 {
-	float left		= go->getLeft();
+	/*float left		= go->getLeft();
 	float top		= go->getTop();
 	float right		= go->getRight();
 	float bottom	= go->getBottom();
@@ -397,30 +397,19 @@ bool Map::isVisible(GameObject* go, Camera* cam)
 	
 	if( m_orientation == ISOMETRIC )
 	{
-		assert( 0 );// TODO: Visibility check for isometric levels wont work yet!
-		
-		vec2 camPos = cam->getPosition();
-		vec2 v = isometricToOrthogonal(left,top);
-		left	= v.x;
-		top		= v.y;
-		
-		v = isometricToOrthogonal(right,bottom);
-		right	= v.x;
-		bottom	= v.y;
-		
-		camPos		= isometricToOrthogonal(camPos.x,camPos.y);
-		camLeft		= camPos.x - cam->getSize().x*0.5f;
-		camTop		= camPos.y - cam->getSize().y*0.5f;
-		camRight	= camPos.x + cam->getSize().x*0.5f;
-		camBottom	= camPos.y + cam->getSize().y*0.5f;
+		return true;
 	}
 
 	if( (camBottom >= top) && (camTop <= bottom) && (camRight >= left) && (camLeft <= right) )
 	{
 		return true;
 	}
-	
+
 	return false;
+	//	(void)go;
+//	(void)cam;
+	*/
+	return cam->collidesTo(go);
 }
 
 
