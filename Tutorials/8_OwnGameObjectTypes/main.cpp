@@ -36,6 +36,7 @@ bool init ( ESContext *esContext )
 	vec2 cameraPos = vec2(map->getWidth()/2.0f - 0.5f, map->getHeight()/2.0f - 0.5f);
 	map->getCamera()->setPosition( cameraPos );
 
+	Player* player;
 	// Add player to map layer named "GameObjects".
 	{
 		// Load texture.
@@ -44,7 +45,7 @@ bool init ( ESContext *esContext )
 		playerTexture->setTransparentColor(255,0,255);
 
 		// Create new player.
-		Player* player = new Player(0,playerTexture);
+		player = new Player(0,playerTexture);
 
 		// Add it to GameObjects-layer.
 		map->getLayer("GameObjects")->addGameObject(player);
@@ -58,7 +59,7 @@ bool init ( ESContext *esContext )
 		enemyTexture->setTransparentColor(255,0,255);
 
 		// Create new player.
-		Enemy* enemy = new Enemy(0,enemyTexture);
+		Enemy* enemy = new Enemy(0,enemyTexture,player);
 
 		// Add it to GameObjects-layer.
 		map->getLayer("GameObjects")->addGameObject(enemy);

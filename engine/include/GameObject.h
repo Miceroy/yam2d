@@ -53,7 +53,6 @@ public:
 	void setName( const std::string& name );
 	void setPosition( const vec2& position );
 	void setPosition( float x, float y ) { setPosition(vec2(x,y)); }
-	void setOffset( const vec2& offset );
 	void setRotation( float rotation );
 	void setSize( float sizeX, float sizeY );
 	void setSize( const vec2& size );
@@ -62,8 +61,10 @@ public:
 	const vec2& getPosition() const;
 	float getRotation() const;
 	const vec2& getSize() const;
+	vec2 getSizeInTiles() const;
 	int getType() const;
 
+	
 	float getLeft() const;
 	float getRight() const;
 	float getTop() const;
@@ -71,6 +72,9 @@ public:
 	
 	bool isInside(const vec2& worldPosition);
 
+	bool collidesTo( GameObject* other, vec2* collisionNormal = 0 );
+
+	void setTileSize(const vec2& tileSize );
 private:
 	void recalcExtens();
 
@@ -80,11 +84,12 @@ private:
 	
 	std::string		m_name;
 	vec2			m_position;
-	vec2			m_offset;
+//	vec2			m_offset;
 	vec2			m_topLeft;
 	vec2			m_bottomRight;
 	float			m_rotation;
 	vec2			m_size;
+	vec2			m_tileScale;
 	int				m_type;
 };
 

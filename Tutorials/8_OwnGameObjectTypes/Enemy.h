@@ -26,6 +26,9 @@
 // Include base class
 #include <SpriteGameObject.h>
 
+// Forward declaration of class Player
+class Player;
+
 // Use SpriteGameObject as base class for our player, 
 // because player have non animated sprite. SpriteGameObject provides 
 // "automatic rendering of sprite" to corrent position on map.
@@ -37,7 +40,7 @@ public:
 	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
 	 * @param texture Texture for our game object.
 	 */
-	Enemy(int gameObjectType, yam2d::Texture* texture);
+	Enemy(int gameObjectType, yam2d::Texture* texture, Player* player);
 	virtual ~Enemy(void);
 
 	// This virtual method is automatically called byt map/layer, when update is called from main.cpp
@@ -54,6 +57,7 @@ public:
 	bool hasReachedGoal();
 private:
 	std::vector<yam2d::vec2> m_waypoints;
+	Player* m_player;
 
 };
 

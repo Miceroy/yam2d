@@ -23,13 +23,16 @@
 #include "Enemy.h" // Include Enemy class header
 
 #include "Input.h"
+#include "Player.h"
+#include "es_util.h"
 
 using namespace yam2d; // Use namespace yam3d implicitily.
 
 
 
-Enemy::Enemy(int gameObjectType, Texture* texture)
+Enemy::Enemy(int gameObjectType, Texture* texture, Player* player)
 	: SpriteGameObject(gameObjectType,texture) // Initalize base class by giving parameres to it
+	, m_player(player)
 {
 }
 
@@ -40,7 +43,8 @@ Enemy::~Enemy(void)
 
 void Enemy::update( float deltaTime )
 {
-	if( hasReachedGoal() )
+	// If all waypoints reached or collides to player, do not move.
+	if( hasReachedGoal() || collidesTo(m_player) )
 		return; // nothing to do.
 
 	float rotationSpeed = 1.0f; // Radians / second
