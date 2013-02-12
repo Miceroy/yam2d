@@ -385,31 +385,8 @@ Camera* Map::getCamera() const
 
 bool Map::isVisible(GameObject* go, Camera* cam)
 {
-	/*float left		= go->getLeft();
-	float top		= go->getTop();
-	float right		= go->getRight();
-	float bottom	= go->getBottom();
-		
-	float camLeft	= cam->getLeft();
-	float camTop	= cam->getTop();
-	float camRight	= cam->getRight();
-	float camBottom	= cam->getBottom();
-	
-	if( m_orientation == ISOMETRIC )
-	{
-		return true;
-	}
-
-	if( (camBottom >= top) && (camTop <= bottom) && (camRight >= left) && (camLeft <= right) )
-	{
-		return true;
-	}
-
-	return false;
-	//	(void)go;
-//	(void)cam;
-	*/
-	return cam->collidesTo(go);
+	return true;
+//	return cam->collidesTo(go);
 }
 
 
