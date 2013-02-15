@@ -387,8 +387,8 @@ bool Map::isVisible(GameObject* go, Camera* cam)
 {
 	(void)go;
 	(void)cam;
-	return true;
-//	return cam->collidesTo(go);
+//	return true;
+	return cam->collidesTo(go);
 }
 
 
