@@ -77,7 +77,8 @@ void Tile::render(Layer* layer)
 		p.x -= tileset->getTileOffsetX();
 		p.y -= tileset->getTileOffsetY();
 
-		vec2 offset(0.0f);
+	//	p += getOffset();
+//		vec2 offset(0.0f);
 
 		layer->getBatch()->addSprite( tex, m_sprite, p, 0, scale );
 	}

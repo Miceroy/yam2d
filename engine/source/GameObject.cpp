@@ -30,6 +30,7 @@ namespace yam2d
 GameObject::GameObject(int type, const vec2& position, const vec2& size, const std::string& name )
 : m_name(name)
 , m_position(position)
+, m_offset(0)
 , m_topLeft(0.0f)
 , m_bottomRight(0.0f)
 , m_rotation(0.0f)
@@ -194,10 +195,10 @@ void GameObject::recalcExtens()
 {
 	assert(m_size.x >= 0.0f);
 	assert(m_size.y >= 0.0f);
-	m_topLeft.x		= m_position.x - (getSizeInTiles().x*0.5f);
-	m_topLeft.y		= m_position.y - (getSizeInTiles().y*0.5f);
-	m_bottomRight.x	= m_position.x + (getSizeInTiles().x*0.5f);
-	m_bottomRight.y	= m_position.y + (getSizeInTiles().y*0.5f);
+	m_topLeft.x		= m_offset.x + m_position.x - (getSizeInTiles().x*0.5f);
+	m_topLeft.y		= m_offset.y + m_position.y - (getSizeInTiles().y*0.5f);
+	m_bottomRight.x	= m_offset.x + m_position.x + (getSizeInTiles().x*0.5f);
+	m_bottomRight.y	= m_offset.y + m_position.y + (getSizeInTiles().y*0.5f);
 }
 
 

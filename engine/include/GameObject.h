@@ -75,6 +75,9 @@ public:
 	bool collidesTo( GameObject* other, vec2* collisionNormal = 0 );
 
 	void setTileSize(const vec2& tileSize );
+protected:
+	void setOffset( const vec2& offset ) { m_offset = offset; recalcExtens(); }
+	const vec2& getOffset() const { return m_offset; }
 private:
 	void recalcExtens();
 
@@ -84,7 +87,7 @@ private:
 	
 	std::string		m_name;
 	vec2			m_position;
-//	vec2			m_offset;
+	vec2			m_offset;
 	vec2			m_topLeft;
 	vec2			m_bottomRight;
 	float			m_rotation;
