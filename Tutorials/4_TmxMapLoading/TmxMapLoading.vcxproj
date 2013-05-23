@@ -86,7 +86,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\engine\yam2d.vcxproj">
+    <ProjectReference Include="$(YAM2D_ROOT)\engine\build\win32_vs10\yam2d.vcxproj">
       <Project>{48cda762-fea3-4ff9-3d05-b05d6038cad6}</Project>
     </ProjectReference>
   </ItemGroup>
