@@ -23,7 +23,7 @@ bool init ( ESContext *esContext )
 	map = new TmxMap();
 
 	// Load map file
-	bool okay = map->loadMapFile("level.tmx");
+	bool okay = map->loadMapFile("assets/level.tmx");
 
 	if( okay )
 	{

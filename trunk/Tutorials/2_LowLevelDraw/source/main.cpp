@@ -34,16 +34,16 @@ bool init ( ESContext *esContext )
 	batch = new SpriteBatchGroup();
 	
 	// Load OpenGL logo to be used as texture for sprite.
-	openGLTexture = new Texture("opengl-logo.png");
+	openGLTexture = new Texture("assets/opengl-logo.png");
 	
 	// Create new sprite, with default parameters.
 	sprite = new Sprite();
 	
 	// Load font texture. Made with font creation tool like bitmap font builder.
-	fontTexture = new Texture("Fixedsys_24_Bold.png");
+	fontTexture = new Texture("assets/Fixedsys_24_Bold.png");
 
 	// Create font clip areas (sprite sheet), from dat file and texture. Dat-file is made with bitmap font builder.
-	SpriteSheet* font = SpriteSheet::autoFindFontFromTexture(fontTexture,"Fixedsys_24_Bold.dat");
+	SpriteSheet* font = SpriteSheet::autoFindFontFromTexture(fontTexture,"assets/Fixedsys_24_Bold.dat");
 
 	// Create new text-object
 	text = new Text(font);

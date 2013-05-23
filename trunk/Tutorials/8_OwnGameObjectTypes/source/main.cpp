@@ -29,7 +29,7 @@ bool init ( ESContext *esContext )
 	map = new TmxMap();
 	
 	// Load map file
-	if( !map->loadMapFile("level.tmx") )
+	if( !map->loadMapFile("assets/level.tmx") )
 		return false;
 
 	// Move gameobject to middle of map.
@@ -40,7 +40,7 @@ bool init ( ESContext *esContext )
 	// Add player to map layer named "GameObjects".
 	{
 		// Load texture.
-		Texture* playerTexture = new Texture("red_triangle.png");
+		Texture* playerTexture = new Texture("assets/red_triangle.png");
 		// We have pink background in red_triangle-png.
 		playerTexture->setTransparentColor(255,0,255);
 
@@ -54,7 +54,7 @@ bool init ( ESContext *esContext )
 	// Add enemy to map layer named "GameObjects".
 	{
 		// Load texture.
-		Texture* enemyTexture = new Texture("blue_triangle.png");
+		Texture* enemyTexture = new Texture("assets/blue_triangle.png");
 		// We have pink background in blue_triangle-png.
 		enemyTexture->setTransparentColor(255,0,255);
 
