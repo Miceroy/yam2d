@@ -255,10 +255,19 @@ namespace Tmx
 		free(out);
 	}
 
+	inline char* strdup(const char* s)
+	{
+#if defined(WIN32)
+		return _strdup(s);
+#else
+		return ::strdup(s);
+#endif
+	}
+
 	void TileLayer::ParseCSV(const std::string &innerText) 
 	{
 		// Duplicate the string for use with C stdio.
-		char *csv = _strdup(innerText.c_str());
+		char *csv = strdup(innerText.c_str());
 		
 		// Iterate through every token of ';' in the CSV string.
 		char *pch = strtok(csv, ",");

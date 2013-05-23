@@ -30,12 +30,18 @@
 #include <OGLES/Include/EGL/egl.h>
 #include <config.h>
 
+
 namespace yam2d
 {
 
 // anonymous namespace for internal functions
 namespace
 {
+#if defined(ANDROID)
+template <class _Tp>
+inline const _Tp& (max)(const _Tp& __a, const _Tp& __b) {  return  __a < __b ? __b : __a; }
+#endif
+
 #if defined(YAM_WRITING_LOGS_TO_FILE)
 	const char* const logFileName = 	YAM_WRITING_LOGS_TO_FILE;
 	FILE* logFileHandle = (strlen(logFileName) > 0) ? fopen (logFileName,"w") : NULL;
@@ -48,7 +54,7 @@ namespace
 }
 
 
-
+#if defined(_WIN32)
 EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay,
                               EGLContext* eglContext, EGLSurface* eglSurface,
                               EGLint attribList[])
@@ -125,12 +131,6 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
 } 
 
 
-void esInitContext ( ESContext *esContext )
-{
-	assert ( esContext != NULL );
-	memset( esContext, 0, sizeof( ESContext) );
-}
-
 
 GLboolean esCreateWindow ( ESContext *esContext, const char* title, GLint width, GLint height, GLint flags )
 {
@@ -177,6 +177,13 @@ void esMainLoop ( ESContext *esContext )
 {
 	winLoop( esContext );
 }
+#endif
+
+void esInitContext ( ESContext *esContext )
+{
+	assert ( esContext != NULL );
+	memset( esContext, 0, sizeof( ESContext) );
+}
 
 
 void esRegisterDrawFunc ( ESContext *esContext, void (*drawFunc) (ESContext* ) )
@@ -203,8 +210,12 @@ void esLogMessage ( const char *formatStr, ... )
 	char buf[BUFSIZ];
 
 	va_start ( params, formatStr );
+#if defined(_WIN32)
 	vsprintf_s ( buf, sizeof(buf),  formatStr, params );
-    
+#else
+	sprintf( buf,  formatStr, params );
+#endif
+
 	printf ( "%s\n", buf );
     
 #if defined(YAM_WRITING_LOGS_TO_FILE)
@@ -225,7 +236,11 @@ void esLogEngineError( const char *formatStr, ... )
 	char buf[BUFSIZ];
 
 	va_start ( params, formatStr );
+#if defined(_WIN32)
 	vsprintf_s ( buf, sizeof(buf),  formatStr, params );
+#else
+	sprintf( buf,  formatStr, params );
+#endif
     
 	printf ( "Error: %s\n", buf );
 

@@ -32,16 +32,22 @@ namespace yam2d
 namespace
 {
 #if defined(_WIN32)
+	typedef __int64 YAM_TIME_TYPE;
+#else
+	typedef long YAM_TIME_TYPE;
+#endif
+
+#if defined(_WIN32)
 	#include <Windows.h>
 
 #if defined(ELAPSED_TIMER_USES_GETTICCOUNT)
-	inline  __int64 getTimeScale()
+	inline  YAM_TIME_TYPE getTimeScale()
 	{
 		return 1000;
 	}
 
 	/** Returns time in seconds */
-	inline __int64 getTotalTime()
+	inline YAM_TIME_TYPE getTotalTime()
 	{
 		return GetTickCount();
 	}
@@ -50,7 +56,7 @@ namespace
 	static BOOL pcAvailable = false;
 	static bool pcInitDone = false;
 
-	inline  __int64 getTimeScale()
+	inline  YAM_TIME_TYPE getTimeScale()
 	{
 		if( pcAvailable )
 		{
@@ -61,7 +67,7 @@ namespace
 	}
 
 	/** Returns time in seconds */
-	inline __int64 getTotalTime()
+	inline YAM_TIME_TYPE getTotalTime()
 	{
 		if( !pcInitDone )
 		{
@@ -82,6 +88,17 @@ namespace
 	}
 #endif
 
+#elif defined(ANDROID)
+	inline  YAM_TIME_TYPE getTimeScale()
+	{
+		return 1000;
+	}
+
+	/** Returns time in seconds */
+	inline YAM_TIME_TYPE getTotalTime()
+	{
+		return 0;
+	}
 #else
 You need to have unsigned long getTime() implementation on this platform.
 #endif
@@ -107,8 +124,8 @@ void ElapsedTimer::reset()
 
 float ElapsedTimer::getTime() const
 {
-	assert(m_startTime != __int64(-1) ); // You must call reset atleast once before first call to getTime.
-	__int64 curTime = getTotalTime();
+	assert(m_startTime != YAM_TIME_TYPE(-1) ); // You must call reset atleast once before first call to getTime.
+	YAM_TIME_TYPE curTime = getTotalTime();
 
 	float deltaTime = float(curTime-m_startTime)/float(getTimeScale());
 	assert( deltaTime >= 0.0f ); // WTF? 

@@ -62,10 +62,11 @@ public:
 
 private:
 #if defined(_WIN32)
-	__int64 m_startTime;
+	typedef __int64 YAM_TIME_TYPE;
 #else
-	long m_startTime;
+	typedef long YAM_TIME_TYPE;
 #endif
+	YAM_TIME_TYPE m_startTime;
 };
 
 }

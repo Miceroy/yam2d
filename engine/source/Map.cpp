@@ -591,8 +591,12 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 		if( transparentColor.length() > 0 )
 		{
 			int color(0);
+#if defined(_WIN32)
 			sscanf_s( transparentColor.c_str(), "%X", &color );
-			texture->setTransparentColor(unsigned char((color&0xff0000) >> 16), unsigned char((color&0xff00) >> 8), unsigned char((color&0xff) >> 0) );
+#else
+			sscanf( transparentColor.c_str(), "%X", &color );
+#endif
+			texture->setTransparentColor( (unsigned char)((color&0xff0000) >> 16), (unsigned char)((color&0xff00) >> 8), (unsigned char)((color&0xff) >> 0) );
 		}
 		
 		// Create sprite sheet
