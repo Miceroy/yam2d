@@ -31,6 +31,15 @@
 
 namespace Tmx 
 {
+	inline char* strdup(const char* s)
+	{
+#if defined(WIN32)
+		return _strdup(s);
+#else
+		return ::strdup(s);
+#endif
+	}
+
 	PointList::PointList()
 		: points()
 	{
@@ -38,7 +47,7 @@ namespace Tmx
 
 	void PointList::Parse(const TiXmlNode *polygonNode)
 	{
-		char *pointsLine = _strdup(polygonNode->ToElement()->Attribute("points"));
+		char *pointsLine = strdup(polygonNode->ToElement()->Attribute("points"));
 		
 		char *token = strtok(pointsLine, " ");
 		while (token)

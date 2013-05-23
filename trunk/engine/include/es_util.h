@@ -23,10 +23,16 @@
 #ifndef ESUTIL_H_
 #define ESUTIL_H_
 
+#if defined(_WIN32)
 #include <OGLES/Include/GLES/gl.h>
 #include <OGLES/Include/EGL/egl.h>
-#include <vector>
+#else
+#include <EGL/egl.h>
+#include <GLES/gl.h>
+#endif
 
+#include <vector>
+#include <string>
 
 namespace yam2d
 {
