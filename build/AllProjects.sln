@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yam2d", "..\engine\build\win32_vs10\yam2d.vcxproj", "{48CDA762-FEA3-4FF9-3D05-B05D6038CAD6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1_TemplateProject", "..\Tutorials\1_TemplateProject\TemplateProject.vcxproj", "{620EEC96-C453-4F33-9270-BB6747EF5194}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1_TemplateProject", "..\Tutorials\1_TemplateProject\build\win32_vs10\TemplateProject.vcxproj", "{620EEC96-C453-4F33-9270-BB6747EF5194}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2_LowLevelDraw", "..\Tutorials\2_LowLevelDraw\LowLevelDraw.vcxproj", "{172B5EC3-E62E-4B03-BE17-049B10E369B9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2_LowLevelDraw", "..\Tutorials\2_LowLevelDraw\build\win32_vs10\LowLevelDraw.vcxproj", "{172B5EC3-E62E-4B03-BE17-049B10E369B9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3_SimpleMap", "..\Tutorials\3_SimpleMap\SimpleMap.vcxproj", "{5FF150AD-27A0-4198-957E-DEEDF81EA9FA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3_SimpleMap", "..\Tutorials\3_SimpleMap\build\win32_vs10\SimpleMap.vcxproj", "{5FF150AD-27A0-4198-957E-DEEDF81EA9FA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4_TmxMapLoading", "..\Tutorials\4_TmxMapLoading\TmxMapLoading.vcxproj", "{57A6AA53-FF7E-4643-A5B7-1FD369244BF2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4_TmxMapLoading", "..\Tutorials\4_TmxMapLoading\build\win32_vs10\TmxMapLoading.vcxproj", "{57A6AA53-FF7E-4643-A5B7-1FD369244BF2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tutorials", "Tutorials", "{A0AE2B5C-30F3-4082-9332-6B82E93872E3}"
 EndProject
@@ -17,13 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{952A1E11
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TmxMapViewer", "..\Tools\TmxMapViewer\build\TmxMapViewer.vcxproj", "{797A7F94-9CB4-4C30-AD11-90976C1E02FE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "5_CustomMapCreation", "..\Tutorials\5_CustomMapCreation\CustomMapCreation.vcxproj", "{AF9A5258-9E6B-46E9-9F85-C5B81905D4C0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "5_CustomMapCreation", "..\Tutorials\5_CustomMapCreation\build\win32_vs10\CustomMapCreation.vcxproj", "{AF9A5258-9E6B-46E9-9F85-C5B81905D4C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "6_ObjectMoveAndMouseLookAt", "..\Tutorials\6_ObjectMoveAndMouseLookAt\ObjectMoveAndMouseLookAt.vcxproj", "{5D437C56-587B-40E3-AF90-515A7E864D57}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "6_ObjectMoveAndMouseLookAt", "..\Tutorials\6_ObjectMoveAndMouseLookAt\build\win32_vs10\ObjectMoveAndMouseLookAt.vcxproj", "{5D437C56-587B-40E3-AF90-515A7E864D57}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "7_SpriteAnimation", "..\Tutorials\7_SpriteAnimation\SpriteAnimation.vcxproj", "{8BE50EF2-43D3-47F3-B575-9487324B1F57}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "7_SpriteAnimation", "..\Tutorials\7_SpriteAnimation\build\win32_vs10\SpriteAnimation.vcxproj", "{8BE50EF2-43D3-47F3-B575-9487324B1F57}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "8_OwnGameObjectTypes", "..\Tutorials\8_OwnGameObjectTypes\OwnGameObjectTypes.vcxproj", "{E3162C3A-2EBE-4D4D-974C-85E1FE27D5A4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "8_OwnGameObjectTypes", "..\Tutorials\8_OwnGameObjectTypes\build\win32_vs10\OwnGameObjectTypes.vcxproj", "{E3162C3A-2EBE-4D4D-974C-85E1FE27D5A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
