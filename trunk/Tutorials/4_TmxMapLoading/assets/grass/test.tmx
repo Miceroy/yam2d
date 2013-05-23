@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="20" tileheight="20">
+ <tileset firstgid="1" name="Grass" tilewidth="20" tileheight="20" spacing="20">
+  <image source="Grass.png" trans="008a76" width="101" height="181"/>
+ </tileset>
+ <tileset firstgid="16" name="Grass2" tilewidth="20" tileheight="20" spacing="20">
+  <image source="Grass2.png" trans="008a76" width="101" height="181"/>
+ </tileset>
+ <tileset firstgid="31" name="2CrtB" tilewidth="20" tileheight="20" spacing="20">
+  <image source="2CrtB.png" trans="008a76" width="101" height="181"/>
+ </tileset>
+ <tileset firstgid="46" name="2Crtc" tilewidth="20" tileheight="20" spacing="20">
+  <image source="2Crtc.png" trans="008a76" width="141" height="61"/>
+ </tileset>
+ <tileset firstgid="54" name="2Crtr" tilewidth="20" tileheight="20" spacing="20">
+  <image source="2Crtr.png" trans="008a76" width="141" height="181"/>
+ </tileset>
+ <tileset firstgid="74" name="2Mnt" tilewidth="20" tileheight="20" spacing="20">
+  <image source="2Mnt.png" trans="008a76" width="101" height="181"/>
+ </tileset>
+ <tileset firstgid="89" name="2Watr" tilewidth="20" tileheight="20" spacing="20">
+  <image source="2Watr.png" trans="008a76" width="101" height="181"/>
+ </tileset>
+ <tileset firstgid="104" name="clif" tilewidth="20" tileheight="20" spacing="20">
+  <image source="clif.png" trans="008a76" width="101" height="181"/>
+ </tileset>
+ <tileset firstgid="119" name="crtr" tilewidth="20" tileheight="20" spacing="20">
+  <image source="crtr.png" trans="008a76" width="101" height="21"/>
+ </tileset>
+ <tileset firstgid="122" name="lav" tilewidth="20" tileheight="20" spacing="20">
+  <image source="lav.png" trans="008a76" width="101" height="181"/>
+ </tileset>
+ <tileset firstgid="137" name="RDst" tilewidth="20" tileheight="20" spacing="20">
+  <image source="RDst.png" trans="008a76" width="161" height="61"/>
+ </tileset>
+ <tileset firstgid="145" name="road" tilewidth="20" tileheight="20" spacing="20">
+  <image source="road.png" trans="008a76" width="261" height="181"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt1LtKA0EYhuEFSRpF49kyEkUQLbTyAuwkhoQETTxjJ1jZxMILsBJEWwur5C79BjKwDHPITpzsrH7Fw7LDJvwvw0wpSZISERHRHzEzelZgMWUpgtlMypa1ZVhJWY1gXnaw4793PGvWXgrYoTNJxxqsp2zk2KF6y9BRJHnM/DVi+2ZQkI5vz9/q7gBXRxd6cBFRh89+XMIVXAfYk2GGb6uwOUHHDdzCXYCOd+X9Az41XqEGu2O0xK6Wajny/I9QZ8SnQzg2tLjuq5BnROjDOTQVZ4YOYStDh9yH+8AdoqEFp4q6pcN2Vg4N+yCF6DA1uDr2YcfQcKCsybtKCnFnNQwNasfeGA3CEzwoa7MwH2B2nw5p29IgPSrvc7AQWYdO39ExDb/R4dqPaejAiUE7h3mIiIiIiIgomx+kvGN2
+  </data>
+ </layer>
+</map>
