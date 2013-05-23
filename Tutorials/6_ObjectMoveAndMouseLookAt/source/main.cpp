@@ -91,12 +91,12 @@ bool init ( ESContext *esContext )
 	map->registerCreateNewLayerFunc(createNewLayer);
 
 	// Load map file
-	if( !map->loadMapFile("level.tmx") )
+	if( !map->loadMapFile("assets/level.tmx") )
 		return false;
 
 	// Create game object from "triangle.png, which transparent
 	// color is pink and size is one tile (tile size comes from map)
-	Texture* texture = new Texture("triangle.png");
+	Texture* texture = new Texture("assets/triangle.png");
 	texture->setTransparentColor(255,0,255);
 	gameObject = new SpriteGameObject(0,texture);
 	gameObject->setSize(map->getTileWidth(), map->getTileHeight());
