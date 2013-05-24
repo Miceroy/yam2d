@@ -23,7 +23,7 @@
 
 #include "es_util.h"
 #include <es_assert.h>
-#include "es_util_win.h"
+#include "es_util_win32.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <OGLES/Include/GLES/gl.h>
