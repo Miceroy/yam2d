@@ -24,7 +24,7 @@
 //#define WIN32_LEAN_AND_MEAN
 #include <windowsx.h>
 #include "es_util.h"
-#include "es_util_win.h"
+#include "es_util_win32.h"
 #include <es_assert.h>
 #include <config.h>
 #include <ElapsedTimer.h>

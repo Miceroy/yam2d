@@ -275,7 +275,7 @@
     <ClInclude Include="..\..\include\Camera.h" />
     <ClInclude Include="..\..\include\config.h" />
     <ClInclude Include="..\..\Include\ElapsedTimer.h" />
-    <ClInclude Include="..\..\Include\es_util_win.h" />
+    <ClInclude Include="..\..\Include\es_util_win32.h" />
     <ClInclude Include="..\..\Include\es_util.h" />
     <ClInclude Include="..\..\Include\es_assert.h" />
     <ClInclude Include="..\..\Include\GameObject.h" />
