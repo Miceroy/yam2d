@@ -45,9 +45,6 @@
     <ClCompile Include="..\..\Source\Map.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="S..\..\ource\MapTile.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\PropertySet.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -350,6 +347,9 @@
     </ClCompile>
     <ClCompile Include="..\..\external\Box2D\Rope\b2Rope.cpp">
       <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MapTile.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
