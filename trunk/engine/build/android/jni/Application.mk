@@ -1,4 +1,5 @@
 APP_STL := stlport_static
 APP_MODULES := yam2d
-APP_PLATFORM := android-10
+APP_PLATFORM := android-9
+STLPORT_FORCE_REBUILD := true
 
