@@ -24,6 +24,7 @@
 #include "ElapsedTimer.h"	
 #include "es_assert.h"
 #include <config.h>
+#include <time.h>
 
 namespace yam2d
 {
@@ -89,6 +90,7 @@ namespace
 #endif
 
 #elif defined(ANDROID)
+	
 	inline  YAM_TIME_TYPE getTimeScale()
 	{
 		return 1000;
@@ -97,7 +99,9 @@ namespace
 	/** Returns time in seconds */
 	inline YAM_TIME_TYPE getTotalTime()
 	{
-		return 0;
+		timespec t;
+		clock_gettime(CLOCK_MONOTONIC, &t);
+		return (t.tv_sec * 1000) + (t.tv_nsec / 1000000);
 	}
 #else
 You need to have unsigned long getTime() implementation on this platform.

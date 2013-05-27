@@ -62,9 +62,12 @@ void update( ESContext*, float deltaTime )
 		count = 0.0f;
 }
 
+//extern "C" void app_dummy();
 
 int main ( int argc, char *argv[] )
 {
+	YAM2D_START
+
 	ESContext esContext;
 	esInitContext ( &esContext );
 	esCreateWindow( &esContext, "Hello Triangle", 1280, 720, ES_WINDOW_DEFAULT );

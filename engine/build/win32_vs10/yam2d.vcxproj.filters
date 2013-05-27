@@ -22,6 +22,9 @@
     <Filter Include="Box2D">
       <UniqueIdentifier>{8a7e2791-0e5f-4fc1-a71f-b057873c0bba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Android">
+      <UniqueIdentifier>{c36d3dc5-d776-44a8-a3c9-684c1ecfbb86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\es_util.cpp">
@@ -350,6 +353,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\MapTile.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\android\es_util_android.cpp">
+      <Filter>Android</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -168,6 +168,10 @@
     <ClCompile Include="..\..\external\zlib-1.2.7\trees.c" />
     <ClCompile Include="..\..\external\zlib-1.2.7\uncompr.c" />
     <ClCompile Include="..\..\external\zlib-1.2.7\zutil.c" />
+    <ClCompile Include="..\..\source\android\es_util_android.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Source\ElapsedTimer.cpp" />
     <ClCompile Include="..\..\source\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Layer.cpp" />

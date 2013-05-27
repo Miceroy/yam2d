@@ -31,8 +31,22 @@
 #include <GLES/gl.h>
 #endif
 
+
 #include <vector>
 #include <string>
+
+#if defined(ANDROID)
+struct android_app;
+class ASensorManager;
+class ASensor;
+class ASensorEventQueue;
+extern "C" void app_dummy();
+#define YAM2D_START app_dummy();
+#endif
+
+#if defined(_WIN32)
+#define YAM2D_START
+#endif
 
 namespace yam2d
 {
@@ -60,6 +74,7 @@ enum WindowFlag
 };
 
 
+
 /**
  * Application context.
  */
@@ -70,10 +85,7 @@ struct ESContext
 
 	/// Window height
 	GLint       height;
-
-	/// Window handle
-	EGLNativeWindowType  hWnd;
-
+	
 	/// EGL display
 	EGLDisplay  eglDisplay;
       
@@ -87,6 +99,17 @@ struct ESContext
 	void (*drawFunc) ( ESContext* );
 	void (*updateFunc) ( ESContext*, float deltaTime );
 	void (*deinitFunc) ( ESContext* );
+#if defined(_WIN32)
+	/// Window handle
+	EGLNativeWindowType  hWnd;
+#elif defined(ANDROID)
+	struct android_app* app;
+    ASensorManager* sensorManager;
+    const ASensor* accelerometerSensor;
+	GLint windowCreateFlags;
+    ASensorEventQueue* sensorEventQueue;
+#endif
+
 };
 
 
@@ -162,6 +185,7 @@ void esRegisterKeyFunc ( ESContext *esContext, void (*drawFunc) ( ESContext*, un
  * @param formatStr Format string for error log.  
  */
 void esLogMessage ( const char *formatStr, ... );
+
 
 /**
  * Loads a 24-bit PNG image from a file.
