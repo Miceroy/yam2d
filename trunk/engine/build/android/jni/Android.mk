@@ -14,7 +14,9 @@ LOCAL_C_INCLUDES := \
 	$(ENGINE_PATH)/include \
 	$(ENGINE_PATH)/external
 
+
 LOCAL_SRC_FILES := \
+	$(ENGINE_SRC_PATH)/android/es_util_android.cpp \
 	$(ENGINE_SRC_PATH)/ElapsedTimer.cpp \
 	$(ENGINE_SRC_PATH)/GameObject.cpp \
 	$(ENGINE_SRC_PATH)/Layer.cpp \
@@ -122,6 +124,12 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_EXT_SRC_PATH)/zlib-1.2.7/uncompr.c \
 	$(ENGINE_EXT_SRC_PATH)/zlib-1.2.7/zutil.c
 
+LOCAL_STATIC_LIBRARIES := android_native_app_glue
 
 include $(BUILD_STATIC_LIBRARY)
+
+
+$(call import-module,android/native_app_glue)
+
+
 
