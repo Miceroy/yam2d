@@ -23,6 +23,7 @@
 
 #include "PropertySet.h"
 
+#include <stdlib.h>     /* atoi */
 
 namespace yam2d
 {

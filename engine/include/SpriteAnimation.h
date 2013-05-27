@@ -25,6 +25,7 @@
 
 #include <Object.h>
 #include <vector>
+#include <cstddef>
 
 namespace yam2d
 {

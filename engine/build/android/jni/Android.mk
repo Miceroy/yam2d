@@ -8,7 +8,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := yam2d
 
-LOCAL_CFLAGS := -DANDROID
+LOCAL_CFLAGS := -D_STLP_USE_SIMPLE_NODE_ALLOC -DANDROID -frtti -fexceptions
 
 LOCAL_C_INCLUDES := \
 	$(ENGINE_PATH)/include \
