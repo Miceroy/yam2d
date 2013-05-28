@@ -66,6 +66,7 @@ public:
 	static SpriteSheet* autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel = isWhiteOrTransparentPixel);
 	static SpriteSheet* autoFindFontFromTexture(Texture* texture, const char* const fontWidthBinFileName = 0);
 	static SpriteSheet* generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing );
+	static SpriteSheet* generateSpriteSheet(Texture* texture, int imageWidth, int imageHeight, int tileWidth, int tileHeight, int margin, int spacing );
 
 private:
 	Ref<Texture>					m_texture;

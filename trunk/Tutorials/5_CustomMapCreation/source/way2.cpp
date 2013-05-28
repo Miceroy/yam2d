@@ -66,7 +66,7 @@ bool init ( ESContext *esContext )
 	map->registerMapCreateCallbacks(&cb);
 
 	// Load map file
-	bool okay = map->loadMapFile("assets/level.tmx");
+	bool okay = map->loadMapFile("level.tmx");
 
 	if( okay )
 	{
@@ -116,12 +116,10 @@ int main ( int argc, char *argv[] )
 	esInitContext ( &esContext );
 	esCreateWindow( &esContext, "Custom map creation", 1280, 720, ES_WINDOW_DEFAULT );
 
-	if ( !init ( &esContext ) )
-		return 0;
-
+	esRegisterInitFunc( &esContext, init );
 	esRegisterDrawFunc( &esContext, draw );
 	esRegisterUpdateFunc( &esContext, update );
-	esRegisterDeinitFunc( &esContext, deinit);
+    esRegisterDeinitFunc( &esContext, deinit);
 
 	esMainLoop ( &esContext );
 	return 0;

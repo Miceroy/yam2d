@@ -96,6 +96,7 @@ struct ESContext
 	EGLSurface  eglSurface;
 
 	/// Callbacks
+	bool (*initFunc) ( ESContext* );
 	void (*drawFunc) ( ESContext* );
 	void (*updateFunc) ( ESContext*, float deltaTime );
 	void (*deinitFunc) ( ESContext* );
@@ -118,7 +119,20 @@ struct ESContext
  * 
  * @param esContext Application context
  */
-void esInitContext ( ESContext *esContext );
+
+#if defined(ANDROID)
+void esInitContext_android( ESContext *esContext );
+#endif
+static inline void esInitContext ( ESContext *esContext )
+{
+	YAM2D_START
+//	assert ( esContext != NULL );
+	memset( esContext, 0, sizeof( ESContext) );
+
+#if defined(ANDROID)
+	esInitContext_android( esContext );
+#endif
+}
 
 
 /**
@@ -141,6 +155,14 @@ GLboolean esCreateWindow ( ESContext *esContext, const char *title, GLint width,
  * @param esContext Application context
  */
 void esMainLoop ( ESContext *esContext );
+
+/**
+ * Register a init callback function to be used to init the game.
+ *
+ * @param esContext Application context
+ * @param drawFunc Draw callback function that will be used to render the scene
+ */
+void esRegisterInitFunc ( ESContext *esContext, bool (*initFunc) ( ESContext* ) );
 
 
 /**

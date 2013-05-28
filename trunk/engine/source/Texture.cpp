@@ -28,6 +28,19 @@
 
 namespace yam2d
 {
+	namespace 
+	{
+		bool isNPot(int d)
+		{
+			return d==2 || d==4 || d==8 || d==16 || d==32 || d==64 || d==128 || d==256 || d==512 || d==1024 || d==2048;
+ 		}
+
+		bool isNpotSquare(int w, int h)
+		{
+			return w==h && isNPot(w) && isNPot(h);
+
+		}
+	}
 
 Texture::Texture(const std::string& fileName)
 : m_nativeId(0)
@@ -41,6 +54,12 @@ Texture::Texture(const std::string& fileName)
 		return;
 	}
 	
+	if( !isNpotSquare(m_width,m_height) )
+	{
+		esLogEngineError("Image %s, is not NPOT Square texture (w:%d, h:%d, bpp:%d)",
+			fileName.c_str(), m_width, m_height, m_bpp );
+	}
+
 	m_data = new unsigned char[m_width*m_height*m_bpp];
 	if( false == esLoadPNG(fileName.c_str(), m_data, &m_width, &m_height, &m_bpp ) )
 	{

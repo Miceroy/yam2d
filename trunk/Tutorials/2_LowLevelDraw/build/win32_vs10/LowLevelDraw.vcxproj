@@ -62,7 +62,7 @@
       <AdditionalDependencies>libEGL.lib;libGLES_cm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)..\..\assets\* $(ProjectDir)\assets\*  /Y</Command>
+      <Command>xcopy $(ProjectDir)..\..\assets\* $(ProjectDir)\*  /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -85,7 +85,7 @@
       <AdditionalLibraryDirectories>$(YAM2D_ROOT)\engine\lib\win32</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)..\..\assets\* $(ProjectDir)  /Y</Command>
+      <Command>xcopy $(ProjectDir)..\..\assets\* $(ProjectDir)\*  /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

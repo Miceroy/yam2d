@@ -308,6 +308,27 @@ SpriteSheet* SpriteSheet::autoFindFontFromTexture(Texture* texture, const char* 
 	return new SpriteSheet(texture,ret);
 }
 
+SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int width, int height, int tileWidth, int tileHeight, int margin, int spacing )
+{
+	std::vector<Sprite::PixelClip> ret;
+	int w = width;//texture->getWidth();
+	int h = height;//texture->getHeight();
+
+	for( int y=margin; (y+tileHeight)<=h; y += tileHeight+spacing )
+	{
+		for( int x=margin; (x+tileWidth)<=w; x += tileWidth+spacing )
+		{
+			Sprite::PixelClip c;
+			c.topLeft.x = x;
+			c.topLeft.y = y;
+			c.clipSize.x = tileWidth;
+			c.clipSize.y = tileHeight;
+			ret.push_back(c);
+		}
+	}
+
+	return new SpriteSheet(texture,ret);
+}
 
 SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing )
 {

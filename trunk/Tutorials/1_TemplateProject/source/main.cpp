@@ -66,15 +66,14 @@ void update( ESContext*, float deltaTime )
 
 int main ( int argc, char *argv[] )
 {
-	YAM2D_START
+	
 
 	ESContext esContext;
 	esInitContext ( &esContext );
 	esCreateWindow( &esContext, "Hello Triangle", 1280, 720, ES_WINDOW_DEFAULT );
    
-	if ( !init ( &esContext ) )
-		return 0;
 
+	esRegisterInitFunc( &esContext, init );
 	esRegisterDrawFunc( &esContext, draw );
 	esRegisterUpdateFunc( &esContext, update );
     esRegisterDeinitFunc( &esContext, deinit);

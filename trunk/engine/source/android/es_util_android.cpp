@@ -28,13 +28,13 @@
 #include <es_util.h>
 #include <es_assert.h>
 #include <ElapsedTimer.h>
-
+#include <config.h>
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "native-activity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "native-activity", __VA_ARGS__))
 
-static struct android_app* g_androidState = 0;
-
+struct android_app* g_androidState = 0;
+static bool initDone = false; 
 
 //extern "C" void  app_dummy();
 
@@ -43,9 +43,7 @@ int main ( int argc, char *argv[] );
 namespace yam2d
 {
 	
-	void esLogEngineError( const char *formatStr, ... );
-
-
+	
 
 	
 	/*
@@ -282,13 +280,20 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd)
             if (engine->app->window != NULL) 
 			{
                 engine_init_display(engine);
-                engine_draw_frame(engine);
+				engine->initFunc ( engine );
+				initDone = true;
+//                engine_draw_frame(engine);
             }
             break;
 
         case APP_CMD_TERM_WINDOW:
             // The window is being hidden or closed, clean it up.
-            engine_term_display(engine);
+			if( initDone == true )
+			{
+				engine->deinitFunc(engine);
+				initDone = false;
+			}
+			engine_term_display(engine);
             break;
 
         case APP_CMD_GAINED_FOCUS:
@@ -317,10 +322,8 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd)
 }
 
 
-void esInitContext ( ESContext *esContext )
+void esInitContext_android( ESContext *esContext )
 {
-	assert ( esContext != NULL );
-	memset( esContext, 0, sizeof( ESContext) );
 	g_androidState->userData = esContext;
 	esContext->app = g_androidState;
 	g_androidState->onAppCmd = engine_handle_cmd;
@@ -329,8 +332,6 @@ void esInitContext ( ESContext *esContext )
 	esContext->sensorManager = ASensorManager_getInstance();
     esContext->accelerometerSensor = ASensorManager_getDefaultSensor(esContext->sensorManager, ASENSOR_TYPE_ACCELEROMETER);
     esContext->sensorEventQueue = ASensorManager_createEventQueue(esContext->sensorManager, g_androidState->looper, LOOPER_ID_USER, NULL, NULL);
-
-
 }
 
 
@@ -338,7 +339,7 @@ void esMainLoop( ESContext *esContext )
 {
 	ElapsedTimer timer;
 	timer.reset();
-	
+	initDone = false;
 	while (1) 
 	{
         // Read all pending events.
@@ -378,26 +379,31 @@ void esMainLoop( ESContext *esContext )
             }
         }
 
+		
 		float deltaTime = timer.getTime();
 		timer.reset();
-		if( deltaTime > 0.0f )
+		
+		if( initDone )
 		{
-			esContext->updateFunc ( esContext, deltaTime );
-//			clearInput();
-		}	
+			if( deltaTime > 0.0f )
+			{
+				esContext->updateFunc ( esContext, deltaTime );
+	//			clearInput();
+			}	
 
-       // if (engine.animating)
-		{
-            // Done with events; draw next animation frame.
-         /*   engine.state.angle += .01f;
-            if (engine.state.angle > 1) {
-                engine.state.angle = 0;
-            }
-			*/
-            // Drawing is throttled to the screen update rate, so there
-            // is no need to do timing here.
-            engine_draw_frame(esContext);
-        }
+		   // if (engine.animating)
+			{
+				// Done with events; draw next animation frame.
+			 /*   engine.state.angle += .01f;
+				if (engine.state.angle > 1) {
+					engine.state.angle = 0;
+				}
+				*/
+				// Drawing is throttled to the screen update rate, so there
+				// is no need to do timing here.
+				engine_draw_frame(esContext);
+			}
+		}
     }
 }
 

@@ -23,7 +23,7 @@ bool init ( ESContext *esContext )
 	map = new TmxMap();
 
 	// Load map file
-	bool okay = map->loadMapFile("assets/level.tmx");
+	bool okay = map->loadMapFile("level.tmx");
 
 	if( okay )
 	{
@@ -97,7 +97,7 @@ void draw ( ESContext *esContext )
 	glClear ( GL_COLOR_BUFFER_BIT );
 
 	// Set screen size to camera.
-	map->getCamera()->setScreenSize(esContext->width,esContext->height); 
+	map->getCamera()->setScreenSize(esContext->width,esContext->height, 720, 1280.0f/720.0f); 
 
 	// Render map and all of its layers containing GameObjects to screen.
 	map->render();
@@ -110,12 +110,10 @@ int main ( int argc, char *argv[] )
 	esInitContext ( &esContext );
 	esCreateWindow( &esContext, "TMX map loading", 1280, 720, ES_WINDOW_DEFAULT );
 
-	if ( !init ( &esContext ) )
-		return 0;
-
+	esRegisterInitFunc( &esContext, init );
 	esRegisterDrawFunc( &esContext, draw );
 	esRegisterUpdateFunc( &esContext, update );
-	esRegisterDeinitFunc( &esContext, deinit);
+    esRegisterDeinitFunc( &esContext, deinit);
 
 	esMainLoop ( &esContext );
 	return 0;

@@ -92,7 +92,7 @@ bool init ( ESContext *esContext )
 	map->addLayer(Map::BACKGROUND0, backgroundLayer );
 
 	// Create new sprite GameObject from texture (background sprite) size is same than screen size.
-	SpriteGameObject* backgroundGameObject = createSpriteGameObject("assets/cloudsbackground.png", 1280.0f, 720.0f);
+	SpriteGameObject* backgroundGameObject = createSpriteGameObject("cloudsbackground.png", 1280.0f, 720.0f);
 
 	// Set some color to sprite, here color values are from 0.0 to 1.0 (RGB or RGBA)
 	backgroundGameObject->getSprite()->setColor(1.0f, 0.9f, 0.9f);
@@ -110,14 +110,14 @@ bool init ( ESContext *esContext )
 	map->addLayer(Map::MAPLAYER0, objectLayer );
 
 	// Create new ball game object (1x1 tiles), clip it from texture position <0,0> - <64,64>, white color shall be transparent
-	SpriteGameObject* ballGameObject = createSpriteGameObject("assets/objects.png", tileSize.x, tileSize.y, 0, 0, 64, 64, true);
+	SpriteGameObject* ballGameObject = createSpriteGameObject("objects.png", tileSize.x, tileSize.y, 0, 0, 64, 64, true);
 	// Add ball to level
 	objectLayer->addGameObject(ballGameObject);
 	// Set position
 	ballGameObject->setPosition(vec2(-1,0));
 
 	// Create new square game object (1x1 tiles), clip it from texture position <192,0> - <64,64>
-	SpriteGameObject* square = createSpriteGameObject("assets/objects.png", tileSize.x, tileSize.y, 192, 0, 64, 64);
+	SpriteGameObject* square = createSpriteGameObject("objects.png", tileSize.x, tileSize.y, 192, 0, 64, 64);
 	// Add square to level
 	objectLayer->addGameObject(square);
 	// Set position
@@ -127,7 +127,7 @@ bool init ( ESContext *esContext )
 	for( int x=-4; x<5; ++x )
 	{
 		// Create new floor game object (2x1 tiles), clip it from texture position <64,0> - <128,64>
-		SpriteGameObject* square = createSpriteGameObject("assets/objects.png", tileSize.x*2.0f,tileSize.y, 64, 0, 128, 64);
+		SpriteGameObject* square = createSpriteGameObject("objects.png", tileSize.x*2.0f,tileSize.y, 64, 0, 128, 64);
 		// Add to level
 		objectLayer->addGameObject(square);
 		// Set position
@@ -163,7 +163,7 @@ void draw ( ESContext *esContext )
 	glClear ( GL_COLOR_BUFFER_BIT );
 
 	// Set screen size to camera.
-	map->getCamera()->setScreenSize(esContext->width,esContext->height); 
+	map->getCamera()->setScreenSize(esContext->width,esContext->height, 720, 1280.0f/720.0f); 
 
 	// Render map and all of its layers containing GameObjects to screen.
 	map->render();
@@ -176,12 +176,10 @@ int main ( int argc, char *argv[] )
 	esInitContext ( &esContext );
 	esCreateWindow( &esContext, "Simple map example", 1280, 720, ES_WINDOW_DEFAULT );
    
-	if ( !init ( &esContext ) )
-		return 0;
-
+	esRegisterInitFunc( &esContext, init );
 	esRegisterDrawFunc( &esContext, draw );
 	esRegisterUpdateFunc( &esContext, update );
-	esRegisterDeinitFunc( &esContext, deinit);
+    esRegisterDeinitFunc( &esContext, deinit);
 
 	esMainLoop ( &esContext );
 	return 0;

@@ -21,33 +21,51 @@
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-#include <windows.h>
 #include <lpng1513/png.h>
 #include "es_util.h"
 #include <stdlib.h>
 #include "es_assert.h"
 #include <config.h>
+#include <FileStream.h>
+#include <Ref.h>
 
 namespace yam2d
 {
-
+	namespace
+	{
+		void userReadData(png_structp pngPtr, png_bytep data, png_size_t length) 
+		{
+			png_voidp a = png_get_io_ptr(pngPtr);
+			Stream* s = (Stream*)a;
+			assert(s != 0);
+			assert( length <= png_size_t(s->available()) );
+			(void)s->read(data, length);
+		}
+	}
 
 bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *height, int *bytesPerPixel )
 {
 	// open file and test for it being a png
-	FILE *fp = fopen(fileName, "rb");
+	
+	/*FILE *fp = fopen(fileName, "rb");
 	if (!fp)
 	{
 		esLogEngineError("[%s] File %s could not be opened for reading", __FUNCTION__, fileName);
 		return false;
+	}*/
+	Ref<FileStream> stream = new FileStream(fileName, FileStream::READ_ONLY);
+
+	if( stream->available() <= 0 )
+	{
+		esLogEngineError("[%s] File %s could not be opened for reading", __FUNCTION__, fileName);
+		return false;
 	}
-	
+		
 	png_byte header[8];
-	fread(header, 1, 8, fp);
+	stream->read(header, 8);
 	if (png_sig_cmp(header, 0, 8))
 	{
 		esLogEngineError("[%s] File %s is not recognized as a PNG file", __FUNCTION__, fileName);
-		fclose(fp);
 		return false;
 	}
 
@@ -57,15 +75,15 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 	if (!png_ptr)
 	{
 		esLogEngineError("[%s] png_create_read_struct failed", __FUNCTION__);
-		fclose(fp);
 		return false;
 	}
+	
+	png_set_read_fn(png_ptr,(png_voidp)stream.ptr(), userReadData);
 
 	png_infop info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr)
 	{
 		esLogEngineError("[%s] png_create_info_struct failed", __FUNCTION__);
-		fclose(fp);
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		return false;
 	}
@@ -78,7 +96,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 		return false;
 	}*/
 
-	png_init_io(png_ptr, fp);
+//	png_init_io(png_ptr, fp);
 	png_set_sig_bytes(png_ptr, 8);
 
 	png_read_info(png_ptr, info_ptr);
@@ -132,7 +150,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 	}
 
 	png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-	fclose(fp);
+//	fclose(fp);
 
 	return true;
 }

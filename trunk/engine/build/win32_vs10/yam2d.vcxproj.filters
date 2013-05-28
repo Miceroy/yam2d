@@ -357,6 +357,9 @@
     <ClCompile Include="..\..\source\android\es_util_android.cpp">
       <Filter>Android</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\FileStream.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\es_assert.h">
@@ -684,6 +687,12 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\TextGameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FileStream.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Stream.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

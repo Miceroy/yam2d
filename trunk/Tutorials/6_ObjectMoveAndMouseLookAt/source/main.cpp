@@ -91,12 +91,12 @@ bool init ( ESContext *esContext )
 	map->registerCreateNewLayerFunc(createNewLayer);
 
 	// Load map file
-	if( !map->loadMapFile("assets/level.tmx") )
+	if( !map->loadMapFile("level.tmx") )
 		return false;
 
 	// Create game object from "triangle.png, which transparent
 	// color is pink and size is one tile (tile size comes from map)
-	Texture* texture = new Texture("assets/triangle.png");
+	Texture* texture = new Texture("triangle.png");
 	texture->setTransparentColor(255,0,255);
 	gameObject = new SpriteGameObject(0,texture);
 	gameObject->setSize(map->getTileWidth(), map->getTileHeight());
@@ -157,7 +157,7 @@ void draw ( ESContext *esContext )
 	glClear ( GL_COLOR_BUFFER_BIT );
 
 	// Set screen size to camera.
-	map->getCamera()->setScreenSize(esContext->width,esContext->height); 
+	map->getCamera()->setScreenSize(esContext->width,esContext->height, 720, 1280.0f/720.0f); 
 
 	// Render map and all of its layers containing GameObjects to screen.
 	map->render();
@@ -170,12 +170,10 @@ int main ( int argc, char *argv[] )
 	esInitContext ( &esContext );
 	esCreateWindow( &esContext, "TMX map loading", 1280, 720, ES_WINDOW_DEFAULT );
 
-	if ( !init ( &esContext ) )
-		return 0;
-
+	esRegisterInitFunc( &esContext, init );
 	esRegisterDrawFunc( &esContext, draw );
 	esRegisterUpdateFunc( &esContext, update );
-	esRegisterDeinitFunc( &esContext, deinit);
+    esRegisterDeinitFunc( &esContext, deinit);
 
 	esMainLoop ( &esContext );
 	return 0;

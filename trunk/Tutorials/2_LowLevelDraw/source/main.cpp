@@ -30,30 +30,40 @@ namespace
 // Initialize the game
 bool init ( ESContext *esContext )
 {
+	esLogMessage(__FUNCTION__);
+	int cc = 0;
+	esLogMessage("Init... %d", cc++);
 	// Create new sprite batch group. This must be deleted at deinit.
 	batch = new SpriteBatchGroup();
 	
+	esLogMessage("Init... %d", cc++);
 	// Load OpenGL logo to be used as texture for sprite.
-	openGLTexture = new Texture("assets/opengl-logo.png");
+	openGLTexture = new Texture("opengl-logo.png");
 	
+	esLogMessage("Init... %d", cc++);
 	// Create new sprite, with default parameters.
 	sprite = new Sprite();
 	
+	esLogMessage("Init... %d", cc++);
 	// Load font texture. Made with font creation tool like bitmap font builder.
-	fontTexture = new Texture("assets/Fixedsys_24_Bold.png");
+	fontTexture = new Texture("Fixedsys_24_Bold.png");
 
+	esLogMessage("Init... %d", cc++);
 	// Create font clip areas (sprite sheet), from dat file and texture. Dat-file is made with bitmap font builder.
-	SpriteSheet* font = SpriteSheet::autoFindFontFromTexture(fontTexture,"assets/Fixedsys_24_Bold.dat");
+	SpriteSheet* font = SpriteSheet::autoFindFontFromTexture(fontTexture,"Fixedsys_24_Bold.dat");
 
+	esLogMessage("Init... %d", cc++);
 	// Create new text-object
 	text = new Text(font);
 
+	esLogMessage("Init... Done");
 	return true;
 }
 
 // Deinitialize the game
 void deinit ( ESContext *esContext )
 {
+	esLogMessage(__FUNCTION__);
 	// Delete sprite batch group.
 	delete sprite;
 	delete text;
@@ -64,6 +74,7 @@ void deinit ( ESContext *esContext )
 // Update game
 void update( ESContext* ctx, float deltaTime )
 {
+	//esLogMessage(__FUNCTION__);
 	// Update total time counter.
 	count += deltaTime;
 
@@ -77,7 +88,7 @@ void update( ESContext* ctx, float deltaTime )
 	batch->addSprite(openGLTexture, sprite, vec2(0,0), count, vec2(100) );
 
 	// Add text to position -400,300
-	batch->addText(fontTexture, text, vec2(-400,300), 0);
+	batch->addText(fontTexture, text, vec2(-ctx->width/3,ctx->height/3), 0);
 }
 
 
@@ -85,10 +96,10 @@ void update( ESContext* ctx, float deltaTime )
 void draw ( ESContext *esContext )
 {
 	// Set OpenGL clear color
-	glClearColor( 0.1f, 0.1f, 0.1f, 0.0f );
+	glClearColor( 0.5f, 0.5f, 0.5f, 1.0f );
 
 	// Clear the color buffer
-	glClear ( GL_COLOR_BUFFER_BIT );
+	glClear ( GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT );
 	
 	// Set the viewport to be full window area.
 	glViewport( 0, 0, esContext->width, esContext->height );
@@ -129,17 +140,18 @@ void draw ( ESContext *esContext )
 
 int main ( int argc, char *argv[] )
 {
-	ESContext esContext;
-	esInitContext ( &esContext );
-	esCreateWindow( &esContext, "Hello Triangle", 1280, 720, ES_WINDOW_DEFAULT );
+		esLogMessage("Main...");
+		ESContext esContext;
+		esInitContext ( &esContext );
+	//	esCreateWindow( &esContext, "Hello Triangle", 1280, 720, ES_WINDOW_DEFAULT );
+  		esCreateWindow( &esContext, "Hello Triangle", 1920, 1080, ES_WINDOW_DEFAULT );
    
-	if ( !init ( &esContext ) )
-		return 0;
+		esRegisterInitFunc( &esContext, init );
+		esRegisterDrawFunc( &esContext, draw );
+		esRegisterUpdateFunc( &esContext, update );
+		esRegisterDeinitFunc( &esContext, deinit);
 
-	esRegisterDrawFunc( &esContext, draw );
-	esRegisterUpdateFunc( &esContext, update );
-	esRegisterDeinitFunc( &esContext, deinit);
+		esMainLoop ( &esContext );
 
-	esMainLoop ( &esContext );
 	return 0;
 }
