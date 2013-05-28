@@ -29,7 +29,7 @@ bool init ( ESContext *esContext )
 	map = new TmxMap();
 	
 	// Load map file
-	if( !map->loadMapFile("assets/level.tmx") )
+	if( !map->loadMapFile("level.tmx") )
 		return false;
 
 	// Move gameobject to middle of map.
@@ -40,13 +40,13 @@ bool init ( ESContext *esContext )
 	// Add player to map layer named "GameObjects".
 	{
 		// Load texture.
-		Texture* playerTexture = new Texture("assets/red_triangle.png");
+		Texture* playerTexture = new Texture("red_triangle.png");
 		// We have pink background in red_triangle-png.
 		playerTexture->setTransparentColor(255,0,255);
 
 		// Create new player.
 		player = new Player(0,playerTexture);
-
+		player->setPosition(15,5);
 		// Add it to GameObjects-layer.
 		map->getLayer("GameObjects")->addGameObject(player);
 	}
@@ -54,7 +54,7 @@ bool init ( ESContext *esContext )
 	// Add enemy to map layer named "GameObjects".
 	{
 		// Load texture.
-		Texture* enemyTexture = new Texture("assets/blue_triangle.png");
+		Texture* enemyTexture = new Texture("blue_triangle.png");
 		// We have pink background in blue_triangle-png.
 		enemyTexture->setTransparentColor(255,0,255);
 
@@ -103,7 +103,7 @@ void draw ( ESContext *esContext )
 	glClear ( GL_COLOR_BUFFER_BIT );
 
 	// Set screen size to camera.
-	map->getCamera()->setScreenSize(esContext->width,esContext->height); 
+	map->getCamera()->setScreenSize(esContext->width,esContext->height, 720, 1280.0f/720.0f); 
 
 	// Render map and all of its layers containing GameObjects to screen.
 	map->render();
@@ -116,12 +116,10 @@ int main ( int argc, char *argv[] )
 	esInitContext ( &esContext );
 	esCreateWindow( &esContext, "Sprite animation", 1280, 720, ES_WINDOW_DEFAULT );
 
-	if ( !init ( &esContext ) )
-		return 0;
-
+	esRegisterInitFunc( &esContext, init );
 	esRegisterDrawFunc( &esContext, draw );
 	esRegisterUpdateFunc( &esContext, update );
-	esRegisterDeinitFunc( &esContext, deinit);
+    esRegisterDeinitFunc( &esContext, deinit);
 
 	esMainLoop ( &esContext );
 	return 0;

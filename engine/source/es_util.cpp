@@ -30,6 +30,12 @@
 #include <OGLES/Include/EGL/egl.h>
 #include <config.h>
 
+#if defined(ANDROID)
+#include <android/log.h>
+#define printLog(...) ((void)__android_log_print(ANDROID_LOG_INFO, "yam2d", __VA_ARGS__))
+#else
+#define printLog printf
+#endif
 
 namespace yam2d
 {
@@ -54,7 +60,10 @@ inline const _Tp& (max)(const _Tp& __a, const _Tp& __b) {  return  __a < __b ? _
 }
 
 
-
+void esRegisterInitFunc ( ESContext *esContext, bool (*initFunc) ( ESContext* ) )
+{
+	esContext->initFunc = initFunc;
+}
 
 void esRegisterDrawFunc ( ESContext *esContext, void (*drawFunc) (ESContext* ) )
 {
@@ -83,10 +92,10 @@ void esLogMessage ( const char *formatStr, ... )
 #if defined(_WIN32)
 	vsprintf_s ( buf, sizeof(buf),  formatStr, params );
 #else
-	sprintf( buf,  formatStr, params );
+	vsprintf( buf,  formatStr, params );
 #endif
 
-	printf ( "%s\n", buf );
+	printLog( "%s\n", buf );
     
 #if defined(YAM_WRITING_LOGS_TO_FILE)
 	if( logFileHandle != NULL )
@@ -109,10 +118,10 @@ void esLogEngineError( const char *formatStr, ... )
 #if defined(_WIN32)
 	vsprintf_s ( buf, sizeof(buf),  formatStr, params );
 #else
-	sprintf( buf,  formatStr, params );
+	vsprintf( buf,  formatStr, params );
 #endif
     
-	printf ( "Error: %s\n", buf );
+	printLog( "Error: %s\n", buf );
 
 #if defined(YAM_WRITING_LOGS_TO_FILE)
 	if( logFileHandle != NULL )
@@ -122,6 +131,9 @@ void esLogEngineError( const char *formatStr, ... )
 #endif
 
 	va_end ( params );
+
+	std::string s = buf;
+	throw std::string(s);
 #else
 	(void)formatStr;
 #endif
@@ -134,9 +146,13 @@ void esLogEngineDebug( const char *formatStr, ... )
 	char buf[BUFSIZ];
 
 	va_start ( params, formatStr );
+#if defined(_WIN32)
 	vsprintf_s ( buf, sizeof(buf),  formatStr, params );
+#else
+	vsprintf( buf,  formatStr, params );
+#endif
     
-	printf ( "Engine: %s\n", buf );
+	printLog( "Engine: %s\n", buf );
     
 	va_end ( params );
 #else
@@ -171,6 +187,10 @@ void esViewportTearEdges(int sx, int sy, float desiredAspectRatio)
 	}
 }
 
+void yamAssert(const char* expression, const char* file, int line )
+{
+	esLogEngineError( "Assertation failed at %s:%d: %s", file, line, expression );
+}
 
 std::string getPath( const std::string& fileName )
 {

@@ -45,10 +45,10 @@ namespace
 	TextGameObject* createTextGameObject(const std::string& t)
 	{
 		// Load font texture. Made with font creation tool like bitmap font builder.
-		Texture* fontTexture = new Texture("assets/Fixedsys_24_Bold.png");
+		Texture* fontTexture = new Texture("Fixedsys_24_Bold.png");
 
 		// Create font clip areas (sprite sheet), from dat file and texture. Dat-file is made with bitmap font builder.
-		SpriteSheet* font = SpriteSheet::autoFindFontFromTexture(fontTexture,"assets/Fixedsys_24_Bold.dat");
+		SpriteSheet* font = SpriteSheet::autoFindFontFromTexture(fontTexture,"Fixedsys_24_Bold.dat");
 
 		Text* text = new Text(font);
 		TextGameObject* textGameObject = new TextGameObject(0,text);
@@ -68,7 +68,7 @@ bool init ( ESContext *esContext )
 	map = new TmxMap();
 	
 	// Load map file
-	if( !map->loadMapFile("assets/level.tmx") )
+	if( !map->loadMapFile("level.tmx") )
 		return false;
 
 	// Move gameobject to middle of map.
@@ -76,7 +76,7 @@ bool init ( ESContext *esContext )
 	map->getCamera()->setPosition( cameraPos );
 
 	
-	texture = new Texture("assets/snipe.png");
+	texture = new Texture("snipe.png");
 	texture->setTransparentColor(0xff,0x00,0xff);
 	spriteSheet = SpriteSheet::generateSpriteSheet(texture,32,32,0,0); 
 	snipe = new AnimatedSpriteGameObject(0, spriteSheet);
@@ -106,7 +106,7 @@ bool init ( ESContext *esContext )
 	map->getLayer("GameObjects")->addGameObject(snipe);
 	
 	// Preload texture and sprite sheet for explosion, so we do not need to load these every time, when new explosion is created.	
-	texture = new Texture("assets/explosion.png");
+	texture = new Texture("explosion.png");
 	spriteSheet = SpriteSheet::autoFindSpriteSheetFromTexture(texture);
 	esLogMessage("Found %d sprite clips", spriteSheet->getClipCount() ); 
 	// Create first explosion
@@ -188,7 +188,7 @@ void draw ( ESContext *esContext )
 	glClear ( GL_COLOR_BUFFER_BIT );
 
 	// Set screen size to camera.
-	map->getCamera()->setScreenSize(esContext->width,esContext->height); 
+	map->getCamera()->setScreenSize(esContext->width,esContext->height, 720, 1280.0f/720.0f); 
 
 	// Render map and all of its layers containing GameObjects to screen.
 	map->render();
@@ -201,12 +201,10 @@ int main ( int argc, char *argv[] )
 	esInitContext ( &esContext );
 	esCreateWindow( &esContext, "Sprite animation", 1280, 720, ES_WINDOW_DEFAULT );
 
-	if ( !init ( &esContext ) )
-		return 0;
-
+	esRegisterInitFunc( &esContext, init );
 	esRegisterDrawFunc( &esContext, draw );
 	esRegisterUpdateFunc( &esContext, update );
-	esRegisterDeinitFunc( &esContext, deinit);
+    esRegisterDeinitFunc( &esContext, deinit);
 
 	esMainLoop ( &esContext );
 	return 0;

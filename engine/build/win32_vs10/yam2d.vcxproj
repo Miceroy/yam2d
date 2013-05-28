@@ -173,6 +173,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\ElapsedTimer.cpp" />
+    <ClCompile Include="..\..\source\FileStream.cpp" />
     <ClCompile Include="..\..\source\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Layer.cpp" />
     <ClCompile Include="..\..\Source\Map.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="..\..\Include\es_util_win32.h" />
     <ClInclude Include="..\..\Include\es_util.h" />
     <ClInclude Include="..\..\Include\es_assert.h" />
+    <ClInclude Include="..\..\include\FileStream.h" />
     <ClInclude Include="..\..\Include\GameObject.h" />
     <ClInclude Include="..\..\Include\Input.h" />
     <ClInclude Include="..\..\Include\Layer.h" />
@@ -295,6 +297,7 @@
     <ClInclude Include="..\..\include\SpriteGameObject.h" />
     <ClInclude Include="..\..\Include\SpriteSheet.h" />
     <ClInclude Include="..\..\include\SpriteSheetGameObject.h" />
+    <ClInclude Include="..\..\include\Stream.h" />
     <ClInclude Include="..\..\Include\Text.h" />
     <ClInclude Include="..\..\include\TextGameObject.h" />
     <ClInclude Include="..\..\Include\Texture.h" />

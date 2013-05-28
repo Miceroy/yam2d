@@ -19,7 +19,7 @@
 #ifndef B2_SETTINGS_H
 #define B2_SETTINGS_H
 
-#include <cassert>
+#include <es_assert.h>
 #include <cmath>
 
 #define B2_NOT_USED(x) ((void)(x))

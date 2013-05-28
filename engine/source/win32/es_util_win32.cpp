@@ -143,7 +143,7 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 	case WM_MOUSEWHEEL:
 		{
-			esLogEngineError("WM_MOUSEWHEEL");
+			//esLogEngineError("WM_MOUSEWHEEL");
 			int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 			mouseWheel( delta/WHEEL_DELTA );
 		}
@@ -263,6 +263,10 @@ void winLoop ( ESContext *esContext )
 	timer.reset();
 
 	//bool gotMsg = (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0);
+	if( false == esContext->initFunc(esContext) )
+	{
+		return;
+	}
 
 	while (!done)
 	{
@@ -376,13 +380,16 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
 	return EGL_TRUE;
 } 
 
+/*
 
 void esInitContext ( ESContext *esContext )
 {
+	YAM2D_START
 	assert ( esContext != NULL );
 	memset( esContext, 0, sizeof( ESContext) );
 
 }
+*/
 
 GLboolean esCreateWindow ( ESContext *esContext, const char* title, GLint width, GLint height, GLint flags )
 {
