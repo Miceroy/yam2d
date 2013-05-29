@@ -79,7 +79,7 @@ void FileStream::write( const void* p, int n )
 int FileStream::read( void* p, int n )
 {
 	assert( m_mode == READ_ONLY || m_mode == READ_WRITE );
-	assert(available() > n );
+	assert(available() >= n );
 	size_t s = fread(p, 1, n, m_file);
 	assert( s == size_t(n) );
 	return n;
@@ -94,7 +94,7 @@ int	FileStream::available() const
 	assert(end >= 0);
 	fseek(m_file, current, SEEK_SET);
 	int res = end-current;
-	assert(res > 0);
+	assert(res >= 0);
 	return res;
 }
 #endif
@@ -143,7 +143,7 @@ void FileStream::write( const void* p, int n )
 int FileStream::read( void* p, int n )
 {
 	assert( m_mode == READ_ONLY );
-	assert(available() > n );
+	assert(available() >= n );
 
 	long s = AAsset_read (m_file,p,n);
 	assert( s == n );

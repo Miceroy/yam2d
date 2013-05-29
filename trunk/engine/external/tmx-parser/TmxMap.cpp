@@ -32,6 +32,8 @@
 #include "TmxTileset.h"
 #include "TmxLayer.h"
 #include "TmxObjectGroup.h"
+#include <Ref.h>
+#include <FileStream.h>
 
 using std::vector;
 using std::string;
@@ -99,45 +101,32 @@ namespace Tmx
 			file_path = "";
 		}
 
-		char* fileText;
-		int fileSize;
-
-		// Open the file for reading.
-		FILE *file = fopen(fileName.c_str(), "rb");
-
-		// Check if the file could not be opened.
-		if (!file) 
-		{
-			has_error = true;
-			error_code = TMX_COULDNT_OPEN;
-			error_text = "Could not open the file.";
-			return;
-		}
-		
-		// Find out the file size.
-		fseek(file, 0, SEEK_END);
-		fileSize = ftell(file);
-		fseek(file, 0, SEEK_SET);
-		
+		has_error = true;
+		error_code = TMX_COULDNT_OPEN;
+		error_text = "Could not open the file.";
+		yam2d::Ref<yam2d::Stream> s = new yam2d::FileStream(fileName.c_str(), yam2d::FileStream::READ_ONLY );
+	
 		// Check if the file size is valid.
-		if (fileSize <= 0)
+		if (s->available() <= 0)
 		{
 			has_error = true;
 			error_code = TMX_INVALID_FILE_SIZE;
 			error_text = "The size of the file is invalid.";
 			return;
 		}
+		
+		has_error = false;
+		error_code = 0;
+		error_text = "";
 
 		// Allocate memory for the file and read it into the memory.
-		fileText = new char[fileSize];
-		fread(fileText, 1, fileSize, file);
-
-		fclose(file);
+		std::vector<char> fileText;
+		fileText.resize( s->available() );
+		s->read( &fileText[0], fileText.size() );
 
 		// Copy the contents into a C++ string and delete it from memory.
-		std::string text(fileText, fileText+fileSize);
-		delete [] fileText;
-
+		std::string text(&fileText[0], &fileText[0]+fileText.size());
+		
 		ParseText(text);
 
 
