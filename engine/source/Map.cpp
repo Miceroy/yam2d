@@ -228,7 +228,7 @@ vec2 Map::screenToTileCoordinates(float x, float y)
 		float tileHeight = float(m_tileHeight);
 		float x_pos = (x / tileWidth );
 		float y_pos = (y / tileHeight);
-		return vec2(x_pos,y_pos);
+		return vec2(x_pos*getCamera()->getScaleFactorX(),y_pos*getCamera()->getScaleFactorY());
 	}
 	else
 	{
@@ -252,7 +252,8 @@ vec2 Map::screenToMapCoordinates(const vec2& pos)
 {
 	vec2 camHalfSize =  getCamera()->getSize();
 	camHalfSize *= 0.5f;
-	vec2 res = screenToTileCoordinates(pos) + getCamera()->getPosition() - camHalfSize;
+	vec2 posInTile = screenToTileCoordinates(pos);
+	vec2 res =  posInTile + getCamera()->getPosition() - camHalfSize;
 	return res;
 }
 

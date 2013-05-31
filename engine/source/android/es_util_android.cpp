@@ -29,12 +29,13 @@
 #include <es_assert.h>
 #include <ElapsedTimer.h>
 #include <config.h>
-
+#include "Input.h"
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "native-activity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "native-activity", __VA_ARGS__))
 
 struct android_app* g_androidState = 0;
 static bool initDone = false; 
+static bool shallQuit = false;
 
 //extern "C" void  app_dummy();
 
@@ -44,7 +45,7 @@ namespace yam2d
 {
 	
 	
-
+	void touchEventFunc( ESContext* esContext, TouchEventType type, int touchId, int x, int y );
 	
 	/*
 EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay,
@@ -252,11 +253,50 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
     ESContext* engine = (ESContext*)app->userData;
     if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) 
 	{
-    //    engine->animating = 1;
-     //   engine->state.x = AMotionEvent_getX(event, 0);
-      //  engine->state.y = AMotionEvent_getY(event, 0);
-        return 1;
-    }
+		yam2d::TouchEventType eventType;
+		if (AMotionEvent_getAction(event) == AMOTION_EVENT_ACTION_DOWN)
+		{
+			eventType = yam2d::TOUCH_BEGIN;
+		}
+		else if (AMotionEvent_getAction(event) == AMOTION_EVENT_ACTION_UP)
+		{
+			eventType = yam2d::TOUCH_END;
+		}
+		else if (AMotionEvent_getAction(event) == AMOTION_EVENT_ACTION_MOVE)
+		{
+			eventType = yam2d::TOUCH_MOVE;
+		}
+		else if (AMotionEvent_getAction(event) == AMOTION_EVENT_ACTION_CANCEL)
+		{
+			eventType = yam2d::TOUCH_CANCEL;
+		}
+		else 
+		{
+			return 0;
+		}
+
+		// A pressed gesture has started, the motion contains the initial starting location.
+		for( int i=0; i<AMotionEvent_getPointerCount(event); ++i )
+		{
+			int pointerId = AMotionEvent_getPointerId(event,i);
+			float x =  AMotionEvent_getX(event,i);
+			float y =  AMotionEvent_getY(event,i);
+			touchEventFunc( engine, eventType, pointerId, x, y );
+		}
+
+		return 1;
+	}
+	else if(AInputEvent_getType(event) == AINPUT_SOURCE_TRACKBALL)
+	{
+	}
+	else if(AInputEvent_getType(event) == AINPUT_EVENT_TYPE_KEY)
+	{
+	}
+	else
+	{
+	}
+  
+
     return 0;
 }
 
@@ -292,6 +332,7 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd)
 			{
 				engine->deinitFunc(engine);
 				initDone = false;
+				shallQuit = true;
 			}
 			engine_term_display(engine);
             break;
@@ -340,7 +381,7 @@ void esMainLoop( ESContext *esContext )
 	ElapsedTimer timer;
 	timer.reset();
 	initDone = false;
-	while (1) 
+	while (shallQuit == false) 
 	{
         // Read all pending events.
         int ident;
@@ -383,7 +424,7 @@ void esMainLoop( ESContext *esContext )
 		float deltaTime = timer.getTime();
 		timer.reset();
 		
-		if( initDone )
+		if( initDone && shallQuit == false )
 		{
 			if( deltaTime > 0.0f )
 			{

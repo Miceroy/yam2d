@@ -22,7 +22,6 @@
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 #include "Input.h"
-#include <Windows.h>
 
 
 namespace yam2d
@@ -33,24 +32,26 @@ namespace yam2d
 // anonymous namespace for internal functions
 namespace
 {
-	bool clicks[3];
-	int mouseXValue = 0;
-	int mouseYValue = 0;
-	int mouseWheelDelta = 0;
+//	bool clicks[3];
+//	int mouseXValue = 0;
+//	int mouseYValue = 0;
+//	int mouseWheelDelta = 0;
 
 	std::vector< Touch > touches;
 }
 
 void clearInput()
 {
-	mouseWheelDelta = 0;
+//	mouseWheelDelta = 0;
 }
 
+/*
 void mouseWheel(int mouseWheel)
 {
-	mouseWheelDelta += mouseWheel;
-}
+//	mouseWheelDelta += mouseWheel;
+}*/
 
+/*
 void mouseState(bool leftClicked, bool rightClicked, bool middleClicked, int mouseX, int mouseY )
 {
 	clicks[0] = leftClicked;
@@ -58,7 +59,7 @@ void mouseState(bool leftClicked, bool rightClicked, bool middleClicked, int mou
 	clicks[2] = middleClicked;
 	mouseXValue = mouseX;
 	mouseYValue = mouseY;
-}
+}*/
 
 void touchEventFunc( ESContext* esContext, TouchEventType type, int touchId, int x, int y )
 {
@@ -86,7 +87,7 @@ void touchEventFunc( ESContext* esContext, TouchEventType type, int touchId, int
 	}
 }
 
-int getMouseButtonState(MouseButtons button)
+/*int getMouseButtonState(MouseButtons button)
 {
 	return clicks[button];
 }
@@ -101,15 +102,16 @@ int getMouseAxisY()
 {
 	return mouseYValue;
 }
-
+*/
 int getMouseWheelDelta()
 {
-	return mouseWheelDelta;
+	return 0;
 }
 
 int getKeyState(KeyCodes keyCode)
 {
-	return (GetAsyncKeyState(keyCode) & 0x8000) ? 1 : 0;
+	return 0;
+//	return (GetAsyncKeyState(keyCode) & 0x8000) ? 1 : 0;
 }
 
 

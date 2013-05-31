@@ -70,9 +70,22 @@ public:
 
 	virtual void render( Layer* layer);
 	
-	float getScale()
+	float getScaleFactorY()
 	{
-		return m_screenUnitSize/m_screenHeight;
+		float virtualY = m_screenUnitSize;
+		float actualY = float(m_screenHeight);
+	//	float desiredAspectRatio = m_desiredAspectRatio;
+	//	float actualAspectRatio = float(m_screenWidth)/float(m_screenHeight);
+	//	float virtualX = m_desiredAspectRatio*m_screenUnitSize;
+	//	return (virtualY/actualY);// * 1.5f;// / actualAspectRatio;
+		return virtualY/actualY;
+		//return actualAspectRatio;
+	}
+
+	float getScaleFactorX()
+	{
+	//return 1.0f;
+		return m_desiredAspectRatio*m_screenUnitSize/m_screenWidth;
 	}
 
 private:

@@ -97,10 +97,10 @@ void update( ESContext* ctx, float deltaTime )
 void draw ( ESContext *esContext )
 {
 	// Set OpenGL clear color (dark gray)
-	glClearColor( 0.1f, 0.1f, 0.1f, 0.0f );
+	glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
 
 	// Clear the color buffer
-	glClear ( GL_COLOR_BUFFER_BIT );
+	glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	// Set screen size to camera.
 	map->getCamera()->setScreenSize(esContext->width,esContext->height); 

@@ -360,6 +360,9 @@
     <ClCompile Include="..\..\source\FileStream.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\android\input_android.cpp">
+      <Filter>Android</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\es_assert.h">

@@ -99,50 +99,112 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
       
 
 	case WM_LBUTTONDOWN:
-		SetCapture(hWnd);
-		leftClicked = true;
-		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		{
+			SetCapture(hWnd);
+			leftClicked = true;
+			mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			if( esContext != 0 )
+			{
+				touchEventFunc(esContext, TOUCH_BEGIN, 0, xPos, yPos ); 
+			}
+		}
 		break;
 
 	case WM_LBUTTONUP:
-		SetCapture(0);
-		leftClicked = false;
-		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		{			
+			mouseState(false, rightClicked, middleClicked, xPos, yPos);
+
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			if( esContext != 0 && leftClicked )
+			{
+				touchEventFunc(esContext, TOUCH_END, 0, xPos, yPos ); 
+			}
+			leftClicked = false;
+			SetCapture(leftClicked||rightClicked||middleClicked ? hWnd : 0);
+		}
 		break;
 
 	case WM_RBUTTONDOWN:
-		SetCapture(hWnd);
-		rightClicked = true;
-		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		{
+			SetCapture(hWnd);
+			rightClicked = true;
+			mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			if( esContext != 0 )
+			{
+				touchEventFunc(esContext, TOUCH_BEGIN, 1, xPos, yPos ); 
+			}
+		}
 		break;
 
 	case WM_RBUTTONUP:
-		SetCapture(0);
-		rightClicked = false;
-		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		{			
+			mouseState(leftClicked, false, middleClicked, xPos, yPos);
+
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			if( esContext != 0 && rightClicked )
+			{
+				touchEventFunc(esContext, TOUCH_END, 1, xPos, yPos ); 
+			}
+			rightClicked = false;
+			SetCapture(leftClicked||rightClicked||middleClicked ? hWnd : 0);
+		}
 		break;
 
 	case WM_MBUTTONDOWN:
-		SetCapture(hWnd);
-		middleClicked = true;
-		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		{
+			SetCapture(hWnd);
+			middleClicked = true;
+			mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			if( esContext != 0 )
+			{
+				touchEventFunc(esContext, TOUCH_BEGIN, 2, xPos, yPos ); 
+			}
+		}
 		break;
 
 	case WM_MBUTTONUP:
-		SetCapture(0);
-		middleClicked = false;
-		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		{		
+			mouseState(leftClicked, rightClicked, false, xPos, yPos);
+
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			if( esContext != 0 && middleClicked)
+			{
+				touchEventFunc(esContext, TOUCH_END, 2, xPos, yPos ); 
+			}
+			middleClicked = false;
+			SetCapture(leftClicked||rightClicked||middleClicked ? hWnd : 0);
+		}
 		break;
 
 	case  WM_CAPTURECHANGED:
-		middleClicked = false;
-		rightClicked = false;
-		leftClicked = false;
-		mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+		{
+			if( GetCapture() == 0 )
+			{
+				mouseState(false, false, false, xPos, yPos);
+		
+				ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+				if( esContext != 0 )
+				{
+					if( leftClicked ) touchEventFunc(esContext, TOUCH_CANCEL, 0, xPos, yPos ); 
+					if( rightClicked ) touchEventFunc(esContext, TOUCH_CANCEL, 1, xPos, yPos ); 
+					if( middleClicked ) touchEventFunc(esContext, TOUCH_CANCEL, 2, xPos, yPos ); 
+				}
+			
+				middleClicked = false;
+				rightClicked = false;
+				leftClicked = false;
+			}
+		}		
 		break;
 
 	case WM_MOUSEWHEEL:
-		{
+		{ 
 			//esLogEngineError("WM_MOUSEWHEEL");
 			int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 			mouseWheel( delta/WHEEL_DELTA );
@@ -156,16 +218,28 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			point.y = GET_Y_LPARAM(lParam);
 			ClientToScreen(hWnd,&point);
 			MapWindowPoints(HWND_DESKTOP,hWnd,&point,1);
-
-			xPos = point.x;
-			yPos = point.y;
-		
-			if( (wParam & MK_LBUTTON) == 0 )
+			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr ( hWnd, GWL_USERDATA );
+			if( point.x < 0 || point.y < 0 ||
+				point.x >= esContext->width ||  point.y >= esContext->height )
 			{
-				leftClicked = false;
+				SetCapture(0);
+			}
+			else
+			{
+				xPos = point.x;
+				yPos = point.y;
+			
+				if( esContext != 0 )
+				{
+					if( leftClicked ) touchEventFunc(esContext, TOUCH_MOVE, 0, xPos, yPos ); 
+					if( rightClicked ) touchEventFunc(esContext, TOUCH_MOVE, 1, xPos, yPos ); 
+					if( middleClicked ) touchEventFunc(esContext, TOUCH_MOVE, 2, xPos, yPos ); 
+				}
+
+				mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
 			}
 
-			mouseState(leftClicked, rightClicked, middleClicked, xPos, yPos);
+			
 		}
 		break;
 

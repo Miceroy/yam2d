@@ -50,6 +50,8 @@ int winPNGLoad ( const char *fileName, char *buffer, int *width, int *height );
 void mouseState(bool leftClicked, bool rightClicked, bool middleClicked, int mouseX, int mouseY );
 void clearInput();
 void mouseWheel(int mouseWheel);
+void touchEventFunc( ESContext* esContext, TouchEventType type, int touchId, int x, int y );
+
 }
 
 #endif // ESUTIL_WIN_H_

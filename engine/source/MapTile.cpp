@@ -165,8 +165,8 @@ void Camera::render(Layer* layer)
 	vec2 camPos = layer->getMap()->tileToDeviceCoordinates(getPosition());
 	glTranslatef( -camPos.x, -camPos.y, 0);
 
-	float sizeX = (m_desiredAspectRatio*m_screenUnitSize);
-	float sizeY = (m_screenUnitSize);
+	float sizeX = float(right-left);//m_desiredAspectRatio * (m_screenUnitSize);
+	float sizeY = float(top-bottom);//(m_screenUnitSize);
 
 	vec2 camSizeInTiles = vec2(sizeX,sizeY);
 	camSizeInTiles.x /= layer->getMap()->getTileWidth();
