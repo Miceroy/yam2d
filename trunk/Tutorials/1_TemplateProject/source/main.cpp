@@ -34,10 +34,10 @@ void draw ( ESContext *esContext )
 	glViewport( 0, 0, esContext->width, esContext->height );
    
 	// Set OpenGL clear color
-	glClearColor( float(count), 0.0f, 0.0f, 0.0f );
+	glClearColor( float(count), 0.0f, 0.0f, 1.0f );
 
 	// Clear the color buffer
-	glClear ( GL_COLOR_BUFFER_BIT );
+	glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	
 	// Enable vertex arrays
 	glEnableClientState(GL_VERTEX_ARRAY);

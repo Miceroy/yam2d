@@ -75,6 +75,14 @@ enum WindowFlag
 
 
 
+enum TouchEventType
+{
+	TOUCH_BEGIN = 0,
+	TOUCH_MOVE,
+	TOUCH_CANCEL,
+	TOUCH_END
+};
+
 /**
  * Application context.
  */
@@ -100,6 +108,7 @@ struct ESContext
 	void (*drawFunc) ( ESContext* );
 	void (*updateFunc) ( ESContext*, float deltaTime );
 	void (*deinitFunc) ( ESContext* );
+	void (*touchEventFunc) ( ESContext*, TouchEventType type, int touchId, int x, int y );
 #if defined(_WIN32)
 	/// Window handle
 	EGLNativeWindowType  hWnd;
@@ -199,6 +208,8 @@ void esRegisterDeinitFunc ( ESContext *esContext, void (*deinitFunc) ( ESContext
  * @param keyFunc Key callback function for application processing of keyboard input
  */
 void esRegisterKeyFunc ( ESContext *esContext, void (*drawFunc) ( ESContext*, unsigned char, int, int ) );
+
+void esRegisterTouchEventFunc ( ESContext *esContext, void (*touchEventFunc) ( ESContext*, TouchEventType type, int touchId, int x, int y ) );
 
 
 /**

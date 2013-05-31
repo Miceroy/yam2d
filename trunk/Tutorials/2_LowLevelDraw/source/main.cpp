@@ -99,7 +99,7 @@ void draw ( ESContext *esContext )
 	glClearColor( 0.5f, 0.5f, 0.5f, 1.0f );
 
 	// Clear the color buffer
-	glClear ( GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT );
+	glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	
 	// Set the viewport to be full window area.
 	glViewport( 0, 0, esContext->width, esContext->height );

@@ -74,9 +74,6 @@ namespace
 			float curX = float(getMouseAxisX());
 			float curY = float(getMouseAxisY());
 			vec2 delta((curX-trackStartX), (curY-trackStartY));
-			
-			// Scale it with camera scale
-			delta *= map->getCamera()->getScale();
 
 			// Convert screen coordinates to tile coordinates
 			vec2 newCameraPos = map->screenToTileCoordinates(originalCameraPos.x-delta.x, originalCameraPos.y-delta.y);

@@ -22,6 +22,7 @@
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 #ifndef INPUT_H_
 #define INPUT_H_
+#include "es_util.h"
 
 namespace yam2d
 {
@@ -154,6 +155,16 @@ int getMouseButtonState(MouseButtons button);
 
 /** Returns mouse wheel delta since last frame */
 int getMouseWheelDelta();
+
+struct Touch
+{
+	int touchId;
+	bool pressed;
+	int x;
+	int y;
+};
+
+const std::vector<Touch>& getActiveTouches();
 
 }
 

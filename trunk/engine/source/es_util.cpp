@@ -82,6 +82,10 @@ void esRegisterDeinitFunc ( ESContext *esContext, void (*deinitFunc) ( ESContext
 	esContext->deinitFunc = deinitFunc;
 }
 
+void esRegisterTouchEventFunc ( ESContext *esContext, void (*touchEventFunc) ( ESContext*, TouchEventType type, int touchId, int x, int y ) )
+{
+	esContext->touchEventFunc = touchEventFunc;
+}
 
 void esLogMessage ( const char *formatStr, ... )
 {

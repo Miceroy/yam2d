@@ -80,6 +80,18 @@ void Enemy::update( float deltaTime )
 	// If current absoluteValue(angleDelta) > rotationSpeed*dt, then we would over turn in this frame, so limit rotation according to rotation speed.
 	if( fabsf(angleDelta) > rotationSpeed*deltaTime )
 	{
+		// Make angle delta to -PI <= angleDelta <=PI
+		static const float PI = 3.14159265f;
+		while( angleDelta > PI )
+		{
+			angleDelta -= 2.0f*PI;
+		}
+
+		while( angleDelta < -PI )
+		{
+			angleDelta += 2.0f*PI;
+		}
+
 		float sign = (angleDelta >= 0.0f) ? 1.0f :  -1.0f;
 		angleDelta = sign*rotationSpeed*deltaTime;
 	}

@@ -70,7 +70,7 @@ bool init ( ESContext *esContext )
 		enemyWaypoints.push_back( vec2(14, 0) ); 
 		enemyWaypoints.push_back( vec2(14,14) ); 
 		enemyWaypoints.push_back( vec2(0,14) ); 
-		enemyWaypoints.push_back( vec2(7,7) ); 
+		enemyWaypoints.push_back( vec2(0,0) ); 
 		enemy->setWayoints(enemyWaypoints);
 	}
 	
@@ -97,10 +97,10 @@ void update( ESContext* ctx, float deltaTime )
 void draw ( ESContext *esContext )
 {
 	// Set OpenGL clear color (dark gray)
-	glClearColor( 0.1f, 0.1f, 0.1f, 0.0f );
+	glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
 
 	// Clear the color buffer
-	glClear ( GL_COLOR_BUFFER_BIT );
+	glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	// Set screen size to camera.
 	map->getCamera()->setScreenSize(esContext->width,esContext->height, 720, 1280.0f/720.0f); 
