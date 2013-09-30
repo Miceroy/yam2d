@@ -363,6 +363,9 @@
     <ClCompile Include="..\..\source\android\input_android.cpp">
       <Filter>Android</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\Animation.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\es_assert.h">
@@ -696,6 +699,9 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Stream.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Animation.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

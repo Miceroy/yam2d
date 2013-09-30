@@ -89,6 +89,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\AnimatedEnemy.cpp" />
     <ClCompile Include="..\..\source\Enemy.cpp" />
     <ClCompile Include="..\..\source\main.cpp" />
     <ClCompile Include="..\..\source\Player.cpp" />
@@ -99,6 +100,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\AnimatedEnemy.h" />
     <ClInclude Include="..\..\include\Enemy.h" />
     <ClInclude Include="..\..\include\Player.h" />
   </ItemGroup>

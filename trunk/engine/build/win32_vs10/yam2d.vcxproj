@@ -176,6 +176,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\source\Animation.cpp" />
     <ClCompile Include="..\..\Source\ElapsedTimer.cpp" />
     <ClCompile Include="..\..\source\FileStream.cpp" />
     <ClCompile Include="..\..\source\GameObject.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="..\..\external\zlib-1.2.7\zlib.h" />
     <ClInclude Include="..\..\external\zlib-1.2.7\zutil.h" />
     <ClInclude Include="..\..\include\AnimatedSpriteGameObject.h" />
+    <ClInclude Include="..\..\include\Animation.h" />
     <ClInclude Include="..\..\include\Camera.h" />
     <ClInclude Include="..\..\include\config.h" />
     <ClInclude Include="..\..\Include\ElapsedTimer.h" />
