@@ -4,6 +4,7 @@
 #include <Map.h>
 #include "Player.h"
 #include "Enemy.h"
+#include "AnimatedEnemy.h"
 #include <TextGameObject.h>
 // Camera class
 #include <Camera.h>
@@ -58,8 +59,15 @@ bool init ( ESContext *esContext )
 		// We have pink background in blue_triangle-png.
 		enemyTexture->setTransparentColor(255,0,255);
 
-		// Create new player.
-		Enemy* enemy = new Enemy(0,enemyTexture,player);
+		// Create new animated enemy.
+		AnimatedEnemy* animatedEnemy = new AnimatedEnemy(0,enemyTexture, vec2(2,2), player);
+
+		// Add it to GameObjects-layer.
+		map->getLayer("GameObjects")->addGameObject(animatedEnemy);
+		
+
+		// Create new enemy.
+		Enemy* enemy = new Enemy(0,enemyTexture, player);
 
 		// Add it to GameObjects-layer.
 		map->getLayer("GameObjects")->addGameObject(enemy);
