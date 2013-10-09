@@ -32,11 +32,16 @@
 namespace yam2d
 {
 
-
+	/**
+	 * Keyframe Declares value to certain time in key frame sequence.
+	 */
 	template<class T>
 	struct Keyframe
 	{
 	public:
+		/**
+		 * Constructor. Declares value time pair, which tells what the value should be in wich time on animation.
+		 */
 		inline Keyframe(const T& v, float t);
 
 		T		value;
@@ -45,7 +50,12 @@ namespace yam2d
 		Keyframe();
 	};
 
-	// Linear/slerp/step
+	/**
+	 * Keyframe sequence contains array of time value pairs (keyframes).
+	 *
+	 * If you need to use same keyframedata in several animation, it is recommended, that you share
+	 * same KeyframeSequence-object between animations instead of keeping same data twice in the memory.  
+	 */
 	template<class T>
 	class KeyframeSequence : public Object
 	{
@@ -64,15 +74,41 @@ namespace yam2d
 			return v1;
 		}
 
+		template<class ValueType>
+		static ValueType SLERP(const ValueType& v1, const ValueType& v2, float interpolant)
+		{
+			return slerp(v1, v2, interpolant);
+		}
+
+		/**
+		 * Constructs KeyframeSequence from std::vector<Keyframe>. 
+		 */
 		inline KeyframeSequence(const std::vector< Keyframe<T> >& keyframes);
 
+		/**
+		 * Constructs KeyframeSequence from c-style array. Copies data to it's internal datastructure, so after construction,
+		 * data allocated by caller can be free'ed.
+		 */
 		inline KeyframeSequence(const Keyframe<T>* const data, size_t len);
 		
 		virtual ~KeyframeSequence();
 
+		/**
+		 * Sets interpolation function used bu this key frame sequence. Can 
+		 * be KeyframeSequence::LERP, KeyframeSequence::STEP or KeyframeSequence::SLERP.
+		 * You can also provide your own interpolation function type if function is in 
+		 * correct format.
+		 */
 		inline void setInterpolation(InterpolateFuncType func) { m_interpolate = func; }
+
+		/**
+		 * Returns interpolated value of keyframe sequence in given time. Time must be in range: 0 <= time <= getDuration()
+		 */
 		inline T getValue(float time) const;
 		
+		/**
+		 * Returns duration of this KeyframeSequence.
+		 */
 		inline float getDuration() const;
 
 	private:
@@ -86,7 +122,11 @@ namespace yam2d
 		KeyframeSequence& operator=(const KeyframeSequence&);
 	};
 
-
+	/**
+	 * AnimationTimeline keeps track of time of the animation. Depending on the application, there might have several AnimationTimeline-objects.
+	 * AnimationTimeline object is used to control timing of AnimationTrack and in case of shared AnimationTimeline between AnimationTracks,
+	 * those AnimationTracks run in same time.
+	 */
 	class AnimationTimeline : public Object
 	{
 	public:
@@ -96,7 +136,9 @@ namespace yam2d
 			LOOP		= -1  // Looping mode			
 		};
 
+		/** Constructs AnimationTimeline with maximum time. */
 		AnimationTimeline(float maxTime);
+
 		virtual ~AnimationTimeline();
 
 		// Sets speed of the animation. 0 = pause, 1 = forward, -1 = reverse, 2 = double speed etc...
@@ -131,6 +173,15 @@ namespace yam2d
 		AnimationTimeline& operator=(const AnimationTimeline&);
 	};
 
+	/**
+	 * AnimationTrack composes several matters together inorder to automate animation time mapping to some target property of an object.
+	 * 
+	 * AnimationTrack has always some (game)object attached to it. Each animation track controls certain target property of the object, 
+	 * like position, rotation, transparency etc. vie targetProperty-setter function.
+	 *
+	 * There can be serveral Keyframes, which is used to control the target property of an object. These single keyframe values are take
+	 * into account, when final target value is calculated. Actual final target value is calculated as weighted sum of each value of keyframe.
+	 */
 	template<class ValueType, class TargetObjectType>
 	class AnimationTrack : public Object
 	{
@@ -143,8 +194,15 @@ namespace yam2d
 		
 		virtual ~AnimationTrack();
 
+		/**
+		 * Adds new keyframe sequence with specifiec blend weight.
+		 */
 		inline void addKeyframes( float weight, KeyframeSequence<ValueType>* keyframes );
 
+		/**
+		 * Calculates each keyframe value from KeyframeSequences according to time of AnimationTimeline object. 
+		 * Calculates weighted sum of each keyframe values and set it to given target object using tergetProperty-method pointer.
+		 */
 		inline void applyValues();
 
 	private:
