@@ -176,7 +176,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\source\Animation.cpp" />
+    <ClCompile Include="..\..\source\AnimationTimeline.cpp" />
     <ClCompile Include="..\..\Source\ElapsedTimer.cpp" />
     <ClCompile Include="..\..\source\FileStream.cpp" />
     <ClCompile Include="..\..\source\GameObject.cpp" />
@@ -282,7 +282,8 @@
     <ClInclude Include="..\..\external\zlib-1.2.7\zlib.h" />
     <ClInclude Include="..\..\external\zlib-1.2.7\zutil.h" />
     <ClInclude Include="..\..\include\AnimatedSpriteGameObject.h" />
-    <ClInclude Include="..\..\include\Animation.h" />
+    <ClInclude Include="..\..\include\AnimationTimeline.h" />
+    <ClInclude Include="..\..\include\AnimationTrack.h" />
     <ClInclude Include="..\..\include\Camera.h" />
     <ClInclude Include="..\..\include\config.h" />
     <ClInclude Include="..\..\Include\ElapsedTimer.h" />
@@ -292,6 +293,8 @@
     <ClInclude Include="..\..\include\FileStream.h" />
     <ClInclude Include="..\..\Include\GameObject.h" />
     <ClInclude Include="..\..\Include\Input.h" />
+    <ClInclude Include="..\..\include\Keyframe.h" />
+    <ClInclude Include="..\..\include\KeyframeSequence.h" />
     <ClInclude Include="..\..\Include\Layer.h" />
     <ClInclude Include="..\..\Include\Map.h" />
     <ClInclude Include="..\..\Include\Object.h" />
@@ -312,6 +315,9 @@
     <ClInclude Include="..\..\Include\vec2.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\include\AnimationTrack.inl" />
+    <None Include="..\..\include\Keyframe.inl" />
+    <None Include="..\..\include\KeyframeSequence.inl" />
     <None Include="..\..\Include\Ref.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

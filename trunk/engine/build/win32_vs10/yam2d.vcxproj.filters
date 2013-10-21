@@ -363,7 +363,7 @@
     <ClCompile Include="..\..\source\android\input_android.cpp">
       <Filter>Android</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\Animation.cpp">
+    <ClCompile Include="..\..\source\AnimationTimeline.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -701,12 +701,30 @@
     <ClInclude Include="..\..\include\Stream.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Animation.h">
+    <ClInclude Include="..\..\include\AnimationTrack.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AnimationTimeline.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Keyframe.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\KeyframeSequence.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Include\Ref.inl">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="..\..\include\AnimationTrack.inl">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="..\..\include\Keyframe.inl">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="..\..\include\KeyframeSequence.inl">
       <Filter>Common</Filter>
     </None>
   </ItemGroup>
