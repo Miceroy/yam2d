@@ -98,7 +98,12 @@ namespace
 	}
 
 
-	
+	GameObject* createNewGameObject_MapCreateCallbacks(void* userData, Map* map, Layer* layer, const std::string& type, const vec2& position, const vec2& size, const std::string& name, const PropertySet& properties)
+	{
+		TmxMap::MapCreateCallbacks* o = static_cast<TmxMap::MapCreateCallbacks*>(userData);
+		assert(o != 0);
+		return o->createNewGameObject(map,layer,type, position,size, name, properties);
+	}
 
 
 	/*
@@ -775,6 +780,7 @@ void TmxMap::registerMapCreateCallbacks(MapCreateCallbacks* callbacks)
 	registerCreateNewTilesetFunc( createNewTileset_MapCreateCallbacks );
 	registerCreateNewLayerFunc( createNewLayer_MapCreateCallbacks );
 	registerCreateNewTileFunc( createNewTile_MapCreateCallbacks );
+	registerCreateNewGameObjectFunc( createNewGameObject_MapCreateCallbacks );
 }
 
 

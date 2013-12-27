@@ -131,7 +131,7 @@ public:
 	 *
 	 * @param deltaTime		Time since last update call, in seconds.
 	 */
-	void update( float deltaTime );
+	virtual void update( float deltaTime );
 
 	/** Converts tile-coodrinate value to screen coordinates. Ignores camera position. */
 	vec2 tileToScreenCoordinates(float x, float y);
