@@ -201,6 +201,8 @@ protected:
 	MapOrientation				m_orientation;
 	float						m_tileWidth;
 	float						m_tileHeight;
+
+	void clearMapLayers();
 private:
 
 	LayerMap					m_layers;

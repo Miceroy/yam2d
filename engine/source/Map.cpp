@@ -456,6 +456,11 @@ void Map::batchLayer(Layer* layer, bool cullInvisibleObjects)
 }
 
 
+void Map::clearMapLayers()
+{
+	m_layers.clear();
+}
+
 void Map::render()
 {
 	// Batch static layers
