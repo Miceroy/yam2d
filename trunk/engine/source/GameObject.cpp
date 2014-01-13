@@ -75,12 +75,12 @@ void GameObject::setRotation( float rotation )
 	static const float PI = 3.14159265f;
 	while( rotation > PI )
 	{
-		rotation -= 2.0f*PI;
+		rotation = rotation - 2.0f*PI;
 	}
 
 	while( rotation < -PI )
 	{
-		rotation += 2.0f*PI;
+		rotation = rotation + 2.0f*PI;
 	}
 
 	m_rotation = rotation; 
