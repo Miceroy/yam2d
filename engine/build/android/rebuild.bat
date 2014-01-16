@@ -1,4 +1,4 @@
-set NDK_ROOT=C:\work\android-ndk-r9\
+set NDK_ROOT=C:\work\android-ndk-r9c\
 
 
 

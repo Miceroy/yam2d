@@ -20,7 +20,7 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_SRC_PATH)/android/input_android.cpp \
 	$(ENGINE_SRC_PATH)/win32/es_util_png.cpp \
 	$(ENGINE_SRC_PATH)/FileStream.cpp \
-	$(ENGINE_SRC_PATH)/Animation.cpp \
+	$(ENGINE_SRC_PATH)/AnimationTimeline.cpp \
 	$(ENGINE_SRC_PATH)/ElapsedTimer.cpp \
 	$(ENGINE_SRC_PATH)/GameObject.cpp \
 	$(ENGINE_SRC_PATH)/Layer.cpp \
