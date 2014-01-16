@@ -1,4 +1,4 @@
-set NDK_ROOT=C:\work\aandroid-ndk-r9\
+set NDK_ROOT=C:\work\android-ndk-r9c\
 
 
 call %NDK_ROOT%ndk-build.cmd
