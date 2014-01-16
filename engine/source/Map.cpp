@@ -568,6 +568,7 @@ GameObject* TmxMap::MapCreateCallbacks::createNewGameObject( Map* map, Layer* la
 
 bool TmxMap::loadMapFile(const std::string& mapFileName)
 {
+	m_loadedMapFileName = mapFileName;
 	std::string path = getPath(mapFileName);	
 
 	Tmx::Map map;
@@ -771,6 +772,7 @@ TmxMap::TmxMap()
 	, m_createNewTile( defaultCreateNewTile )
 	, m_createNewGameObject( defaultCreateNewGameObject )
 	, m_tilesets()
+	, m_loadedMapFileName("")
 {
 }
 

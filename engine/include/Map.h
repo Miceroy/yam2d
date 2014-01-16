@@ -279,6 +279,8 @@ public:
 	 * Registers callback object, which corresponding method is called each time, when new Tileset, Layer orTile is needed to be create during loadMapFile call.
 	 */
 	void registerMapCreateCallbacks(MapCreateCallbacks* callbacks);
+
+	const std::string& getLoadedMapFileName() const { return m_loadedMapFileName; }
 protected:
 /*	/** Can be overwritten in derived class for create custom Tilesets. */
 //	static Tileset* createNewTileset(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
@@ -298,7 +300,7 @@ private:
 	CreateNewTileFuncType		m_createNewTile;
 	CreateNewGameObjectFuncType m_createNewGameObject;
 	std::vector< Ref<Tileset> > m_tilesets;
-
+	std::string					m_loadedMapFileName;
 	// Hidden
 	TmxMap(const TmxMap&);
 	TmxMap& operator=(const TmxMap&);
