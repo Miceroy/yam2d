@@ -51,6 +51,7 @@ namespace Tmx
 		// Get a literal property (string).
 		std::string GetLiteralProperty(const std::string &name) const;
 
+		bool hasProperty(const std::string & name ) const;
 		// Returns the amount of properties.
 		int GetSize() const { return properties.size(); }
 

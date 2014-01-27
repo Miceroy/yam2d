@@ -46,6 +46,8 @@ bool rightClicked = false;//(wParam & MK_RBUTTON) != 0;
 bool middleClicked = false;// (wParam & MK_MBUTTON) != 0;
 bool g_firstUpdateDone = false;
 
+	bool done = false;
+
 LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
 {
 	LRESULT  lRet = 1; 
@@ -61,11 +63,18 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			assert( esContext != 0 );
 
 			if ( esContext->drawFunc && g_firstUpdateDone )
+			try
 			{
-				esContext->drawFunc ( esContext );
-				eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
-			}   
-
+				if ( esContext->drawFunc && esContext->width > 0 && esContext->height > 0)
+				{
+					esContext->drawFunc ( esContext );
+					eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
+				}   
+			}
+			catch(...)
+			{
+				done = true;
+			}
 			ValidateRect( esContext->hWnd, NULL );
 		}
 		break;
@@ -97,6 +106,7 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		break;
 
 	case WM_DESTROY:
+		done = true;
 		PostQuitMessage(0);             
 		break; 
       
@@ -276,12 +286,12 @@ GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
 	if (!RegisterClass (&wndclass) ) 
 	{
 		esLogEngineError("Failed to register wndclass");
-		return FALSE; 
+//		return FALSE; 
 	}
 
 	if( resizable )
 	{
-		wStyle = WS_VISIBLE | WS_MAXIMIZEBOX | WS_BORDER | WS_SYSMENU | WS_CAPTION | WS_THICKFRAME;
+		wStyle = WS_VISIBLE | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_BORDER | WS_SYSMENU | WS_CAPTION | WS_THICKFRAME;
 	}
 	else
 	{
@@ -315,14 +325,14 @@ GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
 		DWORD LastError = GetLastError();
 		(void) LastError;
 		esLogEngineError("Failed to create window");
-		return GL_FALSE;
+//		return GL_FALSE;
 	}
 
 	// Set user data
 	SetWindowLongPtr( esContext->hWnd, GWL_USERDATA, (LONG) (LONG_PTR) esContext );
 	
 	// Show window
-	ShowWindow ( esContext->hWnd, TRUE );
+	ShowWindow ( esContext->hWnd, SW_SHOWDEFAULT );
 
 	return GL_TRUE;
 }
@@ -334,10 +344,10 @@ void winLoop ( ESContext *esContext )
 	// See atricle "Game Timing and Multicore Processors (Windows)" http://msdn.microsoft.com/en-us/library/windows/desktop/ee417693(v=vs.85).aspx
 	// Enable only core 1, by using mask 0x01.
 	SetThreadAffinityMask(GetCurrentThread(), 0x01);
-
+	
+	done = false;
 	assert( esContext != 0 );
 	MSG msg = { 0 };
-	bool done = false;
 	ElapsedTimer timer;
 	timer.reset();
 
@@ -369,13 +379,22 @@ void winLoop ( ESContext *esContext )
 				timer.reset();
 				if( deltaTime > 0.0f )
 				{
-					g_firstUpdateDone = true;
-					esContext->updateFunc ( esContext, deltaTime );
-					clearInput();
+					try
+					{
+						esContext->updateFunc ( esContext, deltaTime );
+						clearInput();
+					}
+					catch(...)
+					{
+						done = true;
+					}
 				}			
 			}
 
-			SendMessage( esContext->hWnd, WM_PAINT, 0, 0 );
+			if( !done )
+			{
+				SendMessage( esContext->hWnd, WM_PAINT, 0, 0 );
+			}
 		}
 	}
 
@@ -407,28 +426,28 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
 	if ( display == EGL_NO_DISPLAY )
 	{
 		esLogEngineError("eglGetDisplay failed");
-		return EGL_FALSE;
+//		return EGL_FALSE;
 	}
 
 	// Initialize EGL
 	if ( !eglInitialize(display, &majorVersion, &minorVersion) )
 	{
 		esLogEngineError("eglInitialize failed");
-		return EGL_FALSE;
+//		return EGL_FALSE;
 	}
 
 	// Get configs
 	if ( !eglGetConfigs(display, NULL, 0, &numConfigs) )
 	{
 		esLogEngineError("eglGetConfigs failed");
-		return EGL_FALSE;
+//		return EGL_FALSE;
 	}
 
 	// Choose config
 	if ( !eglChooseConfig(display, attribList, &config, 1, &numConfigs) )
 	{
 		esLogEngineError("eglChooseConfig failed");
-		return EGL_FALSE;
+//		return EGL_FALSE;
 	}
 
 	// Create a surface
@@ -436,7 +455,7 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
 	if ( surface == EGL_NO_SURFACE )
 	{
 		esLogEngineError("eglCreateWindowSurface failed");
-		return EGL_FALSE;
+//		return EGL_FALSE;
 	}
 
 	// Create a GL context
@@ -444,14 +463,14 @@ EGLBoolean CreateEGL11Context ( EGLNativeWindowType hWnd, EGLDisplay* eglDisplay
 	if ( context == EGL_NO_CONTEXT )
 	{
 		esLogEngineError("eglCreateContext failed");
-		return EGL_FALSE;
+//		return EGL_FALSE;
 	}   
    
 	// Make the context current
 	if ( !eglMakeCurrent(display, surface, surface, context) )
 	{
 		esLogEngineError("eglMakeCurrent failed");
-		return EGL_FALSE;
+//		return EGL_FALSE;
 	}
    
 	*eglDisplay = display;
@@ -489,7 +508,7 @@ GLboolean esCreateWindow ( ESContext *esContext, const char* title, GLint width,
 	if ( esContext == NULL )
 	{
 		esLogEngineError("Given ESContext is NULL");
-		return GL_FALSE;
+//		return GL_FALSE;
 	}
 
 	esContext->width = width;

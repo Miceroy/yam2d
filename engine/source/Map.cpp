@@ -590,7 +590,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 {
 	m_loadedMapFileName = mapFileName;
 	std::string path = getPath(mapFileName);	
-
+	
 	Tmx::Map map;
 	map.ParseFile(mapFileName.c_str());
 	
@@ -600,6 +600,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 		return false;
 	}
 
+	m_loadedMapFileName = mapFileName;
 	m_orientation = (map.GetOrientation() == Tmx::TMX_MO_ISOMETRIC) ? ISOMETRIC : ORTHOGONAL;
 	m_tileWidth = float(map.GetTileWidth());
 	m_tileHeight = float(map.GetTileHeight());

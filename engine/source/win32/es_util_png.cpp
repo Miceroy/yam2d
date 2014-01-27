@@ -58,7 +58,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 	if( stream->available() <= 0 )
 	{
 		esLogEngineError("[%s] File %s could not be opened for reading", __FUNCTION__, fileName);
-		return false;
+//		return false;
 	}
 		
 	png_byte header[8];
@@ -66,7 +66,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 	if (png_sig_cmp(header, 0, 8))
 	{
 		esLogEngineError("[%s] File %s is not recognized as a PNG file", __FUNCTION__, fileName);
-		return false;
+//		return false;
 	}
 
 	// initialize stuff 
@@ -75,7 +75,7 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 	if (!png_ptr)
 	{
 		esLogEngineError("[%s] png_create_read_struct failed", __FUNCTION__);
-		return false;
+//		return false;
 	}
 	
 	png_set_read_fn(png_ptr,(png_voidp)stream.ptr(), userReadData);
@@ -83,9 +83,9 @@ bool esLoadPNG( const char *fileName, unsigned char *buffer, int *width, int *he
 	png_infop info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr)
 	{
-		esLogEngineError("[%s] png_create_info_struct failed", __FUNCTION__);
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-		return false;
+		esLogEngineError("[%s] png_create_info_struct failed", __FUNCTION__);
+//		return false;
 	}
 	/*
 	if(setjmp(png_jmpbuf(png_ptr)))

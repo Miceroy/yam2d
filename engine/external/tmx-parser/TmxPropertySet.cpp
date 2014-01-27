@@ -70,6 +70,16 @@ namespace Tmx
 		return iter->second;
 	}
 
+	bool PropertySet::hasProperty(const std::string & name ) const
+	{
+		map< string, string >::const_iterator iter = properties.find(name);
+
+		if (iter == properties.end())
+			return false;
+
+		return true;
+	}
+
 	int PropertySet::GetNumericProperty(const string &name) const 
 	{
 		return atoi(GetLiteralProperty(name).c_str());
