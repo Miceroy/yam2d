@@ -56,6 +56,7 @@ public:
 	 */
 	void setDepth( float depth );
 
+	const std::string& getText() const { return m_text; }
 	/**
 	 * Sets color of this sprite.
 	 */

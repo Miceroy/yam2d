@@ -172,6 +172,27 @@ void Map::deleteGameObject(GameObject* gameObject)
 	}
 }
 
+GameObject* Map::findGameObjectByName(const std::string& name)
+{
+	for( int l=0; l<NUM_LAYERS; ++l )
+	{
+		Layer* layer = m_layers[l];
+		if( layer )
+		{
+			Layer::GameObjectList& gos = layer->getGameObjects();
+			for(size_t i=0; i<gos.size(); ++i )
+			{
+				if( gos[i]->getName() == name )
+				{
+					return gos[i];
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+
 vec2 Map::tileToScreenCoordinates(float x, float y)
 {
 	if( m_orientation == ISOMETRIC )
@@ -487,7 +508,6 @@ void Map::render()
 		{
 			m_layers[i]->setDepth( float(i) );
 			m_mainCamera->render(layer);
-
 			if( i >= MAPLAYER0 && i<= MAPLAYER9 )
 			{
 				batchLayer(m_layers[i],true);

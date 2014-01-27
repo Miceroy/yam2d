@@ -75,9 +75,11 @@ public:
 	bool collidesTo( GameObject* other, vec2* collisionNormal = 0 );
 
 	void setTileSize(const vec2& tileSize );
-protected:
+
 	void setOffset( const vec2& offset ) { m_offset = offset; recalcExtens(); }
 	const vec2& getOffset() const { return m_offset; }
+protected:
+
 private:
 	void recalcExtens();
 
