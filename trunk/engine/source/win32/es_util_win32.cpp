@@ -22,7 +22,7 @@
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 //#define WIN32_LEAN_AND_MEAN
-#include <windowsx.h>
+#include <windows.h>
 #include "es_util.h"
 #include "es_util_win32.h"
 #include <es_assert.h>
@@ -31,6 +31,9 @@
 
 namespace yam2d
 {
+
+#define GET_X_LPARAM(lp)                        ((int)(short)LOWORD(lp))
+#define GET_Y_LPARAM(lp)                        ((int)(short)HIWORD(lp))
 
 // anonymous namespace for internal functions
 namespace
@@ -41,7 +44,7 @@ int yPos = 0;//GET_Y_LPARAM(lParam);
 bool leftClicked = false;//(wParam & MK_LBUTTON) != 0;
 bool rightClicked = false;//(wParam & MK_RBUTTON) != 0;
 bool middleClicked = false;// (wParam & MK_MBUTTON) != 0;
-
+bool g_firstUpdateDone = false;
 
 LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
 {
@@ -57,7 +60,7 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			ESContext *esContext = (ESContext*)(LONG_PTR) GetWindowLongPtr (hWnd, GWL_USERDATA );
 			assert( esContext != 0 );
 
-			if ( esContext->drawFunc )
+			if ( esContext->drawFunc && g_firstUpdateDone )
 			{
 				esContext->drawFunc ( esContext );
 				eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
@@ -294,7 +297,7 @@ GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
 
 	AdjustWindowRect ( &windowRect, wStyle, FALSE );
 	
-	esContext->hWnd = CreateWindow(
+	esContext->hWnd = CreateWindowEx(WS_EX_LEFT,
 									"opengles1.x",
 									title,
 									wStyle,
@@ -309,6 +312,8 @@ GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
 
 	if ( esContext->hWnd == NULL )
 	{
+		DWORD LastError = GetLastError();
+		(void) LastError;
 		esLogEngineError("Failed to create window");
 		return GL_FALSE;
 	}
@@ -364,6 +369,7 @@ void winLoop ( ESContext *esContext )
 				timer.reset();
 				if( deltaTime > 0.0f )
 				{
+					g_firstUpdateDone = true;
 					esContext->updateFunc ( esContext, deltaTime );
 					clearInput();
 				}			

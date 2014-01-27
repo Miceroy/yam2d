@@ -192,6 +192,7 @@ public:
 
 	void deleteGameObject(GameObject* gameObject);
 
+	GameObject* findGameObjectByName(const std::string& name);
 private:
 	bool isVisible(GameObject* go,Camera* cam);
 	void batchLayer(Layer* layer, bool cullInvisibleObjects);

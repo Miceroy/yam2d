@@ -12,7 +12,8 @@ LOCAL_CFLAGS := -D_STLP_USE_SIMPLE_NODE_ALLOC -DANDROID -frtti -fexceptions
 
 LOCAL_C_INCLUDES := \
 	$(ENGINE_PATH)/include \
-	$(ENGINE_PATH)/external
+	$(ENGINE_PATH)/external \
+	$(ENGINE_PATH)/external/enet-1.3.11/include
 
 
 LOCAL_SRC_FILES := \
@@ -126,7 +127,15 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_EXT_SRC_PATH)/zlib-1.2.7/inftrees.c \
 	$(ENGINE_EXT_SRC_PATH)/zlib-1.2.7/trees.c \
 	$(ENGINE_EXT_SRC_PATH)/zlib-1.2.7/uncompr.c \
-	$(ENGINE_EXT_SRC_PATH)/zlib-1.2.7/zutil.c
+	$(ENGINE_EXT_SRC_PATH)/zlib-1.2.7/zutil.c \
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/callbacks.c \
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/compress.c \
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/host.c \
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/list.c \
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/packet.c \
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/peer.c \
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/protocol.c \
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/unix.c 
 
 LOCAL_STATIC_LIBRARIES := android_native_app_glue
 

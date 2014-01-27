@@ -90,9 +90,12 @@ public:
 
 	void setActiveAnimation(int animationId)
 	{
-		m_totalTime = 0.0f;
-		m_animationId = animationId;
-		m_isFinished = false;
+		if( animationId != m_animationId )
+		{
+			m_totalTime = 0.0f;
+			m_animationId = animationId;
+			m_isFinished = false;
+		}
 	}
 
 	int getActiveAnimation()
