@@ -39,14 +39,13 @@ namespace yam2d
 namespace
 {
 
-int xPos = 0;//GET_X_LPARAM(lParam); 
-int yPos = 0;//GET_Y_LPARAM(lParam); 
-bool leftClicked = false;//(wParam & MK_LBUTTON) != 0;
-bool rightClicked = false;//(wParam & MK_RBUTTON) != 0;
-bool middleClicked = false;// (wParam & MK_MBUTTON) != 0;
-bool g_firstUpdateDone = false;
-
-	bool done = false;
+static int xPos = 0;//GET_X_LPARAM(lParam); 
+static int yPos = 0;//GET_Y_LPARAM(lParam); 
+static bool leftClicked = false;//(wParam & MK_LBUTTON) != 0;
+static bool rightClicked = false;//(wParam & MK_RBUTTON) != 0;
+static bool middleClicked = false;// (wParam & MK_MBUTTON) != 0;
+static bool g_firstUpdateDone = false;
+static bool done = false;
 
 LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
 {
@@ -63,18 +62,21 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			assert( esContext != 0 );
 
 			if ( esContext->drawFunc && g_firstUpdateDone )
-			try
 			{
-				if ( esContext->drawFunc && esContext->width > 0 && esContext->height > 0)
+				try
 				{
-					esContext->drawFunc ( esContext );
-					eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
-				}   
+					if ( esContext->drawFunc && esContext->width > 0 && esContext->height > 0)
+					{
+						esContext->drawFunc ( esContext );
+						eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
+					}   
+				}
+				catch(...)
+				{
+					done = true;
+				}
 			}
-			catch(...)
-			{
-				done = true;
-			}
+
 			ValidateRect( esContext->hWnd, NULL );
 		}
 		break;
@@ -382,6 +384,7 @@ void winLoop ( ESContext *esContext )
 					try
 					{
 						esContext->updateFunc ( esContext, deltaTime );
+						g_firstUpdateDone = true;
 						clearInput();
 					}
 					catch(...)
