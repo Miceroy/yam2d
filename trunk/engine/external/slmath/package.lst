@@ -1,0 +1,13 @@
+license.txt
+readme.txt
+build/vs2003/slmath/slmath.sln
+build/vs2003/slmath/slmath.vcproj
+build/vs2008/slmath/slmath.sln
+build/vs2008/slmath/slmath.vcproj
+build/vs2010/slmath/slmath.sln
+build/vs2010/slmath/slmath.vcxproj
+build/vs2010/slmath/slmath.vcxproj.filters
+documentation/doxygen.project
+documentation/slmath.chm
+include/slm/*
+source/*
