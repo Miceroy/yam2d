@@ -56,7 +56,7 @@ Texture::Texture(const std::string& fileName)
 	
 	if( !isNpotSquare(m_width,m_height) )
 	{
-		esLogEngineError("Image %s, is not NPOT Square texture (w:%d, h:%d, bpp:%d)",
+		esLogEngineDebug("Image %s, is not NPOT Square texture (w:%d, h:%d, bpp:%d)",
 			fileName.c_str(), m_width, m_height, m_bpp );
 	}
 
