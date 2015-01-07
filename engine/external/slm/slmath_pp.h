@@ -3,7 +3,7 @@
 
 #include <math.h>
 #include <float.h>
-#include <assert.h>
+#include <es_assert.h>
 #include <stddef.h>
 #include <slm/slmath_configure.h>
 

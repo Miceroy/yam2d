@@ -195,7 +195,7 @@ bool GameObject::collidesTo( GameObject* other, vec2* collisionNormal )
 	{
 		collisionNormal->x = d2.x - d1.x;
 		collisionNormal->y = d2.y - d1.y;
-		collisionNormal->Normalize();
+		*collisionNormal = slm::normalize(*collisionNormal);
 	}
 
 	return true;

@@ -22,7 +22,7 @@ namespace
 
 	void setZoom(float newZoom)
 	{
-		zoom = b2Clamp(newZoom, 0.25f, 8.0f);
+		zoom = slm::clamp(newZoom, 0.25f, 8.0f);
 	}
 		
 
@@ -44,12 +44,11 @@ namespace
 			direction.y = float(getKeyState(KEY_DOWN)-getKeyState(KEY_UP));
 		}
 
-		if( direction.Length() < 0.001f )
+		if( slm::length(direction) < 0.001f )
 			return; // no need to move
 
 		// Make lenght of direction to 1
-		direction.Normalize();
-
+		direction = slm::normalize(direction);
 	
 		// Velocity is direction times speed
 		vec2 velocity = speed*direction;
@@ -102,7 +101,7 @@ namespace
 			currentPos.y = float(touches[pressedIds[0]].y);
 			vec2 delta = currentPos - pressedPos[0];
 
-			if( delta.Length() > 0.1 )
+			if( slm::length(delta) > 0.1 )
 			{
 				delta = m->screenToTileCoordinates(delta);
 				go->setPosition(go->getPosition() - delta );
