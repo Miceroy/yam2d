@@ -23,12 +23,13 @@
 #ifndef VEC2_H_
 #define VEC2_H_
 
-#include <Box2D/Common/b2Math.h>
+//#include <Box2D/Common/b2Math.h>
+#include <slm\slmath.h>
 
 namespace yam2d
 {
 
-typedef	b2Vec2 vec2;
+typedef	slm::vec2 vec2;
 
 class vec2int
 {

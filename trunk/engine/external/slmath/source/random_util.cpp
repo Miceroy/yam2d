@@ -1,6 +1,6 @@
 #include <slm/random.h>
 #include <slm/float_util.h>
-#include <assert.h>
+#include <es_assert.h>
 
 SLMATH_BEGIN()
 

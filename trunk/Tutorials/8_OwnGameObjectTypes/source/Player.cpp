@@ -54,7 +54,7 @@ void Player::update( float deltaTime )
 	{
 		// Rotate forward direction according to game object rotation
 		vec2 direction = rotateVector( vec2(forward,0), getRotation() );
-		direction.Normalize(); // Make sure that lenght of direction vector is 1
+		direction = slm::normalize(direction); // Make sure that lenght of direction vector is 1
 
 		// Update position (euler integration)
 		setPosition(getPosition() + deltaTime*moveSpeed*direction );

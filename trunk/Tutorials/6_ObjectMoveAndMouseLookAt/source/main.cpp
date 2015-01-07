@@ -34,7 +34,7 @@ namespace
 		return new Layer(map, name, opacity, visible, false, properties); 
 	}
 
-	vec2 rotate(const vec2& vec, float angle )
+	vec2 rotateVec2(const vec2& vec, float angle )
 	{
 		vec2 res;
 		// Rotate vector according to angle (see http://en.wikipedia.org/wiki/Rotation_(mathematics))
@@ -55,7 +55,7 @@ namespace
 		{
 			float forward = float(getKeyState(KEY_UP)-getKeyState(KEY_DOWN));
 			float right = float(getKeyState(KEY_RIGHT)-getKeyState(KEY_LEFT));
-			direction = rotate( vec2(forward,right), gameObject->getRotation() );
+			direction = rotateVec2( vec2(forward,right), gameObject->getRotation() );
 		}
 		else
 		{
@@ -63,11 +63,11 @@ namespace
 			direction.y = float(getKeyState(KEY_DOWN)-getKeyState(KEY_UP));
 		}
 
-		if( direction.Length() < 0.001f )
+		if( slm::length(direction) < 0.001f )
 			return; // no need to move
 
 		// Make lenght of direction to 1
-		direction.Normalize();
+		direction = slm::normalize(direction);
 
 	
 		// Velocity is direction times speed
@@ -122,8 +122,11 @@ void deinit ( ESContext *esContext )
 
 
 // Update game
-void update( ESContext* ctx, float deltaTime )
+void update( ESContext* esContext, float deltaTime )
 {
+	
+	map->getCamera()->setScreenSize(esContext->width,esContext->height, 720, 1280.0f/720.0f); 
+
 	// Read mouse values
 	float mouseX = float(getMouseAxisX());
 	float mouseY = float(getMouseAxisY());

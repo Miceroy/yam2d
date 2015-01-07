@@ -55,7 +55,7 @@ void Enemy::update( float deltaTime )
 
 	// Get position delta from came object pos to wp pos.
 	vec2 delta = destination-getPosition();
-	float deltaLen = delta.Length();
+	float deltaLen = slm::length(delta);
 	
 	// If closer than 0.1 tiles from destination, we are close enought, so remove waypoint and return.
 	if( deltaLen < 0.1f )
@@ -104,7 +104,7 @@ void Enemy::update( float deltaTime )
 	{
 		// Rotate forward direction according to game object rotation
 		vec2 direction = rotateVector( vec2(moveSpeed,0), getRotation() );
-		direction.Normalize(); // Make sure that lenght of direction vector is 1
+		direction = slm::normalize(direction); // Make sure that lenght of direction vector is 1
 
 		// Update position (euler integration)
 		setPosition(getPosition() + deltaTime*moveSpeed*direction );
