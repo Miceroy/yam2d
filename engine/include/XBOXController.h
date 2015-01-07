@@ -48,12 +48,12 @@ public:
 		DPad_Left = 27000,
 		DPad_UpLeft = 31500
 	};
-	bool IsConnected();
-	bool IsButtonDown(int button);
-	bool IsDPadPointing(int val);
-	float GetAxis(int i);
-	float UpdateAxis(int i);
-	static void ManualUpdateValues(float c1X, float c1Y, float c2X, float c2Y);
+	bool isConnected();
+	bool isButtonDown(int button);
+	bool isDPadPointing(int val);
+	float getAxis(int i);
+	float updateAxis(int i);
+	static void manualUpdateValues(float c1X, float c1Y, float c2X, float c2Y);
 	XBOXController(UINT ID);
 	virtual ~XBOXController(void);
 
