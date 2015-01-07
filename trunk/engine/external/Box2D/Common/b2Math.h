@@ -25,6 +25,7 @@
 #include <cfloat>
 #include <cstddef>
 #include <limits>
+#include <slm\vec2.h>
 
 /// This function is used to ensure that a floating point number is
 /// not a NaN or infinity.
@@ -65,6 +66,8 @@ struct b2Vec2
 {
 	/// Default constructor. Makes zero vector (behaviour changed different from original to yam2d, for reducing user bugs)
 	//b2Vec2() :  x(0.0f), y(0.0f) {}
+
+	b2Vec2(const slm::vec2& v) : x(v.x), y(v.y) {}
 
 	/// Construct using coordinates.
 	b2Vec2(float32 x, float32 y) : x(x), y(y) {}
