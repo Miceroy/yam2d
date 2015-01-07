@@ -25,6 +25,12 @@
     <Filter Include="Android">
       <UniqueIdentifier>{c36d3dc5-d776-44a8-a3c9-684c1ecfbb86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="enet">
+      <UniqueIdentifier>{c82fcdbe-76af-42ac-8b3c-9c5e30232fc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="slmath">
+      <UniqueIdentifier>{c0ce6d6c-d3ef-4cc2-824c-dd2943e8dffe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\es_util.cpp">
@@ -365,6 +371,63 @@
     </ClCompile>
     <ClCompile Include="..\..\source\AnimationTimeline.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\callbacks.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\compress.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\host.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\list.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\packet.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\peer.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\protocol.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\win32.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\XBOXController.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\float_util.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\intersect_util.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\mat4.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\quat.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\random.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\random_util.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\runtime_checks.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\vec2.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\vec3.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\vec4.cpp">
+      <Filter>slmath</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -711,6 +774,12 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\KeyframeSequence.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\enet-1.3.11\include\enet\enet_cpp.h">
+      <Filter>enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\XBOXController.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
