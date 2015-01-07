@@ -135,7 +135,18 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/packet.c \
 	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/peer.c \
 	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/protocol.c \
-	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/unix.c 
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/unix.c \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/float_util.cpp \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/intersect_util.cpp \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/mat4.cpp \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/quat.cpp \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/random.cpp \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/random_util.cpp \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/runtime_checks.cpp \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/vec2.cpp \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/vec3.cpp \
+	$(ENGINE_EXT_SRC_PATH)/slmath/source/vec4.cpp
+
 
 LOCAL_STATIC_LIBRARIES := android_native_app_glue
 
