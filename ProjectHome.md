@@ -49,9 +49,9 @@ Currently Yam2d has only win32 version but Android version is coming at summer 2
   * TmxMapViewer
 
 ## Documentation: ##
-  * [Instructions to download yam2d and make environment setup](https://yam2d.googlecode.com/svn/trunk/doc/DownloadAndEnvironmentSetup.docx)
-  * [Instructions to create new project](https://yam2d.googlecode.com/svn/trunk/doc/CreateNewProject.docx)
-  * [Instructions to integrating TmxMapViewer-tool with Tiled Editor](https://yam2d.googlecode.com/svn/trunk/doc/IntegratingTmxMapViewerWithTiled.docx)
+  * Instructions to download yam2d and make environment setup https://github.com/Miceroy/yam2d/blob/master/doc/DownloadAndEnvironmentSetup.docx
+  * Instructions to create new project https://github.com/Miceroy/yam2d/blob/master/doc/CreateNewProject.docx
+  * Instructions to integrating TmxMapViewer-tool with Tiled Editor https://github.com/Miceroy/yam2d/blob/master/doc/IntegratingTmxMapViewerWithTiled.docx
 
 ## External libraries used by yam2d: ##
   * OpenGL ES Emulation libraries
