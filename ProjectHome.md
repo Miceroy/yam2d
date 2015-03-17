@@ -2,7 +2,7 @@
 
 Simple 2D game engine, mainly targetted for mobile devices. Oparates also on PC in OpenGL ES emulation.
 
-Currently Yam2d has only win32 version but Android version is coming at summer 2013.
+Yam2d is released under MIT-license. See: http://opensource.org/licenses/mit-license.php
 
 ## Currently supported platforms: ##
   * Windows (x86 compatible)
