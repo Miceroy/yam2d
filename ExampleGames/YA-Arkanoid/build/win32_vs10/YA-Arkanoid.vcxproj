@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{57A6AA53-FF7E-4643-A5B7-1FD369244BF2}</ProjectGuid>
+    <ProjectGuid>{D7305819-284B-463F-A886-6F56A92F8BF2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>YA-Arkanoid</RootNamespace>
     <ProjectName>YA-Arkanoid</ProjectName>

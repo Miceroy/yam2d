@@ -5,6 +5,7 @@
 // Camera class
 #include <Camera.h>
 #include <input.h>
+#include <Box2D\Box2D.h>
 
 using namespace yam2d;
 
@@ -44,11 +45,11 @@ namespace
 			direction.y = float(getKeyState(KEY_DOWN)-getKeyState(KEY_UP));
 		}
 
-		if( direction.Length() < 0.001f )
+		if( slm::length(direction) < 0.001f )
 			return; // no need to move
 
 		// Make lenght of direction to 1
-		direction.Normalize();
+		direction = slm::normalize(direction);
 
 	
 		// Velocity is direction times speed
@@ -102,7 +103,7 @@ namespace
 			currentPos.y = float(touches[pressedIds[0]].y);
 			vec2 delta = currentPos - pressedPos[0];
 
-			if( delta.Length() > 0.1 )
+			if( slm::length(delta) > 0.1 )
 			{
 				delta = m->screenToTileCoordinates(delta);
 				go->setPosition(go->getPosition() - delta );
@@ -178,7 +179,7 @@ int main ( int argc, char *argv[] )
 {
 	ESContext esContext;
 	esInitContext ( &esContext );
-	esCreateWindow( &esContext, "TMX map loading", 1280, 720, ES_WINDOW_DEFAULT );
+	esCreateWindow( &esContext, "YA-Arkanoid", 1280, 720, ES_WINDOW_DEFAULT );
 
 	esRegisterInitFunc( &esContext, init );
 	esRegisterDrawFunc( &esContext, draw );
