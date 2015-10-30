@@ -375,9 +375,6 @@
     <ClCompile Include="..\..\external\enet-1.3.11\callbacks.c">
       <Filter>enet</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\enet-1.3.11\compress.c">
-      <Filter>enet</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\external\enet-1.3.11\host.c">
       <Filter>enet</Filter>
     </ClCompile>
@@ -428,6 +425,9 @@
     </ClCompile>
     <ClCompile Include="..\..\external\slmath\source\vec4.cpp">
       <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\enet_compress.c">
+      <Filter>enet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

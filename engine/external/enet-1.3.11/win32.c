@@ -249,6 +249,7 @@ enet_socket_accept (ENetSocket socket, ENetAddress * address)
 {
     SOCKET result;
     struct sockaddr_in sin;
+	memset(&sin, 0, sizeof(sin));
     int sinLength = sizeof (struct sockaddr_in);
 
     result = accept (socket, 
@@ -327,6 +328,7 @@ enet_socket_receive (ENetSocket socket,
     DWORD flags = 0,
           recvLength;
     struct sockaddr_in sin;
+	memset(&sin, 0, sizeof(sin));
 
     if (WSARecvFrom (socket,
                      (LPWSABUF) buffers,
