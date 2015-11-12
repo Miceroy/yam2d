@@ -1,0 +1,800 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{e28e4093-0784-4417-bcec-119327001855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{b967650a-999a-4d66-b2e1-341c3cd6ffaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lpng">
+      <UniqueIdentifier>{083a5531-64cf-4d8c-ba9e-0c6299e6ac48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zlib">
+      <UniqueIdentifier>{d0628439-e237-4789-ae02-e6cf74475701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ticpp">
+      <UniqueIdentifier>{acecbdbe-0f86-4959-abe0-dcfdabba97a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tmx-parser">
+      <UniqueIdentifier>{f1491197-d7c8-4c0f-a74d-29de4998070c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Box2D">
+      <UniqueIdentifier>{8a7e2791-0e5f-4fc1-a71f-b057873c0bba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Android">
+      <UniqueIdentifier>{c36d3dc5-d776-44a8-a3c9-684c1ecfbb86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enet">
+      <UniqueIdentifier>{c82fcdbe-76af-42ac-8b3c-9c5e30232fc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="slmath">
+      <UniqueIdentifier>{c0ce6d6c-d3ef-4cc2-824c-dd2943e8dffe}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\es_util.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Win32\es_util_png.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Win32\es_util_win32.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Win32\input_win32.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ElapsedTimer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Layer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Map.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PropertySet.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Sprite.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SpriteAnimation.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SpriteBatch.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SpriteSheet.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Text.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Texture.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tileset.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxImage.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxLayer.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxMap.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxObject.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxObjectGroup.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxPolygon.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxPropertySet.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxTile.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxTileset.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\TmxUtil.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tmx-parser\base64\base64.cpp">
+      <Filter>tmx-parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\ticpp\ticpp.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\ticpp\tinystr.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\ticpp\tinyxml.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\ticpp\tinyxmlerror.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\ticpp\tinyxmlparser.cpp">
+      <Filter>ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\png.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngerror.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngget.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngmem.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngpread.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngread.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngrio.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngrtran.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngrutil.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngset.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngtrans.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngwio.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngwrite.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngwtran.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lpng1513\pngwutil.c">
+      <Filter>lpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\adler32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\compress.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\crc32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\deflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\gzclose.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\gzlib.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\gzread.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\gzwrite.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\infback.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\inffast.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\inflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\inftrees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\trees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\uncompr.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\zlib-1.2.7\zutil.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Object.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\GameObject.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\b2BroadPhase.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\b2CollideCircle.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\b2CollideEdge.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\b2CollidePolygon.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\b2Collision.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\b2Distance.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\b2DynamicTree.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\b2TimeOfImpact.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\Shapes\b2ChainShape.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\Shapes\b2CircleShape.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\Shapes\b2EdgeShape.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Collision\Shapes\b2PolygonShape.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Common\b2BlockAllocator.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Common\b2Draw.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Common\b2Math.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Common\b2Settings.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Common\b2StackAllocator.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Common\b2Timer.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\b2Body.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\b2ContactManager.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\b2Fixture.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\b2Island.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\b2World.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\b2WorldCallbacks.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2DistanceJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2FrictionJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2GearJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2Joint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2MouseJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2PulleyJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2RopeJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2WeldJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Joints\b2WheelJoint.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Contacts\b2CircleContact.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Contacts\b2Contact.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Contacts\b2ContactSolver.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Dynamics\Contacts\b2PolygonContact.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\Box2D\Rope\b2Rope.cpp">
+      <Filter>Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MapTile.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\android\es_util_android.cpp">
+      <Filter>Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\FileStream.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\android\input_android.cpp">
+      <Filter>Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\AnimationTimeline.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\callbacks.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\host.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\list.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\packet.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\peer.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\protocol.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\win32.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\XBOXController.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\float_util.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\intersect_util.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\mat4.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\quat.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\random.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\random_util.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\runtime_checks.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\vec2.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\vec3.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\slmath\source\vec4.cpp">
+      <Filter>slmath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\enet-1.3.11\enet_compress.c">
+      <Filter>enet</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\es_assert.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\es_util.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\es_util_win32.h">
+      <Filter>Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ElapsedTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\GameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Layer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Map.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\PropertySet.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sprite.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\SpriteAnimation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\SpriteBatch.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\SpriteSheet.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Text.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Texture.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Tile.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Tileset.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\vec2.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\Tmx.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxImage.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxLayer.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxMap.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxMapTile.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxObject.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxObjectGroup.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxPoint.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxPolygon.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxPropertySet.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxTile.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxTileset.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\TmxUtil.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tmx-parser\base64\base64.h">
+      <Filter>tmx-parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\ticpp\ticpp.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\ticpp\ticppapi.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\ticpp\ticpprc.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\ticpp\tinystr.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\ticpp\tinyxml.h">
+      <Filter>ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\lpng1513\png.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\lpng1513\pngconf.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\lpng1513\pngdebug.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\lpng1513\pnginfo.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\lpng1513\pnglibconf.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\lpng1513\pngpriv.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\lpng1513\pngstruct.h">
+      <Filter>lpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\crc32.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\deflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\gzguts.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\inffast.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\inffixed.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\inflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\inftrees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\trees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\zconf.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\zlib.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\zlib-1.2.7\zutil.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Input.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Object.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Ref.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Camera.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Box2D.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\b2BroadPhase.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\b2Collision.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\b2Distance.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\b2DynamicTree.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\b2TimeOfImpact.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\Shapes\b2ChainShape.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\Shapes\b2CircleShape.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\Shapes\b2EdgeShape.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\Shapes\b2PolygonShape.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Collision\Shapes\b2Shape.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Common\b2BlockAllocator.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Common\b2Draw.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Common\b2GrowableStack.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Common\b2Math.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Common\b2Settings.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Common\b2StackAllocator.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Common\b2Timer.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\b2Body.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\b2ContactManager.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\b2Fixture.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\b2Island.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\b2TimeStep.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\b2World.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\b2WorldCallbacks.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2DistanceJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2FrictionJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2GearJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2Joint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2MouseJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2PrismaticJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2PulleyJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2RevoluteJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2RopeJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2WeldJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Joints\b2WheelJoint.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Contacts\b2CircleContact.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Contacts\b2Contact.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Contacts\b2ContactSolver.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Dynamics\Contacts\b2PolygonContact.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\Box2D\Rope\b2Rope.h">
+      <Filter>Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\config.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AnimatedSpriteGameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SpriteGameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SpriteSheetGameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\TextGameObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FileStream.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Stream.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AnimationTrack.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AnimationTimeline.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Keyframe.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\KeyframeSequence.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\enet-1.3.11\include\enet\enet_cpp.h">
+      <Filter>enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\XBOXController.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\Ref.inl">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="..\..\include\AnimationTrack.inl">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="..\..\include\Keyframe.inl">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="..\..\include\KeyframeSequence.inl">
+      <Filter>Common</Filter>
+    </None>
+  </ItemGroup>
+</Project>
