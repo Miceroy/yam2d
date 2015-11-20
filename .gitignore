@@ -101,3 +101,5 @@ ExampleGames/YA-Arkanoid/build/win32_vs13/*.tmx
 
 
 
+*.o
+*.d
