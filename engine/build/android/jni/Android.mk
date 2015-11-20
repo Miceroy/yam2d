@@ -129,7 +129,7 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_EXT_SRC_PATH)/zlib-1.2.7/uncompr.c \
 	$(ENGINE_EXT_SRC_PATH)/zlib-1.2.7/zutil.c \
 	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/callbacks.c \
-	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/compress.c \
+	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/enet_compress.c \
 	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/host.c \
 	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/list.c \
 	$(ENGINE_EXT_SRC_PATH)/enet-1.3.11/packet.c \
