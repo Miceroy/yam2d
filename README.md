@@ -17,18 +17,20 @@ Currently Yam2d has only win32 version but Android version is coming at summer 2
     * Batched 2D-text drawing using bitmap fonts.
     * OpenGL ES 1.X functionality can be also used to draw primitives
 
-  * High level scene/level functionality
+  * High level scene/level functionality using Entity-Component Architecture
     * Maps
       * Orthogonal
       * Diamond isomertic
       * Map loading from tmx-files
     * Layers
-    * Ready made GameObjects
-      * Sprites
-      * Tiles
-      * Animated sprites
-      * Texts
+    * Supported Components
+      * Sprite
+      * Tile (Tilemap tile)
+      * AnimatedSprites
+      * Text
     * Simple pick-functionality
+ 
+  * Animation framework
 
 ##Input:
   * Keyboard
