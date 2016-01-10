@@ -90,7 +90,7 @@ void esRegisterTouchEventFunc ( ESContext *esContext, void (*touchEventFunc) ( E
 void esLogMessage ( const char *formatStr, ... )
 {
 	va_list params;
-	char buf[BUFSIZ];
+	char buf[10*1024];
 
 	va_start ( params, formatStr );
 #if defined(_WIN32)

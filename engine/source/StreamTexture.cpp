@@ -1,7 +1,7 @@
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // http://code.google.com/p/yam2d/
 //
-// Copyright (c) 2013 Mikko Romppainen
+// Copyright (c) 2015 Mikko Romppainen
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in the
@@ -20,59 +20,33 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef TEXTURE_H_
-#define TEXTURE_H_
+#include <StreamTexture.h>
 
-#include <Object.h>
-#include <string>
+#include "es_util.h"
+#include <es_assert.h>
+#include <config.h>
 
 namespace yam2d
 {
 
-/**
- * Class for Texture.
- *
- * @ingroup yam2d
- * @author Mikko Romppainen (mikko@kajakbros.com) 
- */
-class Texture : public Object
-{
-public:
-	Texture(const std::string& fileName, bool allowNPOT = false);
-	Texture(unsigned int nativeId, int bytesPerPixel);
-	virtual ~Texture();
+	StreamTexture::StreamTexture()
+		: Texture(1)
+	{
+	}
 
-	void setSize(int width, int height);
-	// getNative Id can be overriden in subclass for determing active texture. 
-	virtual int getNativeId() const;
-	int getNativeId(int index) const;
 
-	int getWidth() const;
-	int getHeight() const;
-	const unsigned char* getPixel(int x, int y) const { return &m_data[(y*getWidth() + x)*getBytesPerPixel()]; }
-	int getBytesPerPixel() const { return m_bpp; }
-	void setTransparentColor(unsigned char r, unsigned char g, unsigned char b);
-protected:
-	Texture(int numNativeTextures);
+	StreamTexture::~StreamTexture()
+	{
+	}
 
-	void setData(unsigned char* data, int width, int height, int bpp, int nativeIdIndex);
+	int StreamTexture::getNativeId() const
+	{
+		return Texture::getNativeId(0);
+	}
 
-private:
-	unsigned char* getPixel(int x, int y) { return &m_data[(y*getWidth() + x)*getBytesPerPixel()]; }
-	Texture();
-
-	unsigned int* m_nativeIds;
-	int m_numNativeIds;
-	int m_width;
-	int m_height;
-	int m_bpp;
-	unsigned char* m_data;
-};
-
+	void StreamTexture::setData(unsigned char* data, int width, int height, int bpp)
+	{
+		Texture::setData(data, width, height, bpp, 0);
+	}
 
 }
-
-
-#endif 
-
-

@@ -24,6 +24,7 @@
 #define MAP_H_
 
 
+#include <map>
 #include <vector>
 #include "PropertySet.h"
 #include "vec2.h"

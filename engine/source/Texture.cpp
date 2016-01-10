@@ -25,6 +25,7 @@
 #include "es_util.h"
 #include <es_assert.h>
 #include <config.h>
+#include <stdint.h>
 
 namespace yam2d
 {
@@ -42,19 +43,23 @@ namespace yam2d
 		}
 	}
 
-Texture::Texture(const std::string& fileName)
-: m_nativeId(0)
+Texture::Texture(const std::string& fileName, bool allowNPOT)
+: m_nativeIds(0)
 , m_width(0)
 , m_height(0)
 , m_bpp(0)
 , m_data(0)
+, m_numNativeIds(1)
 {
+	m_nativeIds = (unsigned int*)new int[m_numNativeIds];	
+	glGenTextures(m_numNativeIds, m_nativeIds);
+
 	if( false == esLoadPNG(fileName.c_str(), 0, &m_width, &m_height, &m_bpp ) )
 	{
 		return;
 	}
 	
-	if( !isNpotSquare(m_width,m_height) )
+	if( allowNPOT==false && !isNpotSquare(m_width,m_height) )
 	{
 		esLogEngineDebug("Image %s, is not NPOT Square texture (w:%d, h:%d, bpp:%d)",
 			fileName.c_str(), m_width, m_height, m_bpp );
@@ -68,44 +73,40 @@ Texture::Texture(const std::string& fileName)
 
 	esLogEngineDebug("[%s] Image loaded w:%d, h:%d, bpp:%d", __FUNCTION__, m_width, m_height, m_bpp);
 	
-	GLenum fmt;
-	if( m_bpp == 4 )
-	{
-		fmt = GL_RGBA;
-	}
-	else if (m_bpp == 3 )
-	{
-		fmt = GL_RGB;
-	}
-	else
-	{
-		esLogEngineError("[%s] Unsupported bytes per pixel: %d", __FUNCTION__, m_bpp);
-		return;
-	}
-
-	glGenTextures(1, &m_nativeId);
-	glBindTexture(GL_TEXTURE_2D, m_nativeId);
-	glTexImage2D(GL_TEXTURE_2D, 0, fmt, m_width, m_height, 0,  fmt, GL_UNSIGNED_BYTE, m_data );
-	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	setData(m_data,m_width,m_height,m_bpp,0);
 }
 
 
 Texture::Texture(unsigned int nativeId, int bytesPerPixel)
-: m_nativeId(nativeId)
+: m_nativeIds(0)
 , m_width(0)
 , m_height(0)
 , m_bpp(bytesPerPixel)
 , m_data(0)
+, m_numNativeIds(1)
 {
+	m_nativeIds = (unsigned int*)new int[m_numNativeIds];
+	glGenTextures(m_numNativeIds, m_nativeIds);
+	m_nativeIds[0] = nativeId;
 }
 
 
+Texture::Texture(int numNativeIds)
+: m_nativeIds(0)
+, m_width(0)
+, m_height(0)
+, m_bpp(0)
+, m_data(0)
+, m_numNativeIds(numNativeIds)
+{
+	m_nativeIds = (unsigned int*)new int[m_numNativeIds];
+	glGenTextures(m_numNativeIds, m_nativeIds);
+}
+
 Texture::~Texture()
 {
-	glDeleteTextures(1, &m_nativeId);
+	glDeleteTextures(m_numNativeIds, m_nativeIds);
+	delete [] m_nativeIds;
 
 	if( m_data != 0 )
 	{
@@ -124,7 +125,54 @@ void Texture::setSize(int width, int height)
 
 int Texture::getNativeId() const
 {
-	return m_nativeId;
+	return getNativeId(0);
+}
+
+int Texture::getNativeId(int index) const
+{
+	assert( index < m_numNativeIds );
+	return m_nativeIds[index];
+}
+
+
+void Texture::setData(unsigned char* data, int width, int height, int bpp, int nativeIdIndex)
+{
+	m_width = width;
+	m_height = height;
+	m_bpp = bpp;
+
+	if( data != m_data )
+	{
+		if( m_data != 0 )
+		{
+			delete [] m_data;
+			m_data = 0;
+		}
+		m_data = new uint8_t[m_width*m_height*m_bpp];
+		memcpy(m_data,data,m_width*m_height*m_bpp);
+	}
+	
+	GLenum fmt;
+	if( m_bpp == 4 )
+	{
+		fmt = GL_RGBA;
+	}
+	else if (m_bpp == 3 )
+	{
+		fmt = GL_RGB;
+	}
+	else
+	{
+		yam2d::esLogMessage("[%s] Unsupported bytes per pixel: %d", __FUNCTION__, m_bpp);
+		return;
+	}
+
+	glBindTexture(GL_TEXTURE_2D, m_nativeIds[nativeIdIndex]);
+	glTexImage2D(GL_TEXTURE_2D, 0, fmt, m_width, m_height, 0,  fmt, GL_UNSIGNED_BYTE, m_data );
+	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
 
 
@@ -191,7 +239,7 @@ void Texture::setTransparentColor(unsigned char r, unsigned char g, unsigned cha
 		return;
 	}
 	
-	glBindTexture(GL_TEXTURE_2D, m_nativeId);
+	glBindTexture(GL_TEXTURE_2D, getNativeId());
 	glTexImage2D(GL_TEXTURE_2D, 0, fmt, m_width, m_height, 0,  fmt, GL_UNSIGNED_BYTE, m_data );
 	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

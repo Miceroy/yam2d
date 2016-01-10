@@ -198,6 +198,7 @@
     </ClCompile>
     <ClCompile Include="..\..\source\AnimationTimeline.cpp" />
     <ClCompile Include="..\..\Source\ElapsedTimer.cpp" />
+    <ClCompile Include="..\..\source\Entity.cpp" />
     <ClCompile Include="..\..\source\FileStream.cpp" />
     <ClCompile Include="..\..\source\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Layer.cpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="..\..\Source\SpriteAnimation.cpp" />
     <ClCompile Include="..\..\Source\SpriteBatch.cpp" />
     <ClCompile Include="..\..\Source\SpriteSheet.cpp" />
+    <ClCompile Include="..\..\source\StreamTexture.cpp" />
     <ClCompile Include="..\..\Source\Text.cpp" />
     <ClCompile Include="..\..\Source\Texture.cpp" />
     <ClCompile Include="..\..\Source\Tileset.cpp" />
@@ -309,6 +311,7 @@
     <ClInclude Include="..\..\include\Camera.h" />
     <ClInclude Include="..\..\include\config.h" />
     <ClInclude Include="..\..\Include\ElapsedTimer.h" />
+    <ClInclude Include="..\..\include\Entity.h" />
     <ClInclude Include="..\..\Include\es_util_win32.h" />
     <ClInclude Include="..\..\Include\es_util.h" />
     <ClInclude Include="..\..\Include\es_assert.h" />
@@ -319,6 +322,7 @@
     <ClInclude Include="..\..\include\KeyframeSequence.h" />
     <ClInclude Include="..\..\Include\Layer.h" />
     <ClInclude Include="..\..\Include\Map.h" />
+    <ClInclude Include="..\..\include\MiniJSON.h" />
     <ClInclude Include="..\..\Include\Object.h" />
     <ClInclude Include="..\..\Include\PropertySet.h" />
     <ClInclude Include="..\..\Include\Ref.h" />
@@ -329,6 +333,7 @@
     <ClInclude Include="..\..\Include\SpriteSheet.h" />
     <ClInclude Include="..\..\include\SpriteSheetGameObject.h" />
     <ClInclude Include="..\..\include\Stream.h" />
+    <ClInclude Include="..\..\include\StreamTexture.h" />
     <ClInclude Include="..\..\Include\Text.h" />
     <ClInclude Include="..\..\include\TextGameObject.h" />
     <ClInclude Include="..\..\Include\Texture.h" />

@@ -1,7 +1,7 @@
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // http://code.google.com/p/yam2d/
 //
-// Copyright (c) 2013 Mikko Romppainen
+// Copyright (c) 2015 Mikko Romppainen
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in the
@@ -20,58 +20,36 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef TEXTURE_H_
-#define TEXTURE_H_
+#ifndef STREAM_TEXTURE_H_
+#define STREAM_TEXTURE_H_
 
-#include <Object.h>
+#include <Texture.h>
 #include <string>
 
 namespace yam2d
 {
 
-/**
- * Class for Texture.
- *
- * @ingroup yam2d
- * @author Mikko Romppainen (mikko@kajakbros.com) 
- */
-class Texture : public Object
-{
-public:
-	Texture(const std::string& fileName, bool allowNPOT = false);
-	Texture(unsigned int nativeId, int bytesPerPixel);
-	virtual ~Texture();
+	/**
+	 * Class for Streaming Texture, which can be used for example textures, which contents is needed to
+	 * update ocasionally. Note: Current implementation does not use any specific buffering. It would be
+	 * good idea to add some kind of (ring) buffering / streaming extension stuff so that OpenGL will have
+	 * time to update texture data to GPU before drawing.
+	 *
+	 * @ingroup yam2d
+	 * @author Mikko Romppainen (mikko@kajakbros.com)
+	 */
+	class StreamTexture : public yam2d::Texture
+	{
+	public:
+		StreamTexture();
+		virtual ~StreamTexture();
+		virtual int getNativeId() const;
 
-	void setSize(int width, int height);
-	// getNative Id can be overriden in subclass for determing active texture. 
-	virtual int getNativeId() const;
-	int getNativeId(int index) const;
-
-	int getWidth() const;
-	int getHeight() const;
-	const unsigned char* getPixel(int x, int y) const { return &m_data[(y*getWidth() + x)*getBytesPerPixel()]; }
-	int getBytesPerPixel() const { return m_bpp; }
-	void setTransparentColor(unsigned char r, unsigned char g, unsigned char b);
-protected:
-	Texture(int numNativeTextures);
-
-	void setData(unsigned char* data, int width, int height, int bpp, int nativeIdIndex);
-
-private:
-	unsigned char* getPixel(int x, int y) { return &m_data[(y*getWidth() + x)*getBytesPerPixel()]; }
-	Texture();
-
-	unsigned int* m_nativeIds;
-	int m_numNativeIds;
-	int m_width;
-	int m_height;
-	int m_bpp;
-	unsigned char* m_data;
-};
-
+		void setData(unsigned char* data, int width, int height, int bpp);
+	private:
+	};
 
 }
-
 
 #endif 
 

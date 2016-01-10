@@ -429,6 +429,12 @@
     <ClCompile Include="..\..\external\enet-1.3.11\enet_compress.c">
       <Filter>enet</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\Entity.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\StreamTexture.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\es_assert.h">
@@ -780,6 +786,15 @@
       <Filter>enet</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\XBOXController.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Entity.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MiniJSON.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\StreamTexture.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
