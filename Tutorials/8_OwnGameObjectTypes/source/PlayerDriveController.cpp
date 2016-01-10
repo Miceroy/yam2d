@@ -20,46 +20,45 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef ENEMY_H_
-#define ENEMY_H_ 
+#include "PlayerDriveController.h" // Include Player class header
 
-// Include base class
-#include <SpriteGameObject.h>
+#include "Input.h"
 
-// Forward declaration of class Player
-class Player;
+using namespace yam2d; // Use namespace yam3d implicitily.
 
-// Use SpriteGameObject as base class for our player, 
-// because player have non animated sprite. SpriteGameObject provides 
-// "automatic rendering of sprite" to corrent position on map.
-class Enemy : public yam2d::SpriteGameObject
+
+
+PlayerDriveController::PlayerDriveController(GameObject* owner)
+	: Component(owner, Component::getDefaultProperties()) // Initalize base class by giving parameres to it
 {
-public:
-	/** Constructor of player. 
-	 *
-	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
-	 * @param texture Texture for our game object.
-	 */
-	Enemy(int gameObjectType, yam2d::Texture* texture, Player* player);
-	virtual ~Enemy(void);
-
-	// This virtual method is automatically called byt map/layer, when update is called from main.cpp
-	virtual void update( float deltaTime );
-
-	/** 
-	 * Sets waypoints for this enemy, where this should go. 
-	 */
-	void setWayoints(const std::vector<yam2d::vec2>& waypoints );
-
-	/**
-	 * Returns true, if enemy has reached its final destination.
-	 */
-	bool hasReachedGoal();
-private:
-	std::vector<yam2d::vec2> m_waypoints;
-	Player* m_player;
-
-};
+}
 
 
-#endif
+PlayerDriveController::~PlayerDriveController(void)
+{
+}
+
+void PlayerDriveController::update(float deltaTime)
+{
+	float rotationSpeed = 1.0f; // Radians / second
+	float moveSpeed = 4.0f; // tiles / second
+
+	// Rotate gameobject accorging to keys
+	float rotate = float(getKeyState(KEY_RIGHT)-getKeyState(KEY_LEFT));
+	getGameObject()->setRotation(getGameObject()->getRotation() + deltaTime*rotate*rotationSpeed); // Update rotation
+
+	// Get move direction from keyboard
+	float forward = float(getKeyState(KEY_UP)-getKeyState(KEY_DOWN));
+
+	if( fabsf(forward) > 0.1f )
+	{
+		// Rotate forward direction according to game object rotation
+		vec2 direction = rotateVector(vec2(forward, 0), getGameObject()->getRotation());
+		direction = slm::normalize(direction); // Make sure that lenght of direction vector is 1
+
+		// Update position (euler integration)
+		getGameObject()->setPosition(getGameObject()->getPosition() + deltaTime*moveSpeed*direction);
+	}
+
+}
+

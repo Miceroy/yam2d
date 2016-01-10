@@ -29,9 +29,10 @@
 namespace yam2d
 {
 
-Text::Text(SpriteSheet* font)
-: m_font(font)
-, m_sprite( new Sprite() )
+Text::Text(GameObject* owner, SpriteSheet* font)
+	: Component(owner, Component::getDefaultProperties())
+, m_font(font)
+, m_sprite( new Sprite(0) )
 , m_totalWidth(0)
 , m_text("")
 {

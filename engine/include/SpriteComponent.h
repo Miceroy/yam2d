@@ -53,7 +53,7 @@ class SpriteSheet;
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-class SpriteGameObject : public GameObject
+class SpriteComponent : public Component
 {
 public:
 	/**
@@ -62,27 +62,33 @@ public:
 	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
 	 * @param texture Texture for SpriteGameObject.
 	 */
-	SpriteGameObject(int gameObjectType, Texture* texture )
-		: GameObject(gameObjectType)
-		, m_sprite(new Sprite())
+	SpriteComponent(GameObject* owner, Texture* texture)
+		: Component(owner, Component::getDefaultProperties())
+		, m_sprite(new Sprite(0))
 		, m_texture(texture)
 	{
-		setSize(float(texture->getWidth()),float(texture->getHeight()));
+		assert(owner != 0); // Must have owner game object
+		getGameObject()->setSize(float(texture->getWidth()),float(texture->getHeight()));
 	}
 
-	virtual ~SpriteGameObject() {}
+	virtual ~SpriteComponent() {}
 
-	void render( Layer* layer);
+	//void render( Layer* layer);
 
 	Sprite* getSprite() const { return m_sprite.ptr(); }
+	Texture* getTexture() const { return m_texture.ptr(); }
+
+	GameObject* getGameObject() { return (GameObject*)getOwner(); }
+	const GameObject* getGameObject() const { return (const GameObject*)getOwner(); }
+
 private:
 		
 	Ref<Sprite>			m_sprite;
 	Ref<Texture>		m_texture;
 
-	SpriteGameObject();
-	SpriteGameObject(const SpriteGameObject& o);
-	SpriteGameObject& operator=(const SpriteGameObject& o);
+	SpriteComponent();
+	SpriteComponent(const SpriteComponent& o);
+	SpriteComponent& operator=(const SpriteComponent& o);
 };
 
 

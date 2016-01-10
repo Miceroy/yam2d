@@ -27,8 +27,9 @@ namespace yam2d
 {
 
 
-GameObject::GameObject(int type, const vec2& position, const vec2& size, const std::string& name )
-: m_name(name)
+GameObject::GameObject(Entity* parent, int type, const vec2& position, const vec2& size, const std::string& name)
+: Entity( parent, 0, Entity::getDefaultProperties() )
+, m_name(name)
 , m_position(position)
 , m_offset(0)
 , m_topLeft(0.0f)
@@ -46,7 +47,7 @@ GameObject::~GameObject()
 {
 }
 
-
+/*
 void GameObject::update( float )
 {
 }
@@ -55,7 +56,7 @@ void GameObject::update( float )
 void GameObject::render( Layer* )
 {
 }
-
+*/
 
 void GameObject::setName( const std::string& name )
 { 

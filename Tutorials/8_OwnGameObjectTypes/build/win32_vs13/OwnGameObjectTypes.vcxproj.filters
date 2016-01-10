@@ -15,27 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\Enemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\Player.cpp">
+    <ClCompile Include="..\..\source\WaypointController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\AnimatedEnemy.cpp">
+    <ClCompile Include="..\..\source\SpatialAnimationController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\PlayerDriveController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\Enemy.h">
+    <ClInclude Include="..\..\include\WaypointController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Player.h">
+    <ClInclude Include="..\..\include\SpatialAnimationController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\AnimatedEnemy.h">
+    <ClInclude Include="..\..\include\PlayerDriveController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

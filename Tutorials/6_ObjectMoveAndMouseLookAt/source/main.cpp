@@ -6,7 +6,7 @@
 #include <Camera.h>
 #include <Layer.h>
 #include <Texture.h>
-#include <SpriteGameObject.h>
+#include <SpriteComponent.h>
 #include <Input.h>
 
 using namespace yam2d;
@@ -15,24 +15,10 @@ namespace
 {
 	// Pointer to TmxMap-object
 	TmxMap* map = 0;
+	ComponentFactory* componentFactory = 0;
 
 	// Pointer to game object
-	SpriteGameObject* gameObject = 0;
-
-	// Custom layer function for supporting static layers.
-	Layer* createNewLayer(void* userData, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties)
-	{		
-		// Check that if "static"-propery is set to Leyer properties, and if it's value is "true" or 1
-		if( properties.hasProperty("static") && 
-			(properties.getLiteralProperty("static")=="true" || properties.getLiteralProperty("static")=="1")  )
-		{
-			// Is, so, then create static layer, which is batched only once, at first call to Map::render
-			return new Layer(map, name, opacity, visible, true, properties);
-		}
-
-		// by default create dynamic layer, which is batced each frame
-		return new Layer(map, name, opacity, visible, false, properties); 
-	}
+	GameObject* gameObject = 0;
 
 	vec2 rotateVec2(const vec2& vec, float angle )
 	{
@@ -55,7 +41,7 @@ namespace
 		{
 			float forward = float(getKeyState(KEY_UP)-getKeyState(KEY_DOWN));
 			float right = float(getKeyState(KEY_RIGHT)-getKeyState(KEY_LEFT));
-			direction = rotateVec2( vec2(forward,right), gameObject->getRotation() );
+			direction = rotateVec2(vec2(forward, right), go->getRotation());
 		}
 		else
 		{
@@ -77,7 +63,7 @@ namespace
 		vec2 moveDelta = deltaTime*velocity;
 
 		// New position is old position + move delta
-		gameObject->setPosition(gameObject->getPosition() + moveDelta);
+		go->setPosition(go->getPosition() + moveDelta);
 	}
 }
 
@@ -88,17 +74,19 @@ bool init ( ESContext *esContext )
 {
 	// Create new TmxMap object
 	map = new TmxMap();
-	map->registerCreateNewLayerFunc(createNewLayer);
-
+	componentFactory = new DefaultComponentFactory();
+	
 	// Load map file
-	if( !map->loadMapFile("level.tmx") )
+	if( !map->loadMapFile("level.tmx",componentFactory) )
 		return false;
 
 	// Create game object from "triangle.png, which transparent
 	// color is pink and size is one tile (tile size comes from map)
 	Texture* texture = new Texture("triangle.png");
 	texture->setTransparentColor(255,0,255);
-	gameObject = new SpriteGameObject(0,texture);
+
+	gameObject = new GameObject(0, 0);
+	SpriteComponent* sprite = new SpriteComponent(gameObject, texture);
 	gameObject->setSize(map->getTileWidth(), map->getTileHeight());
 
 	// add game object to map layer "GameObjects"
@@ -110,6 +98,8 @@ bool init ( ESContext *esContext )
 	// Move gameobject to middle of map.
 	gameObject->setPosition( vec2(map->getWidth()/2.0f - 0.5f, map->getHeight()/2.0f - 0.5f));
 
+	gameObject->addComponent(sprite);
+
 	return true;
 }
 
@@ -118,6 +108,7 @@ void deinit ( ESContext *esContext )
 {
 	// Delete map.
 	delete map;
+	delete componentFactory;
 }
 
 

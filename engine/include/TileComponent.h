@@ -50,38 +50,42 @@ class Tileset;
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-class Tile : public GameObject
+class TileComponent : public Component
 {
 public:
 	// Default constructor.
-	Tile(int gameObjectType, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally
-		, float levelTileSizeX, float levelTilesizeY )
-		: GameObject(gameObjectType)
-		, m_sprite(new Sprite())
-		, m_tileset(tileset)
+	TileComponent(Entity* owner, /*int gameObjectType,*/ const vec2& position,/* Tileset* tileset,*/ unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally)
+		: Component(owner,Component::getDefaultProperties())
+		, m_sprite(new Sprite(0))
+		, m_tileset(0)
 		, m_id(id)
 		, m_flippedHorizontally(flippedHorizontally)
 		, m_flippedVertically(flippedVertically)
 		, m_flippedDiagonally(flippedDiagonally)
 	{
-		GameObject::setPosition(position);
+		getGameObject()->setPosition(position);
+	}
+
+	virtual ~TileComponent() {}
+
+	void setTileSet(Tileset* tileset, float levelTileSizeX, float levelTilesizeY)
+	{
+		m_tileset = tileset;
 		Sprite::PixelClip clip = tileset->getSpriteSheet()->getClip(getTileId());
 
 		// Set origin to be center of the tile
 		vec2 offset(0);
-	
-		offset.x += 0.5f*clip.clipSize.x/levelTileSizeX;
-		offset.y -= 0.5f*clip.clipSize.y/levelTilesizeY;
+
+		offset.x += 0.5f*clip.clipSize.x / levelTileSizeX;
+		offset.y -= 0.5f*clip.clipSize.y / levelTilesizeY;
 
 		offset.x -= 0.5f;
 		offset.y += 0.5f;
 
-		setOffset( offset );
-		
-		setSize( vec2(float(clip.clipSize.x),float(clip.clipSize.y)) );
-	}
+		getGameObject()->setOffset(offset);
 
-	virtual ~Tile() {}
+		getGameObject()->setSize(vec2(float(clip.clipSize.x), float(clip.clipSize.y)));
+	}
 
 	Tileset* getTileset() const { return m_tileset.ptr(); }
 	unsigned getTileId() const { return m_id; }
@@ -89,8 +93,10 @@ public:
 	bool isFlippedVertically() const { return m_flippedVertically; }
 	bool isFlippedDiagonally() const { return m_flippedDiagonally; }
 
-	void render(Layer* layer);
-
+	//void render(Layer* layer);
+	Sprite* getSprite() const { return m_sprite.ptr(); }
+	GameObject* getGameObject() { return (GameObject*)getOwner(); }
+	const GameObject* getGameObject() const { return (const GameObject*)getOwner(); }
 private:
 	Ref<Sprite> m_sprite;
 	Ref<Tileset> m_tileset;				// Tileset
@@ -99,9 +105,9 @@ private:
 	bool m_flippedVertically;		// True when the tile should be drawn flipped vertically.
 	bool m_flippedDiagonally;		// True when the tile should be drawn flipped diagonally.
 
-	Tile();
-	Tile(const Tile& o);
-	Tile& operator=(const Tile& o);
+	TileComponent();
+	TileComponent(const TileComponent& o);
+	TileComponent& operator=(const TileComponent& o);
 };
 
 

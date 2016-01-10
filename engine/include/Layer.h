@@ -28,6 +28,7 @@
 #include "PropertySet.h"
 #include "SpriteBatch.h"
 #include <Ref.h>
+#include <Entity.h>
 
 namespace yam2d
 {
@@ -41,7 +42,7 @@ class GameObject;
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com)
  */ 
-class Layer : public Object
+class Layer : public Entity
 {
 public:
 	typedef std::vector< Ref<GameObject> > GameObjectList;
@@ -94,9 +95,6 @@ public:
 
 	/** Returns true, if this layer is visible. i.e. needed to be rendered. Typically this method is not needed to be called by game developer. */
 	bool isVisible() const;
-
-	/** Returns the PropertySet attached to this Layer. */
-	const PropertySet& getProperties() const;
 		
 	/** Returns map of this Layer. */
 	Map* getMap() const;
@@ -114,10 +112,9 @@ public:
 	void disableUpdate() { m_isUpdatable = false; }
 	int getLayerIndex() const { return m_layerNumber; }
 private:
-	Map*							m_map;
+	//Map*							m_map;
 	std::string						m_name;
 	bool							m_visible;
-	PropertySet						m_properties;
 	GameObjectList					m_gameObjects;
 	float							m_opacity;
 	Ref<SpriteBatchGroup>			m_batch;

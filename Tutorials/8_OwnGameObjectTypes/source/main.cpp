@@ -2,13 +2,13 @@
 #include <es_util.h>
 // Include map class
 #include <Map.h>
-#include "Player.h"
-#include "Enemy.h"
-#include "AnimatedEnemy.h"
-#include <TextGameObject.h>
+#include "PlayerDriveController.h"
+#include "WaypointController.h"
+#include "SpatialAnimationController.h"
+#include <TextComponent.h>
 // Camera class
 #include <Camera.h>
-#include <Tile.h>
+#include <TileComponent.h>
 #include <Layer.h>
 #include <Input.h>
 
@@ -19,6 +19,92 @@ namespace
 {
 	// Pointer to TmxMap-object
 	TmxMap* map = 0;
+	ComponentFactory* componentFactory = 0;
+
+
+	class CustomComponentFactory : public yam2d::DefaultComponentFactory
+	{
+	private:
+		yam2d::Ref<Texture> m_playerTexture; 
+		yam2d::Ref<Texture> m_enemyTexture;
+		GameObject* m_player; // HACK. Player to set for each enemy
+
+	public:
+		CustomComponentFactory()
+		{
+			// Preload textures.
+
+			m_playerTexture = new Texture("red_triangle.png");
+			// We have pink background in red_triangle-png.
+			m_playerTexture->setTransparentColor(255, 0, 255);
+
+			// Load texture.
+			m_enemyTexture = new Texture("blue_triangle.png");
+			// We have pink background in blue_triangle-png.
+			m_enemyTexture->setTransparentColor(255, 0, 255);
+		}
+
+		virtual ~CustomComponentFactory()
+		{
+		}
+
+		virtual Component* createNewComponent(const std::string& type, Entity* owner, const yam2d::PropertySet& properties)
+		{
+			// TODO: Implementation... Use now default implementation instead.
+			return DefaultComponentFactory::createNewComponent(type, owner, properties);
+		}
+
+
+		virtual Entity* createNewEntity(ComponentFactory* componentFactory, const std::string& type, Entity* parent, const yam2d::PropertySet& properties)
+		{
+			if ("Player" == type)
+			{
+				// Create new player.
+				GameObject* gameObject = new GameObject(0, 0);
+				SpriteComponent* spriteComponent = new SpriteComponent(gameObject, m_playerTexture);
+				PlayerDriveController* playerController = new PlayerDriveController(gameObject);
+				gameObject->addComponent(spriteComponent);
+				gameObject->addComponent(playerController);
+				gameObject->setPosition(15, 5);
+				return gameObject;
+			}
+			else if ("AnimatedEnemy" == type)
+			{
+				// Create new animated enemy.
+				GameObject* animatedEnemyGameObject = new GameObject(0, 0);
+				SpriteComponent* spriteComponent = new SpriteComponent(animatedEnemyGameObject, m_enemyTexture);
+				SpatialAnimationController* animationCtrl = new SpatialAnimationController(animatedEnemyGameObject, vec2(2, 2), m_player);
+				animatedEnemyGameObject->addComponent(spriteComponent);
+				animatedEnemyGameObject->addComponent(animationCtrl);
+				// Add it to GameObjects-layer.
+				return animatedEnemyGameObject;
+			}
+			else if ("WaypointEnemy" == type)
+			{
+				// Create new waypoint enemy.
+				GameObject* enemyGameObject = new GameObject(0, 0);
+				SpriteComponent* spriteComponent = new SpriteComponent(enemyGameObject, m_enemyTexture);
+				WaypointController* wpController = new WaypointController(enemyGameObject, m_player);
+				enemyGameObject->addComponent(spriteComponent);
+				enemyGameObject->addComponent(wpController);
+				// Add it to GameObjects-layer.
+				map->getLayer("GameObjects")->addGameObject(enemyGameObject);
+
+				// Add some waypoints for enemy.
+				std::vector<vec2> enemyWaypoints;
+				enemyWaypoints.push_back(vec2(7, 7));
+				enemyWaypoints.push_back(vec2(14, 0));
+				enemyWaypoints.push_back(vec2(14, 14));
+				enemyWaypoints.push_back(vec2(0, 14));
+				enemyWaypoints.push_back(vec2(0, 0));
+				wpController->setWayoints(enemyWaypoints);
+			}
+
+			// Default functionality.
+			return DefaultComponentFactory::createNewEntity(componentFactory, type, parent, properties);
+		}
+	};
+
 }
 
 
@@ -28,58 +114,34 @@ bool init ( ESContext *esContext )
 {	
 	// Create new TmxMap object
 	map = new TmxMap();
-	
+	componentFactory = new CustomComponentFactory();
+
 	// Load map file
-	if( !map->loadMapFile("level.tmx") )
+	if( !map->loadMapFile("level.tmx", componentFactory) )
 		return false;
 
 	// Move gameobject to middle of map.
 	vec2 cameraPos = vec2(map->getWidth()/2.0f - 0.5f, map->getHeight()/2.0f - 0.5f);
-	map->getCamera()->setPosition( cameraPos );
-
-	Player* player;
-	// Add player to map layer named "GameObjects".
+	map->getCamera()->setPosition(cameraPos);
+		
 	{
-		// Load texture.
-		Texture* playerTexture = new Texture("red_triangle.png");
-		// We have pink background in red_triangle-png.
-		playerTexture->setTransparentColor(255,0,255);
-
-		// Create new player.
-		player = new Player(0,playerTexture);
-		player->setPosition(15,5);
-		// Add it to GameObjects-layer.
+		// Create Player entity
+		GameObject* player = (GameObject*)componentFactory->createNewEntity(componentFactory, "Player", 0, yam2d::PropertySet());
 		map->getLayer("GameObjects")->addGameObject(player);
 	}
 
-	// Add enemy to map layer named "GameObjects".
 	{
-		// Load texture.
-		Texture* enemyTexture = new Texture("blue_triangle.png");
-		// We have pink background in blue_triangle-png.
-		enemyTexture->setTransparentColor(255,0,255);
-
-		// Create new animated enemy.
-		AnimatedEnemy* animatedEnemy = new AnimatedEnemy(0,enemyTexture, vec2(2,2), player);
-
+		// Create new AnimatedEnemy.
+		GameObject* animatedEnemyGameObject = (GameObject*)componentFactory->createNewEntity(componentFactory, "AnimatedEnemy", 0, yam2d::PropertySet());
 		// Add it to GameObjects-layer.
-		map->getLayer("GameObjects")->addGameObject(animatedEnemy);
-		
+		map->getLayer("GameObjects")->addGameObject(animatedEnemyGameObject);
+	}
 
-		// Create new enemy.
-		Enemy* enemy = new Enemy(0,enemyTexture, player);
-
+	{
+		// Create new WaypointEnemy.
+		GameObject* enemyGameObject = (GameObject*)componentFactory->createNewEntity(componentFactory, "WaypointEnemy", 0, yam2d::PropertySet());
 		// Add it to GameObjects-layer.
-		map->getLayer("GameObjects")->addGameObject(enemy);
-		
-		// Add some waypoints for enemy.
-		std::vector<vec2> enemyWaypoints;
-		enemyWaypoints.push_back( vec2(7,7) ); 
-		enemyWaypoints.push_back( vec2(14, 0) ); 
-		enemyWaypoints.push_back( vec2(14,14) ); 
-		enemyWaypoints.push_back( vec2(0,14) ); 
-		enemyWaypoints.push_back( vec2(0,0) ); 
-		enemy->setWayoints(enemyWaypoints);
+		map->getLayer("GameObjects")->addGameObject(enemyGameObject);
 	}
 	
 	return true;
@@ -90,6 +152,7 @@ void deinit ( ESContext *esContext )
 {
 	// Delete map.
 	delete map;
+	delete componentFactory;
 }
 
 

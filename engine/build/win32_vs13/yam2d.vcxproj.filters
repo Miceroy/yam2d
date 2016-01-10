@@ -357,9 +357,6 @@
     <ClCompile Include="..\..\external\Box2D\Rope\b2Rope.cpp">
       <Filter>Box2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MapTile.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\android\es_util_android.cpp">
       <Filter>Android</Filter>
     </ClCompile>
@@ -435,6 +432,9 @@
     <ClCompile Include="..\..\source\StreamTexture.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\MapController.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\es_assert.h">
@@ -477,9 +477,6 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\Texture.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\Tile.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\Tileset.h">
@@ -752,18 +749,6 @@
     <ClInclude Include="..\..\include\config.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\AnimatedSpriteGameObject.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SpriteGameObject.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\SpriteSheetGameObject.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\TextGameObject.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\FileStream.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -795,6 +780,24 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\StreamTexture.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MapController.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AnimatedSpriteComponent.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SpriteSheetComponent.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\TextComponent.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SpriteComponent.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\TileComponent.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

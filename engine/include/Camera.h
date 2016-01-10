@@ -40,8 +40,8 @@ class Camera : public GameObject
 {
 public:
 	// Default constructor.
-	Camera(int gameObjectType)
-		: GameObject(gameObjectType)
+	Camera(Entity* owner, int gameObjectType)
+		: GameObject(owner,gameObjectType)
 		, m_screenWidth(0)
 		, m_screenHeight(0)
 		, m_desiredAspectRatio(0.0f)
@@ -68,7 +68,7 @@ public:
 		m_screenUnitSize = screenUnitSize;
 	}
 
-	virtual void render( Layer* layer);
+	//virtual void render( Layer* layer);
 	
 	float getScaleFactorY()
 	{
@@ -87,6 +87,11 @@ public:
 	//return 1.0f;
 		return m_desiredAspectRatio*m_screenUnitSize/m_screenWidth;
 	}
+
+	int getScreenWidth() const { return m_screenWidth; }
+	int getScreenHeight() const { return m_screenHeight; }
+	float getDesiredAspectRatio() const { return m_desiredAspectRatio; }
+	float getScreenUnitSize() const { return m_screenUnitSize; }
 
 private:
 	int m_screenWidth;

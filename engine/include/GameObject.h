@@ -26,6 +26,7 @@
 #include <Object.h>
 #include <vec2.h>
 #include <string>
+#include <Entity.h>
 
 namespace yam2d
 {
@@ -39,16 +40,15 @@ class Layer;
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com)
  */
-class GameObject : public Object
+class GameObject : public Entity
 {
 public:
-	GameObject(int type, const vec2& position=vec2(0.0f), const vec2& size=vec2(0.0f), const std::string& name="" );
+	GameObject(Entity* owner, int type, const vec2& position = vec2(0.0f), const vec2& size = vec2(0.0f), const std::string& name = "");
 
 	virtual ~GameObject();
 
-	virtual void update( float deltaTime );
-	
-	virtual void render( Layer* layer );
+//	virtual bool update( float deltaTime ) = 0;
+//	virtual bool render(Layer* layer) = 0;
 
 	void setName( const std::string& name );
 	void setPosition( const vec2& position );
@@ -98,6 +98,11 @@ private:
 	int				m_type;
 };
 
+class Updatable
+{
+public:
+	virtual void update(float deltaTime) = 0;
+};
 
 }
 

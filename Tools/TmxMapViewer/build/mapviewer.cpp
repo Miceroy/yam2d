@@ -3,7 +3,7 @@
 // Include map class
 #include <Map.h>
 // Tile
-#include <Tile.h>
+#include <TileComponent.h>
 // For keyboard
 #include <Input.h>
 #include <Camera.h>
@@ -17,6 +17,7 @@ namespace
 {
 	// Pointer to TmxMap-object
 	TmxMap* map = 0;
+	ComponentFactory* componentFactory = 0;
 
 	// Zoom for camera
 	float zoom = 1.0f;
@@ -92,7 +93,9 @@ bool init ( ESContext *esContext, char* mapFileName )
 {
 	// Create new TmxMap object
 	map = new TmxMap();
-	return  map->loadMapFile(mapFileName);
+	componentFactory = new DefaultComponentFactory();
+
+	return  map->loadMapFile(mapFileName, componentFactory);
 }
 
 // Deinitialize the game
@@ -100,6 +103,7 @@ void deinit ( ESContext *esContext )
 {
 	// Delete map.
 	delete map;
+	delete componentFactory;
 }
 
 

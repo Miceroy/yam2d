@@ -30,8 +30,9 @@ namespace yam2d
 {
 
 
-Sprite::Sprite()
-: m_scale(1.0f)
+	Sprite::Sprite(Entity* owner)
+	: Component(owner,Component::getDefaultProperties())
+, m_scale(1.0f)
 , m_cropStart(0.0f)
 , m_cropSize(1.0f)
 , m_depth(0.0f)

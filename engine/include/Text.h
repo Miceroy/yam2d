@@ -25,7 +25,7 @@
 
 #include <vector>
 #include <string>
-#include <Object.h>
+#include <GameObject.h>
 #include <Ref.h>
 
 namespace yam2d
@@ -39,10 +39,10 @@ class SpriteSheet;
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-class Text : public Object
+class Text : public Component
 {
 public:
-	Text(SpriteSheet* font);
+	Text(GameObject* owner, SpriteSheet* font);
 
 	virtual ~Text() {}
 
@@ -64,6 +64,8 @@ public:
 	void setOpacity( float a );
 	SpriteSheet* getFont() const;
 	int getWidth();
+
+	GameObject* getGameObject() { return (GameObject*)getOwner(); }
 private:
 	Ref<SpriteSheet> m_font;
 	Ref<Sprite> m_sprite;

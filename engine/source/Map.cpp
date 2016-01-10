@@ -22,7 +22,7 @@
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 #include "Map.h"
-#include "Tile.h"
+#include "TileComponent.h"
 #include <Tileset.h>
 #include "Layer.h"
 #include "es_util.h"
@@ -30,13 +30,59 @@
 #include <Texture.h>
 #include <Camera.h>
 #include <config.h>
-
+#include <MapController.h>
 
 namespace yam2d
 {
 
 using namespace std;
 
+Component* DefaultComponentFactory::createNewComponent(const std::string& type, Entity* owner, const yam2d::PropertySet& properties)
+{
+	if ("Layer" == type)
+	{
+		std::string name = properties["name"].get<std::string>();
+		float opacity = properties["opacity"].get<float>();
+		bool isVisible = properties["visible"].get<bool>();
+		bool isStatic = false;
+		if (properties.hasProperty("static") && (properties.getLiteralProperty("static") == "true" || properties.getLiteralProperty("static") == "1"))
+		{
+			isStatic = true;
+		}
+		Map* map = dynamic_cast<Map*>(owner);
+		assert(map != 0);
+		return new Layer(map, name, opacity, isVisible, isStatic, properties);
+	}
+	else
+	{
+		assert(0); // Unknown type
+	}
+
+	return 0;
+}
+
+Entity* DefaultComponentFactory::createNewEntity(ComponentFactory* componentFactory, const std::string& type, Entity* parent, const yam2d::PropertySet& properties)
+{
+	GameObject* gameObject = new GameObject(parent, 0);
+	(void)componentFactory;
+	if ("Tile" == type)
+	{
+	//	int gameObjectType = 0;
+		vec2 position = vec2(properties["positionX"].get<float>(), properties["positionY"].get<float>());
+		unsigned id = properties["id"].get<int>();
+		bool flippedHorizontally = properties["flippedHorizontally"].get<bool>();
+		bool flippedVertically = properties["flippedVertically"].get<bool>();
+		bool flippedDiagonally = properties["flippedDiagonally"].get<bool>();
+		TileComponent* tileComponent = new TileComponent(gameObject, position, id, flippedHorizontally, flippedVertically, flippedDiagonally);
+		gameObject->addComponent(tileComponent);
+	}
+	else
+	{
+		assert(0); // Unknown type
+	}
+
+	return gameObject;
+}
 
 // anonymous namespace for internal functions
 namespace
@@ -63,7 +109,7 @@ namespace
 		return new Layer(map, name, opacity, visible, false, properties); //create dynamic layer
 	}
 
-
+	/*
 	GameObject* defaultCreateNewTile(void*, Map* map, Layer* , const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& )
 	{
 		return new Tile(0, position, tileset, id, flippedHorizontally, flippedVertically, flippedDiagonally, map->getTileWidth(), map->getTileHeight());
@@ -103,7 +149,7 @@ namespace
 		TmxMap::MapCreateCallbacks* o = static_cast<TmxMap::MapCreateCallbacks*>(userData);
 		assert(o != 0);
 		return o->createNewGameObject(map,layer,type, position,size, name, properties);
-	}
+	}*/
 
 
 	/*
@@ -128,7 +174,8 @@ namespace
 
 
 Map::Map( float tileWidth, float tileHeight, MapOrientation orientation, const PropertySet& properties )
-	: m_mainCamera(new Camera(0))
+	: Entity(0,0,properties)
+	, m_mainCamera(new Camera(this,0))
 	, m_orientation( orientation )
 	, m_tileWidth( tileWidth )
 	, m_tileHeight( tileHeight )
@@ -472,7 +519,7 @@ void Map::batchLayer(Layer* layer, bool cullInvisibleObjects)
 	for( size_t i=0; i<gameObjectsToBeRendered.size(); ++i )
 	{
 		layer->setDepth( layer->getDepth()+delta );
-		gameObjectsToBeRendered[i]->render(layer);
+		renderLayerObject(gameObjectsToBeRendered[i],layer);
 	}	
 }
 
@@ -507,7 +554,7 @@ void Map::render()
 		if( layer && layer->isVisible() && !layer->isStatic() )
 		{
 			m_layers[i]->setDepth( float(i) );
-			m_mainCamera->render(layer);
+			renderCamera(m_mainCamera, layer);
 			if( i >= MAPLAYER0 && i<= MAPLAYER9 )
 			{
 				batchLayer(m_layers[i],true);
@@ -527,11 +574,12 @@ void Map::render()
 
 		if( layer && layer->isVisible() )
 		{
-			m_mainCamera->render(layer);
+			renderCamera(m_mainCamera,layer);
 			layer->getBatch()->render();
 		}
 	}
 }
+
 
 
 void Map::update( float deltaTime )
@@ -543,7 +591,7 @@ void Map::update( float deltaTime )
 
 		if( layer && layer->isUpdatable() )
 		{
-			layer->update(deltaTime);
+			updateLayer(layer,deltaTime);
 		}
 	}
 	
@@ -559,7 +607,7 @@ void Map::update( float deltaTime )
 	}
 }
 
-
+/*
 Tileset* TmxMap::MapCreateCallbacks::createNewTileset( const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties )
 {
 	return defaultCreateNewTileset(0, name, spriteSheet, tileOffsetX, tileOffsetY, properties);
@@ -580,13 +628,13 @@ GameObject* TmxMap::MapCreateCallbacks::createNewGameObject( Map* map, Layer* la
 	return defaultCreateNewGameObject(0, map, layer, type, position, size, name, properties);
 }
 
+*/
 
 
 
 
 
-
-bool TmxMap::loadMapFile(const std::string& mapFileName)
+bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* componentFactory)
 {
 	m_loadedMapFileName = mapFileName;
 	std::string path = getPath(mapFileName);	
@@ -635,8 +683,8 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 		SpriteSheet* spriteSheet = SpriteSheet::generateSpriteSheet(texture, tileset->GetImage()->GetWidth(), tileset->GetImage()->GetHeight(), tileset->GetTileWidth(), tileset->GetTileHeight(), tileset->GetMargin(), tileset->GetSpacing() );
 		PropertySet properties;
 		properties.setValues(tileset->GetProperties().GetList());
-		assert( m_createNewTileset != 0 );
-		m_tilesets[i] = m_createNewTileset(m_userData, tileset->GetName(), spriteSheet, float(tileset->GetTileOffsetX()) , float(tileset->GetTileOffsetY()),properties);
+		//assert( m_createNewTileset != 0 );
+		m_tilesets[i] = defaultCreateNewTileset(0, tileset->GetName(), spriteSheet, float(tileset->GetTileOffsetX()), float(tileset->GetTileOffsetY()), properties);
 		assert( m_tilesets[i] != 0 ); // You must return new Tileset in createTileset callback!!
 	}
 
@@ -645,10 +693,16 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 	{
 		const Tmx::Layer* l = map.GetLayer(i);
 		PropertySet properties;
+		
 		properties.setValues(l->GetProperties().GetList());
 		esLogEngineDebug("Creating layer # MAPLAYER%d : \"%s\" visible: %s", i, l->GetName().c_str(), l->IsVisible() ? "true":"false" );
-		assert( m_createNewLayer != 0 );
-		addLayer(MAPLAYER0+i, m_createNewLayer(m_userData, this, l->GetName(), l->GetOpacity(), l->IsVisible(), properties ) );
+
+		properties["type"] = "Layer";
+		properties["name"] = l->GetName();
+		properties["layerIndex"] = (int)MAPLAYER0 + i;
+		properties["opacity"] = l->GetOpacity();
+		properties["visible"] = l->IsVisible();
+		addLayer(MAPLAYER0 + i, (Layer*)componentFactory->createNewComponent("Layer", this, properties));
 		assert(getLayers()[MAPLAYER0+i] != 0); // You must return new Layer in createLayer callback!!
 	}
 
@@ -680,15 +734,20 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 				
 					if( tileset != 0 )
 					{
-						assert( m_createNewTile != 0 );
-						GameObject* tNew = m_createNewTile(m_userData, this, getLayers()[MAPLAYER0+i],
-							vec2(float(x),float(y)), tileset, t.id, t.flippedHorizontally,
-							t.flippedVertically, t.flippedDiagonally, properties );
+						properties["type"] = "Tile";
+						properties["positionX"] = (float)x;
+						properties["positionY"] = (float)y;
+						properties["id"] = (int)t.id;
+						properties["flippedHorizontally"] = t.flippedHorizontally;
+						properties["flippedVertically"] = t.flippedVertically;
+						properties["flippedDiagonally"] = t.flippedDiagonally;
 
-						if( tNew != 0 )
+						GameObject* gameObject = (GameObject*)componentFactory->createNewEntity(componentFactory, "Tile", getLayers()[MAPLAYER0 + i], properties);
+						if (gameObject != 0)
 						{
+							gameObject->getComponent<TileComponent>()->setTileSet(tileset, getTileWidth(), getTileHeight());
 							++numObjects;
-							getLayers()[MAPLAYER0+i]->addGameObject(tNew);
+							getLayers()[MAPLAYER0 + i]->addGameObject(gameObject);
 						}
 					}
 				}
@@ -761,7 +820,14 @@ bool TmxMap::loadMapFile(const std::string& mapFileName)
 				else
 				{
 					// regular game object
-					tNew = m_createNewGameObject(m_userData, this, getLayers()[MAPLAYER0+i], o->GetType(), position, size, o->GetName(), properties );
+					properties["type"] = o->GetType();
+					properties["name"] = o->GetName();
+					properties["positionX"] = position.x;
+					properties["positionY"] = position.y;
+					properties["sizeX"] = size.x;
+					properties["sizeY"] = size.y;
+
+					tNew = (GameObject*)componentFactory->createNewEntity(componentFactory, o->GetType(), getLayers()[MAPLAYER0 + i], properties);
 				}
 
 				if( tNew != 0 )
@@ -786,11 +852,11 @@ TmxMap::TmxMap()
 	: Map( 0, 0, ORTHOGONAL )
 	, m_width( 0 )
 	, m_height( 0 )
-	, m_userData( 0 )
+	/*, m_userData( 0 )
 	, m_createNewTileset( defaultCreateNewTileset )
 	, m_createNewLayer( defaultCreateNewLayer )
 	, m_createNewTile( defaultCreateNewTile )
-	, m_createNewGameObject( defaultCreateNewGameObject )
+	, m_createNewGameObject( defaultCreateNewGameObject )*/
 	, m_tilesets()
 	, m_loadedMapFileName("")
 {
@@ -800,7 +866,7 @@ TmxMap::TmxMap()
 TmxMap::~TmxMap()
 {
 }
-
+/*
 void TmxMap::registerMapCreateCallbacks(MapCreateCallbacks* callbacks)
 {
 	setCallBackData(callbacks);
@@ -808,7 +874,7 @@ void TmxMap::registerMapCreateCallbacks(MapCreateCallbacks* callbacks)
 	registerCreateNewLayerFunc( createNewLayer_MapCreateCallbacks );
 	registerCreateNewTileFunc( createNewTile_MapCreateCallbacks );
 	registerCreateNewGameObjectFunc( createNewGameObject_MapCreateCallbacks );
-}
+}*/
 
 
 }

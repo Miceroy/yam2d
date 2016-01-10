@@ -33,10 +33,10 @@ namespace yam2d
 using namespace std;
 
 Layer::Layer(Map* map, std::string name, float opacity, bool visible, bool isStaticLayer, const PropertySet& properties )
-: m_map(map)
+	: Entity(map, 0, properties)
+//, m_map(map)
 , m_name(name)
 , m_visible(visible)
-, m_properties(properties)
 , m_gameObjects()
 , m_batch( new SpriteBatchGroup() )
 , m_opacity(opacity)
@@ -50,7 +50,7 @@ Layer::Layer(Map* map, std::string name, float opacity, bool visible, bool isSta
 void Layer::addGameObject(GameObject* gameObject)
 {
 	assert( gameObject != 0 );
-	gameObject->setTileSize( vec2(m_map->getTileHeight(),m_map->getTileWidth()) );
+	gameObject->setTileSize(vec2(getMap()->getTileHeight(), getMap()->getTileWidth()));
 	m_gameObjects.push_back(gameObject);
 	//esLogEngineDebug("Added GameObject: %s to layer: %s", gameObject->getName().c_str(), getName().c_str());
 }
@@ -102,14 +102,14 @@ void Layer::setDepth(float depth)
 	m_depthValue = depth;
 }
 
-
+/*
 void Layer::update(float deltaTime)
 {
 	for( size_t i=0; i<m_gameObjects.size(); ++i )
 	{
 		m_gameObjects[i]->update(deltaTime);
 	}
-}
+}*/
 
 void Layer::deleteUnneededObjects()
 {
@@ -142,14 +142,10 @@ bool Layer::isVisible() const
 }
 
 
-const PropertySet& Layer::getProperties() const
-{
-	return m_properties;
-}
 	
 Map* Layer::getMap() const 
 { 
-	return m_map; 
+	return (Map*)getParent();
 }
 
 

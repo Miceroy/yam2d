@@ -20,14 +20,16 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef TEXTGAMEOBJECT_H_
-#define TEXTGAMEOBJECT_H_
+#ifndef SPRITESHEETGAMEOBJECT_H_
+#define SPRITESHEETGAMEOBJECT_H_
 
 #include <vector>
 #include <string>
 #include <map>
-#include "SpriteBatch.h"
 
+
+#include <SpriteComponent.h>
+/*
 #include "GameObject.h"
 #include "PropertySet.h"
 #include "SpriteSheet.h"
@@ -36,7 +38,7 @@
 #include "Tileset.h"
 #include "Text.h"
 #include "Texture.h"
-
+*/
 namespace yam2d
 {
 	
@@ -46,39 +48,43 @@ class Map;
 class SpriteSheet;
 
 
+
 /**
- * Class for TextGameObject.
+ * Class for SpriteSheetGameObject.
  *
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-class TextGameObject : public GameObject
+class SpriteSheetComponent : public SpriteComponent
 {
 public:
-	/**
-	 * Constructor.
-	 *
-	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
-	 * @param text Text for TextGameObject.
-	 */
-	TextGameObject(int gameObjectType, Text* text )
-		: GameObject(gameObjectType)
-		, m_text(text)
+	// Default constructor.
+	SpriteSheetComponent(GameObject* owner, SpriteSheet* spriteSheet, int idInSpriteSheet)
+		: SpriteComponent(owner, spriteSheet->getTexture())
+		, m_spriteSheet(spriteSheet)
+		, m_id(idInSpriteSheet)
 	{
 	}
 
-	virtual ~TextGameObject() {}
+	virtual ~SpriteSheetComponent() {}
 
-	void render( Layer* layer);
+	void setIdInSpriteSheet(int idInSpriteSheet)
+	{
+		m_id = idInSpriteSheet;
+	}
+	
+	SpriteSheet* getSpriteSheet() const { return m_spriteSheet.ptr(); }
+	int getIdInSpriteSheet() const { return m_id; }
 
-	Text* getText() const { return m_text.ptr(); }
 private:
-	Ref<Text>		m_text;
+	Ref<SpriteSheet>	m_spriteSheet;	// Sprite sheet
+	unsigned			m_id;			// Id at sprite sheet
 
-	TextGameObject();
-	TextGameObject(const TextGameObject& o);
-	TextGameObject& operator=(const TextGameObject& o);
+	SpriteSheetComponent();
+	SpriteSheetComponent(const SpriteSheetComponent& o);
+	SpriteSheetComponent& operator=(const SpriteSheetComponent& o);
 };
+
 
 
 }

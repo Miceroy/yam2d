@@ -3,8 +3,8 @@
 // Include map class
 #include <Map.h>
 // Tile
-#include <Tile.h>
-#include <SpriteGameObject.h>
+#include <TileComponent.h>
+#include <SpriteComponent.h>
 // Layer
 #include <Layer.h>
 // Texture
@@ -19,7 +19,7 @@ namespace
 
 }
 
-SpriteGameObject* createSpriteGameObject(const std::string& bitmapFileName, float sizeX, float sizeY, bool isWhiteTransparentColor = false)
+GameObject* createSpriteGameObject(const std::string& bitmapFileName, float sizeX, float sizeY, bool isWhiteTransparentColor = false)
 {
 	// Load texture to be used as texture for sprite.
 	Texture* texture = new Texture(bitmapFileName.c_str());
@@ -32,15 +32,18 @@ SpriteGameObject* createSpriteGameObject(const std::string& bitmapFileName, floa
 	}
 
 	// Create new sprite GameObject from texture.
-	SpriteGameObject* gameObject = new SpriteGameObject(0,texture);
+	GameObject* gameObject = new GameObject(0, 0);
+	SpriteComponent* sprite = new SpriteComponent(gameObject, texture);
 
 	// Resize the sprite to be correct size
 	gameObject->setSize(sizeX, sizeY);
 
+	// Add sprite component to game object
+	gameObject->addComponent(sprite);
 	return gameObject;
 }
 
-SpriteGameObject* createSpriteGameObject(const std::string& bitmapFileName, float sizeX, float sizeY, int clipStartX, int clipStartY, int clipSizeX, int clipSizeY, bool isWhiteTransparentColor = false )
+GameObject* createSpriteGameObject(const std::string& bitmapFileName, float sizeX, float sizeY, int clipStartX, int clipStartY, int clipSizeX, int clipSizeY, bool isWhiteTransparentColor = false)
 {
 	// Load texture to be used as texture for sprite.
 	Texture* texture = new Texture(bitmapFileName.c_str());
@@ -53,7 +56,8 @@ SpriteGameObject* createSpriteGameObject(const std::string& bitmapFileName, floa
 	}
 
 	// Create new sprite GameObject from texture.
-	SpriteGameObject* gameObject = new SpriteGameObject(0,texture);
+	GameObject* gameObject = new GameObject(0, 0);
+	SpriteComponent* sprite = new SpriteComponent(gameObject, texture);
 
 	// Resize the sprite to be correct size
 	gameObject->setSize(sizeX, sizeY);
@@ -66,8 +70,10 @@ SpriteGameObject* createSpriteGameObject(const std::string& bitmapFileName, floa
 	clip.clipSize.y = clipSizeY;
 
 	// Set pixel clip for sprite
-	gameObject->getSprite()->setClip(float(texture->getWidth()), float(texture->getHeight()), clip );
+	sprite->getSprite()->setClip(float(texture->getWidth()), float(texture->getHeight()), clip);
 
+	// Add sprite component to game object
+	gameObject->addComponent(sprite);
 	return gameObject;
 }
 
@@ -92,10 +98,10 @@ bool init ( ESContext *esContext )
 	map->addLayer(Map::BACKGROUND0, backgroundLayer );
 
 	// Create new sprite GameObject from texture (background sprite) size is same than screen size.
-	SpriteGameObject* backgroundGameObject = createSpriteGameObject("cloudsbackground.png", 1280.0f, 720.0f);
+	GameObject* backgroundGameObject = createSpriteGameObject("cloudsbackground.png", 1280.0f, 720.0f);
 
 	// Set some color to sprite, here color values are from 0.0 to 1.0 (RGB or RGBA)
-	backgroundGameObject->getSprite()->setColor(1.0f, 0.9f, 0.9f);
+	backgroundGameObject->getComponent<SpriteComponent>()->getSprite()->setColor(1.0f, 0.9f, 0.9f);
 
 	// Add GameObject to background layer.
 	backgroundLayer->addGameObject(backgroundGameObject);
@@ -110,14 +116,14 @@ bool init ( ESContext *esContext )
 	map->addLayer(Map::MAPLAYER0, objectLayer );
 
 	// Create new ball game object (1x1 tiles), clip it from texture position <0,0> - <64,64>, white color shall be transparent
-	SpriteGameObject* ballGameObject = createSpriteGameObject("objects.png", tileSize.x, tileSize.y, 0, 0, 64, 64, true);
+	GameObject* ballGameObject = createSpriteGameObject("objects.png", tileSize.x, tileSize.y, 0, 0, 64, 64, true);
 	// Add ball to level
 	objectLayer->addGameObject(ballGameObject);
 	// Set position
 	ballGameObject->setPosition(vec2(-1,0));
 
 	// Create new square game object (1x1 tiles), clip it from texture position <192,0> - <64,64>
-	SpriteGameObject* square = createSpriteGameObject("objects.png", tileSize.x, tileSize.y, 192, 0, 64, 64);
+	GameObject* square = createSpriteGameObject("objects.png", tileSize.x, tileSize.y, 192, 0, 64, 64);
 	// Add square to level
 	objectLayer->addGameObject(square);
 	// Set position
@@ -127,7 +133,7 @@ bool init ( ESContext *esContext )
 	for( int x=-4; x<5; ++x )
 	{
 		// Create new floor game object (2x1 tiles), clip it from texture position <64,0> - <128,64>
-		SpriteGameObject* square = createSpriteGameObject("objects.png", tileSize.x*2.0f,tileSize.y, 64, 0, 128, 64);
+		GameObject* square = createSpriteGameObject("objects.png", tileSize.x*2.0f, tileSize.y, 64, 0, 128, 64);
 		// Add to level
 		objectLayer->addGameObject(square);
 		// Set position

@@ -20,31 +20,30 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#include "Enemy.h" // Include Enemy class header
+#include "WaypointController.h" // Include Enemy class header
 
 #include "Input.h"
-#include "Player.h"
 #include "es_util.h"
 
 using namespace yam2d; // Use namespace yam3d implicitily.
 
 
 
-Enemy::Enemy(int gameObjectType, Texture* texture, Player* player)
-	: SpriteGameObject(gameObjectType,texture) // Initalize base class by giving parameres to it
+WaypointController::WaypointController(GameObject* owner, GameObject* player)
+	: Component(owner, Component::getDefaultProperties()) // Initalize base class by giving parameres to it
 	, m_player(player)
 {
 }
 
 
-Enemy::~Enemy(void)
+WaypointController::~WaypointController(void)
 {
 }
 
-void Enemy::update( float deltaTime )
+void WaypointController::update(float deltaTime)
 {
 	// If all waypoints reached or collides to player, do not move.
-	if( hasReachedGoal() || collidesTo(m_player) )
+	if( hasReachedGoal() || getGameObject()->collidesTo(m_player) )
 		return; // nothing to do.
 
 	float rotationSpeed = 1.0f; // Radians / second
@@ -54,7 +53,7 @@ void Enemy::update( float deltaTime )
 	vec2 destination = m_waypoints[m_waypoints.size()-1];
 
 	// Get position delta from came object pos to wp pos.
-	vec2 delta = destination-getPosition();
+	vec2 delta = destination-getGameObject()->getPosition();
 	float deltaLen = slm::length(delta);
 	
 	// If closer than 0.1 tiles from destination, we are close enought, so remove waypoint and return.
@@ -68,7 +67,7 @@ void Enemy::update( float deltaTime )
 	delta *= 1.0f/deltaLen;
 
 	// Take angle, which we need to rotate object.
-	float angleDelta = atan2(delta.y,delta.x) - getRotation();
+	float angleDelta = atan2(delta.y, delta.x) - getGameObject()->getRotation();
 
 	// Enemy can move, if it is aligned close enought to target position
 	bool canMoveForward = false;
@@ -97,30 +96,30 @@ void Enemy::update( float deltaTime )
 	}
 
 	// Rotate gameobject accorging to angular velocity
-	setRotation(getRotation() + angleDelta ); // Update rotation
+	getGameObject()->setRotation(getGameObject()->getRotation() + angleDelta); // Update rotation
 	
 	// If we are aligned to object, we can move towards it
 	if( canMoveForward )
 	{
 		// Rotate forward direction according to game object rotation
-		vec2 direction = rotateVector( vec2(moveSpeed,0), getRotation() );
+		vec2 direction = rotateVector(vec2(moveSpeed, 0), getGameObject()->getRotation());
 		direction = slm::normalize(direction); // Make sure that lenght of direction vector is 1
 
 		// Update position (euler integration)
-		setPosition(getPosition() + deltaTime*moveSpeed*direction );
+		getGameObject()->setPosition(getGameObject()->getPosition() + deltaTime*moveSpeed*direction);
 	}
 }
 
 
 
-void Enemy::setWayoints(const std::vector<vec2>& waypoints )
+void WaypointController::setWayoints(const std::vector<vec2>& waypoints)
 {
 	// Make waypoints to reverse order for efficient use of pop_back in update.
 	m_waypoints = waypoints;
 	std::reverse(m_waypoints.begin(),m_waypoints.end());
 }
 
-bool Enemy::hasReachedGoal()
+bool WaypointController::hasReachedGoal()
 {
 	// If there are no more waypoints, we have reached our goal.
 	return m_waypoints.size() == 0;

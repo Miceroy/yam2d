@@ -42,7 +42,7 @@ bool init ( ESContext *esContext )
 	
 	esLogMessage("Init... %d", cc++);
 	// Create new sprite, with default parameters.
-	sprite = new Sprite();
+	sprite = new Sprite(0);
 	
 	esLogMessage("Init... %d", cc++);
 	// Load font texture. Made with font creation tool like bitmap font builder.
@@ -54,7 +54,7 @@ bool init ( ESContext *esContext )
 
 	esLogMessage("Init... %d", cc++);
 	// Create new text-object
-	text = new Text(font);
+	text = new Text(0,font);
 
 	esLogMessage("Init... Done");
 	return true;

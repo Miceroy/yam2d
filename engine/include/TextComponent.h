@@ -20,45 +20,69 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef ANIMATEDENEMY_H_
-#define ANIMATEDENEMY_H_ 
+#ifndef TEXTGAMEOBJECT_H_
+#define TEXTGAMEOBJECT_H_
 
-// Include base class
-#include <SpriteGameObject.h>
-#include <AnimationTrack.h>
+#include <vector>
+#include <string>
+#include <map>
+#include "SpriteBatch.h"
 
-// Forward declaration of class Player
-class Player;
+#include "GameObject.h"
+#include "PropertySet.h"
+#include "SpriteSheet.h"
+#include "SpriteAnimation.h"
+#include "Map.h"
+#include "Tileset.h"
+#include "Text.h"
+#include "Texture.h"
 
-// Use SpriteGameObject as base class for our player, 
-// because player have non animated sprite. SpriteGameObject provides 
-// "automatic rendering of sprite" to corrent position on map.
-class AnimatedEnemy : public yam2d::SpriteGameObject
+namespace yam2d
+{
+	
+
+class Tileset;
+class Map;
+class SpriteSheet;
+
+
+/**
+ * Class for TextGameObject.
+ *
+ * @ingroup yam2d
+ * @author Mikko Romppainen (mikko@kajakbros.com) 
+ */
+
+class TextComponent : public Component
 {
 public:
-	/** Constructor of player. 
-	 *
-	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
-	 * @param texture Texture for our game object.
-	 */
-	AnimatedEnemy(int gameObjectType, yam2d::Texture* texture, const yam2d::vec2& initialPosition, Player* player);
-	virtual ~AnimatedEnemy(void);
+	TextComponent(GameObject* owner, SpriteSheet* font)
+		: Component(owner,Component::getDefaultProperties())
+		, m_text(new Text(owner, font))
+	{
+		assert(owner != 0); // Must have owner game object
+	}
 
-	// This virtual method is automatically called byt map/layer, when update is called from main.cpp
-	virtual void update( float deltaTime );
-
+	virtual ~TextComponent() {}
 	
+	Text* getText() const { return m_text.ptr(); }
+
+	GameObject* getGameObject() { return (GameObject*)getOwner(); }
+	const GameObject* getGameObject() const { return (const GameObject*)getOwner(); }
+
 private:
-//	std::vector<yam2d::vec2> m_waypoints;
-	Player* m_player;
+	Ref<Text>		m_text;
 
-	float m_totalTime;
-
-	yam2d::Ref<yam2d::AnimationTimeline> m_timeline;
-
-	yam2d::Ref<yam2d::AnimationTrack<yam2d::vec2, AnimatedEnemy> > m_positionAnimationTrack; 
-	yam2d::Ref<yam2d::AnimationTrack<float, AnimatedEnemy> > m_rotationAnimationTrack; 
+	TextComponent();
+	TextComponent(const TextComponent& o);
+	TextComponent& operator=(const TextComponent& o);
 };
 
 
+}
+
 #endif
+
+
+
+

@@ -13,6 +13,7 @@ namespace
 {
 	// Pointer to TmxMap-object
 	TmxMap* map = 0;
+	ComponentFactory* componentFactory = 0;
 
 	float zoom = 1.0f;
 
@@ -122,9 +123,10 @@ bool init ( ESContext *esContext )
 {
 	// Create new TmxMap object
 	map = new TmxMap();
+	componentFactory = new DefaultComponentFactory();
 
 	// Load map file
-	bool okay = map->loadMapFile("level.tmx");
+	bool okay = map->loadMapFile("level.tmx", componentFactory);
 
 	if( okay )
 	{
@@ -141,6 +143,7 @@ void deinit ( ESContext *esContext )
 	// Delete map.
 	esLogMessage("Deinit");
 	delete map;
+	delete componentFactory;
 }
 
 

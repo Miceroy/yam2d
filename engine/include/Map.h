@@ -30,6 +30,8 @@
 #include "vec2.h"
 #include <Ref.h>
 
+#include <Entity.h>
+
 namespace Tmx
 {
 	class Map;
@@ -45,13 +47,20 @@ class Tile;
 class GameObject;
 class SpriteSheet;
 
+class DefaultComponentFactory : public ComponentFactory
+{
+public:
+	virtual Component* createNewComponent(const std::string& type, Entity* owner, const yam2d::PropertySet& properties);
+	virtual Entity* createNewEntity(ComponentFactory* componentFactory, const std::string& type, Entity* parent, const yam2d::PropertySet& properties);
+};
+
 /**
  * Class for Map.
  *
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-class Map : public Object
+class Map : public Entity
 {
 public:
 	typedef std::map<int, Ref<Layer> > LayerMap;
@@ -224,7 +233,7 @@ private:
 class TmxMap : public Map
 {
 public:
-	typedef Tileset* (*CreateNewTilesetFuncType)(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
+	/*typedef Tileset* (*CreateNewTilesetFuncType)(void* userData, const std::string& name, SpriteSheet* spriteSheet, float tileOffsetX, float tileOffsetY, const PropertySet& properties );
 	typedef Layer* (*CreateNewLayerFuncType)(void* userData, Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties);
 	typedef GameObject* (*CreateNewTileFuncType)(void* userData, Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
 	typedef GameObject* (*CreateNewGameObjectFuncType)(void* userData, Map* map, Layer* layer, const std::string& type, const vec2& position, const vec2& size, const std::string& name, const PropertySet& properties);
@@ -236,7 +245,7 @@ public:
 		virtual Layer* createNewLayer( Map* map, const std::string& name, float opacity, bool visible, const PropertySet& properties);
 		virtual GameObject* createNewTile( Map* map, Layer* layer, const vec2& position, Tileset* tileset, unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally, const PropertySet& properties);
 		virtual GameObject* createNewGameObject( Map* map, Layer* layer, const std::string& type, const vec2& position, const vec2& size, const std::string& name, const PropertySet& properties);
-	};
+	};*/
 
 	/**
 	 * Creates new map.
@@ -246,7 +255,7 @@ public:
 	virtual ~TmxMap();
 
 	/** Loads map file */
-	bool loadMapFile(const std::string& mapFileName);
+	bool loadMapFile(const std::string& mapFileName, ComponentFactory* componentFactory);
 
 	/** Returns map width in tiles. */
 	float getWidth() const { return m_width; }
@@ -255,32 +264,32 @@ public:
 	float getHeight() const { return m_height; }
 
 	/** Sets user data, which is passed to registerCreateNewTilesetFunc, registerCreateNewLayerFunc, and registerCreateNewTileFunc when they are called during loadMapFile call */
-	void setCallBackData(void* userData) { m_userData = userData; }
+	//void setCallBackData(void* userData) { m_userData = userData; }
 
 	/** 
 	 * Registers callback function, which is called each time, when new Tileset is needed to be create during loadMapFile call.
 	 */
-	void registerCreateNewTilesetFunc( CreateNewTilesetFuncType createNewTileset ) { m_createNewTileset = createNewTileset; }
+	//void registerCreateNewTilesetFunc( CreateNewTilesetFuncType createNewTileset ) { m_createNewTileset = createNewTileset; }
 
 	/**
 	 * Registers callback function, which is called each time, when new Layer is needed to be create during loadMapFile call. 
 	 */	
-	void registerCreateNewLayerFunc( CreateNewLayerFuncType createNewLayer ) { m_createNewLayer = createNewLayer; }
+	//void registerCreateNewLayerFunc( CreateNewLayerFuncType createNewLayer ) { m_createNewLayer = createNewLayer; }
 	
 	/**
 	 * Registers callback function, which is called each time, when new Tile is needed to be create during loadMapFile call.
 	 */
-	void registerCreateNewTileFunc( CreateNewTileFuncType createNewTile ) { m_createNewTile = createNewTile; }
+	//void registerCreateNewTileFunc( CreateNewTileFuncType createNewTile ) { m_createNewTile = createNewTile; }
 	
 	/**
 	 * Registers callback function, which is called each time, when new Tile is needed to be create during loadMapFile call.
 	 */
-	void registerCreateNewGameObjectFunc( CreateNewGameObjectFuncType createNewGameObject ) { m_createNewGameObject = createNewGameObject; }
+	//void registerCreateNewGameObjectFunc( CreateNewGameObjectFuncType createNewGameObject ) { m_createNewGameObject = createNewGameObject; }
 
 	/**
 	 * Registers callback object, which corresponding method is called each time, when new Tileset, Layer orTile is needed to be create during loadMapFile call.
 	 */
-	void registerMapCreateCallbacks(MapCreateCallbacks* callbacks);
+	//void registerMapCreateCallbacks(MapCreateCallbacks* callbacks);
 
 	const std::string& getLoadedMapFileName() const { return m_loadedMapFileName; }
 protected:
@@ -296,11 +305,11 @@ protected:
 private:
 	float						m_width;
 	float						m_height;
-	void*						m_userData;
-	CreateNewTilesetFuncType	m_createNewTileset;
-	CreateNewLayerFuncType		m_createNewLayer;
-	CreateNewTileFuncType		m_createNewTile;
-	CreateNewGameObjectFuncType m_createNewGameObject;
+	//void*						m_userData;
+	//CreateNewTilesetFuncType	m_createNewTileset;
+	//CreateNewLayerFuncType		m_createNewLayer;
+	//CreateNewTileFuncType		m_createNewTile;
+	//CreateNewGameObjectFuncType m_createNewGameObject;
 	std::vector< Ref<Tileset> > m_tilesets;
 	std::string					m_loadedMapFileName;
 	// Hidden

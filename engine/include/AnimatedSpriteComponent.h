@@ -27,7 +27,7 @@
 #include <string>
 #include <map>
 
-#include <SpriteSheetGameObject.h>
+#include <SpriteSheetComponent.h>
 
 namespace yam2d
 {
@@ -44,17 +44,17 @@ class SpriteSheet;
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-class AnimatedSpriteGameObject : public SpriteSheetGameObject
+class AnimatedSpriteComponent : public SpriteSheetComponent, public Updatable
 {
 public:
 	// Default constructor.
-	AnimatedSpriteGameObject(int gameObjectType, SpriteSheet* spriteSheet )
-		: SpriteSheetGameObject(gameObjectType,spriteSheet,0)
+	AnimatedSpriteComponent(GameObject* owner, SpriteSheet* spriteSheet)
+		: SpriteSheetComponent(owner, spriteSheet, 0)
 		, m_animation(new SpriteAnimation())
 	{
 	}
 
-	virtual ~AnimatedSpriteGameObject() {}
+	virtual ~AnimatedSpriteComponent() {}
 
 	void addAnimation( int animationId, const SpriteAnimation::SpriteAnimationClip& clip )
 	{
@@ -80,20 +80,19 @@ public:
 	{
 		return m_animation->getNumAnimations();
 	}
-
-	void update(float deltaTime)
+	
+	virtual void update(float deltaTime)
 	{
 		m_animation->update(deltaTime);
 	}
-
-	void render( Layer* layer);
-
+	
+	SpriteAnimation* getAnimation() const { return m_animation.ptr(); }
 private:
 	Ref<SpriteAnimation> m_animation;
 
-	AnimatedSpriteGameObject();
-	AnimatedSpriteGameObject(const AnimatedSpriteGameObject& o);
-	AnimatedSpriteGameObject& operator=(const AnimatedSpriteGameObject& o);
+	AnimatedSpriteComponent();
+	AnimatedSpriteComponent(const AnimatedSpriteComponent& o);
+	AnimatedSpriteComponent& operator=(const AnimatedSpriteComponent& o);
 };
 
 

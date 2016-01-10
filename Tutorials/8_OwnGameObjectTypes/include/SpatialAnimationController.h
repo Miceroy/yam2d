@@ -20,16 +20,16 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef PLAYER_H_
-#define PLAYER_H_ 
+#ifndef ANIMATEDENEMY_H_
+#define ANIMATEDENEMY_H_ 
 
 // Include base class
-#include <SpriteGameObject.h>
+#include <SpriteComponent.h>
+#include <AnimationTrack.h>
 
-// Use SpriteGameObject as base class for our player, 
-// because player have non animated sprite. SpriteGameObject provides 
-// "automatic rendering of sprite" to corrent position on map.
-class Player : public yam2d::SpriteGameObject
+
+// Use yam2d::Component as base class for our player. Use also yam2d::Updatable -interface, for update-method.
+class SpatialAnimationController : public yam2d::Component, public yam2d::Updatable
 {
 public:
 	/** Constructor of player. 
@@ -37,11 +37,24 @@ public:
 	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
 	 * @param texture Texture for our game object.
 	 */
-	Player(int gameObjectType, yam2d::Texture* texture);
-	virtual ~Player(void);
+	SpatialAnimationController(yam2d::GameObject* parent, const yam2d::vec2& initialPosition, yam2d::GameObject* player);
+	virtual ~SpatialAnimationController(void);
 
 	// This virtual method is automatically called byt map/layer, when update is called from main.cpp
 	virtual void update( float deltaTime );
+
+	yam2d::GameObject* getGameObject() { return (yam2d::GameObject*)getOwner(); }
+	const yam2d::GameObject* getGameObject() const { return (const yam2d::GameObject*)getOwner(); }
+	
+private:
+	yam2d::GameObject* m_player;
+
+	float m_totalTime;
+
+	yam2d::Ref<yam2d::AnimationTimeline> m_timeline;
+
+	yam2d::Ref<yam2d::AnimationTrack<yam2d::vec2, yam2d::GameObject> > m_positionAnimationTrack;
+	yam2d::Ref<yam2d::AnimationTrack<float, yam2d::GameObject> > m_rotationAnimationTrack;
 };
 
 

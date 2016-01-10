@@ -20,76 +20,31 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#ifndef SPRITESHEETGAMEOBJECT_H_
-#define SPRITESHEETGAMEOBJECT_H_
+#ifndef PLAYER_H_
+#define PLAYER_H_ 
 
-#include <vector>
-#include <string>
-#include <map>
+// Include base class
+#include <SpriteComponent.h>
+#include <GameObject.h>
 
-
-#include <SpriteGameObject.h>
-/*
-#include "GameObject.h"
-#include "PropertySet.h"
-#include "SpriteSheet.h"
-#include "SpriteAnimation.h"
-#include "Map.h"
-#include "Tileset.h"
-#include "Text.h"
-#include "Texture.h"
-*/
-namespace yam2d
-{
-	
-
-class Tileset;
-class Map;
-class SpriteSheet;
-
-
-
-/**
- * Class for SpriteSheetGameObject.
- *
- * @ingroup yam2d
- * @author Mikko Romppainen (mikko@kajakbros.com) 
- */
-class SpriteSheetGameObject : public SpriteGameObject
+// Use yam2d::Component as base class for our player. Use also yam2d::Updatable -interface, for update-method.
+class PlayerDriveController : public yam2d::Component, public yam2d::Updatable
 {
 public:
-	// Default constructor.
-	SpriteSheetGameObject(int gameObjectType, SpriteSheet* spriteSheet, int idInSpriteSheet )
-		: SpriteGameObject(gameObjectType,spriteSheet->getTexture())
-		, m_spriteSheet(spriteSheet)
-		, m_id(idInSpriteSheet)
-	{
-	}
+	/** Constructor of player. 
+	 *
+	 * @param gameObjectType Game specific game object type. Useful for for example detecting of "real game object type", like Player or Enemy.
+	 * @param texture Texture for our game object.
+	 */
+	PlayerDriveController(yam2d::GameObject* parent);
+	virtual ~PlayerDriveController(void);
 
-	virtual ~SpriteSheetGameObject() {}
+	// This virtual method is automatically called byt map/layer, when update is called from main.cpp
+	virtual void update( float deltaTime );
 
-	void setIdInSpriteSheet(int idInSpriteSheet)
-	{
-		m_id = idInSpriteSheet;
-	}
-
-	void render(Layer* layer);
-
-private:
-	Ref<SpriteSheet>	m_spriteSheet;	// Sprite sheet
-	unsigned			m_id;			// Id at sprite sheet
-
-	SpriteSheetGameObject();
-	SpriteSheetGameObject(const SpriteSheetGameObject& o);
-	SpriteSheetGameObject& operator=(const SpriteSheetGameObject& o);
+	yam2d::GameObject* getGameObject() { return (yam2d::GameObject*)getOwner(); }
+	const yam2d::GameObject* getGameObject() const { return (const yam2d::GameObject*)getOwner(); }
 };
 
 
-
-}
-
 #endif
-
-
-
-

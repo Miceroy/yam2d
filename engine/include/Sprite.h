@@ -25,7 +25,7 @@
 
 #include <vector>
 #include <vec2.h>
-#include <Object.h>
+#include <Entity.h>
 
 namespace yam2d
 {
@@ -36,7 +36,7 @@ namespace yam2d
  * @ingroup yam2d
  * @author Mikko Romppainen (mikko@kajakbros.com) 
  */
-class Sprite : public Object
+class Sprite : public Component
 {
 public:
 	struct PixelClip
@@ -51,7 +51,7 @@ public:
 		vec2int clipSize;
 	};
 
-	Sprite();
+	Sprite(Entity* owner);
 
 	virtual ~Sprite();
 

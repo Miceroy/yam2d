@@ -91,10 +91,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\AnimatedEnemy.cpp" />
-    <ClCompile Include="..\..\source\Enemy.cpp" />
+    <ClCompile Include="..\..\source\SpatialAnimationController.cpp" />
+    <ClCompile Include="..\..\source\WaypointController.cpp" />
     <ClCompile Include="..\..\source\main.cpp" />
-    <ClCompile Include="..\..\source\Player.cpp" />
+    <ClCompile Include="..\..\source\PlayerDriveController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(YAM2D_ROOT)\engine\build\win32_vs13\yam2d.vcxproj">
@@ -102,9 +102,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\AnimatedEnemy.h" />
-    <ClInclude Include="..\..\include\Enemy.h" />
-    <ClInclude Include="..\..\include\Player.h" />
+    <ClInclude Include="..\..\include\SpatialAnimationController.h" />
+    <ClInclude Include="..\..\include\WaypointController.h" />
+    <ClInclude Include="..\..\include\PlayerDriveController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

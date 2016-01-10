@@ -20,18 +20,17 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-#include "AnimatedEnemy.h" // Include Enemy class header
+#include "SpatialAnimationController.h" // Include Enemy class header
 
 #include "Input.h"
-#include "Player.h"
 #include "es_util.h"
 
 using namespace yam2d; // Use namespace yam3d implicitily.
 
 
 
-AnimatedEnemy::AnimatedEnemy(int gameObjectType, Texture* texture, const vec2& initialPosition, Player* player)
-	: SpriteGameObject(gameObjectType,texture) // Initalize base class by giving parameres to it
+SpatialAnimationController::SpatialAnimationController(GameObject* owner, const vec2& initialPosition, yam2d::GameObject* player)
+	: Component(owner, Component::getDefaultProperties()) // Initalize base class by giving parameres to it
 	, m_player(player)
 {
 	
@@ -41,7 +40,7 @@ AnimatedEnemy::AnimatedEnemy(int gameObjectType, Texture* texture, const vec2& i
 
 	// Create animation track for controlling this object. Map timeline and keyframes in way, that call 
 	// to AnimationTrack::applyValues, causes call to AnimatedEnemy::setPosition, using correctly animated value.
-	m_positionAnimationTrack = new AnimationTrack<vec2,AnimatedEnemy>(m_timeline, this, &AnimatedEnemy::setPosition);
+	m_positionAnimationTrack = new AnimationTrack<vec2, yam2d::GameObject>(m_timeline, getGameObject(), &yam2d::GameObject::setPosition);
 
 	{
 		// Position keyframe data. This is position, where to be in which time in timeline
@@ -91,19 +90,19 @@ AnimatedEnemy::AnimatedEnemy(int gameObjectType, Texture* texture, const vec2& i
 	// Set step interpolation (rotate immediately)
 	rotationKeyframes->setInterpolation( KeyframeSequence<float>::STEP );
 	
-	m_rotationAnimationTrack = new AnimationTrack<float, AnimatedEnemy>(m_timeline, this, &AnimatedEnemy::setRotation);
+	m_rotationAnimationTrack = new AnimationTrack<float, yam2d::GameObject>(m_timeline, getGameObject(), &yam2d::GameObject::setRotation);
 	m_rotationAnimationTrack->addKeyframes( 1.0f, rotationKeyframes );
 }
 
 
-AnimatedEnemy::~AnimatedEnemy(void)
+SpatialAnimationController::~SpatialAnimationController(void)
 {
 }
 
-void AnimatedEnemy::update( float deltaTime )
+void SpatialAnimationController::update(float deltaTime)
 {
 	// If collides to player, pause animation
-	if( collidesTo(m_player) )
+	if( getGameObject()->collidesTo(m_player) )
 		m_timeline->setSpeed(0.0f);
 	else
 		m_timeline->setSpeed(1.0f);
