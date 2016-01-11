@@ -15,11 +15,15 @@
 using namespace yam2d;
 
 
+
 namespace
 {
+	// Forward declaration of CustomComponentFactory
+	class CustomComponentFactory;
+
 	// Pointer to TmxMap-object
 	TmxMap* map = 0;
-	ComponentFactory* componentFactory = 0;
+	CustomComponentFactory* componentFactory = 0;
 
 
 	class CustomComponentFactory : public yam2d::DefaultComponentFactory
@@ -27,10 +31,14 @@ namespace
 	private:
 		yam2d::Ref<Texture> m_playerTexture; 
 		yam2d::Ref<Texture> m_enemyTexture;
-		GameObject* m_player; // HACK. Player to set for each enemy
+		Map* m_map; // HACK. Player to set for each enemy
 
 	public:
 		CustomComponentFactory()
+			:DefaultComponentFactory()
+			, m_playerTexture()
+			, m_enemyTexture()
+			, m_map(0)
 		{
 			// Preload textures.
 
@@ -42,6 +50,11 @@ namespace
 			m_enemyTexture = new Texture("blue_triangle.png");
 			// We have pink background in blue_triangle-png.
 			m_enemyTexture->setTransparentColor(255, 0, 255);
+		}
+
+		void setCurrentMap(Map* map)
+		{
+			m_map = map;
 		}
 
 		virtual ~CustomComponentFactory()
@@ -66,6 +79,7 @@ namespace
 				gameObject->addComponent(spriteComponent);
 				gameObject->addComponent(playerController);
 				gameObject->setPosition(15, 5);
+				gameObject->setName("Player"); // Set name for player
 				return gameObject;
 			}
 			else if ("AnimatedEnemy" == type)
@@ -73,7 +87,9 @@ namespace
 				// Create new animated enemy.
 				GameObject* animatedEnemyGameObject = new GameObject(0, 0);
 				SpriteComponent* spriteComponent = new SpriteComponent(animatedEnemyGameObject, m_enemyTexture);
-				SpatialAnimationController* animationCtrl = new SpatialAnimationController(animatedEnemyGameObject, vec2(2, 2), m_player);
+				GameObject* player = m_map->findGameObjectByName("Player");
+				assert(player != 0); // player not found!
+				SpatialAnimationController* animationCtrl = new SpatialAnimationController(animatedEnemyGameObject, vec2(2, 2), player);
 				animatedEnemyGameObject->addComponent(spriteComponent);
 				animatedEnemyGameObject->addComponent(animationCtrl);
 				// Add it to GameObjects-layer.
@@ -84,7 +100,9 @@ namespace
 				// Create new waypoint enemy.
 				GameObject* enemyGameObject = new GameObject(0, 0);
 				SpriteComponent* spriteComponent = new SpriteComponent(enemyGameObject, m_enemyTexture);
-				WaypointController* wpController = new WaypointController(enemyGameObject, m_player);
+				GameObject* player = m_map->findGameObjectByName("Player");
+				assert(player != 0); // player not found!
+				WaypointController* wpController = new WaypointController(enemyGameObject, player);
 				enemyGameObject->addComponent(spriteComponent);
 				enemyGameObject->addComponent(wpController);
 				// Add it to GameObjects-layer.
@@ -98,6 +116,7 @@ namespace
 				enemyWaypoints.push_back(vec2(0, 14));
 				enemyWaypoints.push_back(vec2(0, 0));
 				wpController->setWayoints(enemyWaypoints);
+				return enemyGameObject;
 			}
 
 			// Default functionality.
@@ -115,6 +134,7 @@ bool init ( ESContext *esContext )
 	// Create new TmxMap object
 	map = new TmxMap();
 	componentFactory = new CustomComponentFactory();
+	componentFactory->setCurrentMap(map);
 
 	// Load map file
 	if( !map->loadMapFile("level.tmx", componentFactory) )
@@ -161,6 +181,10 @@ void update( ESContext* ctx, float deltaTime )
 {
 	// Update map. this will update all GameObjects inside a map layers.
 	map->update(deltaTime);
+
+	// Quit if excape pressed
+	if (getKeyState(KEY_ESCAPE))
+		esQuitApp(ctx);
 }
 
 

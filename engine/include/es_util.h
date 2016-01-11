@@ -103,6 +103,8 @@ struct ESContext
 	/// EGL surface
 	EGLSurface  eglSurface;
 
+	bool quitFlag;
+
 	/// Callbacks
 	bool (*initFunc) ( ESContext* );
 	void (*drawFunc) ( ESContext* );
@@ -164,6 +166,11 @@ GLboolean esCreateWindow ( ESContext *esContext, const char *title, GLint width,
  * @param esContext Application context
  */
 void esMainLoop ( ESContext *esContext );
+
+/**
+ Quits application.
+ */
+void esQuitApp(ESContext *esContext);
 
 /**
  * Register a init callback function to be used to init the game.

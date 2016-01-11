@@ -59,6 +59,10 @@ inline const _Tp& (max)(const _Tp& __a, const _Tp& __b) {  return  __a < __b ? _
 	}
 }
 
+void esQuitApp(ESContext *esContext)
+{
+	esContext->quitFlag = true;
+}
 
 void esRegisterInitFunc ( ESContext *esContext, bool (*initFunc) ( ESContext* ) )
 {

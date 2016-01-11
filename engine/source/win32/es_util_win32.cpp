@@ -391,6 +391,9 @@ void winLoop ( ESContext *esContext )
 					{
 						done = true;
 					}
+
+					if (esContext->quitFlag)
+						done = true;
 				}			
 			}
 
