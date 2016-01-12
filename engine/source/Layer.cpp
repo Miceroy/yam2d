@@ -166,5 +166,17 @@ bool Layer::isStatic() const
 	return m_static;
 }
 
+
+GameObject* Layer::pick(const vec2& pos) const
+{
+	for (size_t i = 0; i < m_gameObjects.size(); ++i)
+	{
+		if ( m_gameObjects[i]->isInside(pos) )
+			return m_gameObjects[i].ptr();
+	}
+
+	return 0;
+}
+
 }
 

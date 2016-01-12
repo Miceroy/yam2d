@@ -111,6 +111,9 @@ public:
 	bool isUpdatable() const { return m_isUpdatable; }
 	void disableUpdate() { m_isUpdatable = false; }
 	int getLayerIndex() const { return m_layerNumber; }
+
+	GameObject* pick(const vec2& pos) const;
+
 private:
 	//Map*							m_map;
 	std::string						m_name;

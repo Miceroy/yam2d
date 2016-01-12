@@ -70,7 +70,7 @@ public:
 	float getTop() const;
 	float getBottom() const;
 	
-	bool isInside(const vec2& worldPosition);
+	bool isInside(const vec2& worldPosition) const;
 
 	bool collidesTo( GameObject* other, vec2* collisionNormal = 0 );
 

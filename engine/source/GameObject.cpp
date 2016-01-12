@@ -164,7 +164,7 @@ float GameObject::getBottom() const
 }
 	
 
-bool GameObject::isInside(const vec2& worldPosition)
+bool GameObject::isInside(const vec2& worldPosition) const
 {
 	return m_bottomRight.x	>= worldPosition.x
 		&& m_topLeft.x		<= worldPosition.x
