@@ -1,0 +1,166 @@
+Main developer and maintainer:
+
+Thorbjørn Lindeijer <bjorn@lindeijer.nl>
+
+
+Other contributors:
+
+Stefan Beller
+Samuli Tuomola
+Erik Schilling
+Jeff Bland
+Petr Viktorin
+mauve
+Mamed Ibrahimov
+Martin Ziel
+Mauricio Muñoz Lucero
+Parker Miller
+seeseekey
+Yohann Ferreira
+Alex Vega (semtiko)
+Roderic Morris
+Hiroki Utsunomiya
+Porfírio Ribeiro
+Sean Humeniuk
+Ben Longbons
+Jonatas de Moraes Junior
+Manu Evans
+Mikolai Fajer
+zhaosting
+Alejandro Cámara
+Oskar Wiksten
+Tamir Atias (KonoM)
+Tim Baker
+Hendrik Brummermann
+Jake Petroules
+Mohammad Mehdi Salem Naraghi
+Omnomnobot
+Andrew G. Crowell
+Clint Bellanger
+Dennis Honeyman
+Michael Woerister
+Sebastian Pidek
+Yehnan Chiang
+Alexander Kuhrt
+Andreas Abraham
+Champi080
+Christian Henz
+Christoph Schnackenberg
+Christophe Conceicao
+Dale Kim
+HenryJia
+Janis Kirsteins
+Kenney Phillis
+Maus
+Nathan Tolbert
+Pierre-David Bélanger
+Porfirio
+Wodann
+juniperbrew
+tolbert
+wayfu
+zigal
+Aban
+Adam Rippon
+Alessandro Portale
+Alex Koz
+Alexei Bratuhin
+Andrew Motrenko
+Antonio Ricci
+Bin Wu
+Brandon Dillon
+Dennis Hostetler
+Dmitry Marakasov
+Dobes Vandermeer
+Edward Hutchins
+Emmanuel Barroga
+Eric Kidd
+Firas Assaad
+Flyte
+Gornova
+Gregory Nickonov
+Hanmac
+Harri Berglund
+Harry Hsiao
+Ian Langworth
+Jared Adams
+Joel Leclerc
+Juan Rodriguez
+Justin Jacobs
+Kody Kurtz
+Kyle Delaney
+Lennert Raesch
+Ludolph Neethling
+MHendricks
+Mark van Rij
+Mattia Basaglia
+Michael Aquilina
+Michael Williams
+Oliver Zell
+Postremus
+Przemysław Grzywacz
+Roberto Raggi
+Seanba
+Sébastien BURILLARD
+Todd Carnes
+Vincent Petithory
+Vsevolod Klementjev
+Wade Brainerd
+Xenodora
+Ying-Chun Liu (PaulLiu)
+arntro-4
+devnewton
+leeonix
+mhussa
+mogemimi
+
+
+Translators:
+
+Alex Vega                (Russian)
+Antonio Ricci            (Italian)
+Bin Wu                   (Chinese)
+Damene Abdelkader        (Arabic, Algeria)
+Gornova                  (Italian)
+Hiroki Utsunomiya        (Japanese)
+Jonatas de Moraes Junior (Portuguese, Brazil)
+jurkan                   (German)
+Jānis Kiršteins          (Latvian)
+Laete Meireles           (Portuguese, Brazil)
+Lyubomir Vasilev         (Bulgarian)
+Mauricio Muñoz Lucero    (Spanish)
+Petr Viktorin            (Czech)
+Porfírio Ribeiro         (Portuguese)
+Sebastian Grillmaier     (German)
+Sébastien Burillard      (French)
+seeseekey                (German)
+Tamir Atias (KonoM)      (Hebrew)
+Thorbjørn Lindeijer      (Dutch)
+Tomasz Kubiak            (Polish)
+Yohann Ferreira          (French)
+Zhao Sting               (Chinese)
+
+
+Acknowledgements:
+
+Most of the icons are from the GNOME and GIMP icon themes (GPL)
+
+Some Icons are Copyright (C) Yusuke Kamiyamane. All rights reserved.
+Licensed under a Creative Commons Attribution 3.0 license.
+See http://p.yusukekamiyamane.com/
+
+The dice icon is based on an SVG by Steaphan Greene that I found on Wikipedia:
+http://en.wikipedia.org/wiki/File:2-Dice-Icon.svg
+
+The rename icon for tilesets is a strong modified version of the
+'new Tileset' icon by Stefan Beller (GPL, CC-BY-SA3)
+
+
+Tilesets:
+
+perspective_walls.png - (C) Clint Bellanger, released as Public Domain
+isometric_grass_and_water.png - (C) Clint Bellanger, released as GPL2, GPL3, CC-BY-SA3
+tmw_desert_spacing.png - (C) The Mana World Development Team, GPL
+sewer_tileset.png - (C) Blues Brothers RPG developers, GPL
+Replica Island - (C) Chris Pruett and Genki Mine, Apache (except hotspots.png)
+hexmini.png - Public Domain, http://opengameart.org/content/pixel-hex-tilesets-enhanced
