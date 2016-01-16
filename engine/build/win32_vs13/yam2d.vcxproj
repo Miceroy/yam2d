@@ -147,6 +147,143 @@
     <ClCompile Include="..\..\external\lpng1513\pngwrite.c" />
     <ClCompile Include="..\..\external\lpng1513\pngwtran.c" />
     <ClCompile Include="..\..\external\lpng1513\pngwutil.c" />
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lapi.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lauxlib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lbaselib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lbitlib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lcode.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lcorolib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lctype.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\ldblib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\ldebug.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\ldo.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\ldump.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lfunc.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lgc.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\linit.c" />
+    <ClCompile Include="..\..\external\lua-5.3.2\src\liolib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\llex.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lmathlib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lmem.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\loadlib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lobject.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lopcodes.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\loslib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lparser.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lstate.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lstring.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lstrlib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\ltable.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\ltablib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\ltm.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lua.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\luac.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lundump.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lutf8lib.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lvm.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\external\lua-5.3.2\src\lzio.c">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
     <ClCompile Include="..\..\external\slmath\source\float_util.cpp" />
     <ClCompile Include="..\..\external\slmath\source\intersect_util.cpp" />
     <ClCompile Include="..\..\external\slmath\source\mat4.cpp" />
@@ -275,6 +412,32 @@
     <ClInclude Include="..\..\external\lpng1513\pnglibconf.h" />
     <ClInclude Include="..\..\external\lpng1513\pngpriv.h" />
     <ClInclude Include="..\..\external\lpng1513\pngstruct.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lapi.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lauxlib.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lcode.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lctype.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\ldebug.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\ldo.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lfunc.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lgc.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\llex.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\llimits.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lmem.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lobject.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lopcodes.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lparser.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lprefix.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lstate.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lstring.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\ltable.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\ltm.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lua.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lua.hpp" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\luaconf.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lualib.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lundump.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lvm.h" />
+    <ClInclude Include="..\..\external\lua-5.3.2\src\lzio.h" />
     <ClInclude Include="..\..\external\ticpp\ticpp.h" />
     <ClInclude Include="..\..\external\ticpp\ticppapi.h" />
     <ClInclude Include="..\..\external\ticpp\ticpprc.h" />
