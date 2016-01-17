@@ -43,12 +43,10 @@ class Layer;
 class GameObject : public Entity
 {
 public:
-	GameObject(Entity* owner, int type, const vec2& position = vec2(0.0f), const vec2& size = vec2(0.0f), const std::string& name = "");
+	GameObject(Entity* parent, const PropertySet& properties);
+	GameObject(Entity* parent, int type = 0, const vec2& position = vec2(0.0f), const vec2& size = vec2(0.0f), const std::string& name = "");
 
 	virtual ~GameObject();
-
-//	virtual bool update( float deltaTime ) = 0;
-//	virtual bool render(Layer* layer) = 0;
 
 	void setName( const std::string& name );
 	void setPosition( const vec2& position );
@@ -62,8 +60,6 @@ public:
 	float getRotation() const;
 	const vec2& getSize() const;
 	vec2 getSizeInTiles() const;
-	int getType() const;
-
 	
 	float getLeft() const;
 	float getRight() const;
@@ -76,8 +72,8 @@ public:
 
 	void setTileSize(const vec2& tileSize );
 
-	void setOffset( const vec2& offset ) { m_offset = offset; recalcExtens(); }
-	const vec2& getOffset() const { return m_offset; }
+	//void setOffset( const vec2& offset ) { m_offset = offset; recalcExtens(); }
+	//const vec2& getOffset() const { return m_offset; }
 protected:
 
 private:
@@ -89,13 +85,13 @@ private:
 	
 	std::string		m_name;
 	vec2			m_position;
-	vec2			m_offset;
+//	vec2			m_offset;
 	vec2			m_topLeft;
 	vec2			m_bottomRight;
 	float			m_rotation;
 	vec2			m_size;
 	vec2			m_tileScale;
-	int				m_type;
+//	int				m_type;
 };
 
 class Updatable

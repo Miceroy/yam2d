@@ -53,7 +53,9 @@ void Renderer_renderTile(TileComponent* tileComponent, Layer* layer)
 {
 	if (tileComponent->getTileset() != 0)
 	{
-		vec2 position = layer->getMap()->tileToDeviceCoordinates(tileComponent->getGameObject()->getPosition().x, tileComponent->getGameObject()->getPosition().y);
+		GameObject* gameObject = tileComponent->getGameObject();
+
+		vec2 position = layer->getMap()->tileToDeviceCoordinates(gameObject->getPosition().x, gameObject->getPosition().y);
 		tileComponent->getSprite()->setDepth(layer->getDepth());
 		tileComponent->getSprite()->setOpacity(layer->getOpacity());
 		Tileset* tileset = tileComponent->getTileset();
@@ -81,10 +83,7 @@ void Renderer_renderTile(TileComponent* tileComponent, Layer* layer)
 		p.x -= tileset->getTileOffsetX();
 		p.y -= tileset->getTileOffsetY();
 
-	//	p += getOffset();
-//		vec2 offset(0.0f);
-
-		layer->getBatch()->addSprite(tex, tileComponent->getSprite(), p, 0, scale);
+		layer->getBatch()->addSprite(tex, tileComponent->getSprite(), p, gameObject->getRotation(), scale, vec2(0,0));
 	}
 }
 

@@ -26,20 +26,33 @@
 namespace yam2d
 {
 
+GameObject::GameObject(Entity* parent, const PropertySet& properties)
+: Entity(parent, 0, properties)
+, m_name(properties["name"].get<std::string>())
+, m_position(vec2(properties["positionX"].get<float>(), properties["positionY"].get<float>()))
+//, m_offset(vec2(properties["offsetX"].get<float>(), properties["offsetY"].get<float>()))
+, m_topLeft(0.0f)
+, m_bottomRight(0.0f)
+, m_rotation(properties["rotation"].get<float>())
+, m_size(vec2(properties["sizeX"].get<float>(), properties["sizeY"].get<float>()))
+, m_tileScale(1.0f)
+{
+}
+
 
 GameObject::GameObject(Entity* parent, int type, const vec2& position, const vec2& size, const std::string& name)
 : Entity( parent, 0, Entity::getDefaultProperties() )
 , m_name(name)
 , m_position(position)
-, m_offset(0)
+//, m_offset(0.0f)
 , m_topLeft(0.0f)
 , m_bottomRight(0.0f)
 , m_rotation(0.0f)
 , m_size(size)
 , m_tileScale(1.0f)
-, m_type(type)
 {
 	recalcExtens();
+	(void)type; // Not needed. TODO: Remove someday
 }
 
 
@@ -47,16 +60,6 @@ GameObject::~GameObject()
 {
 }
 
-/*
-void GameObject::update( float )
-{
-}
-
-	
-void GameObject::render( Layer* )
-{
-}
-*/
 
 void GameObject::setName( const std::string& name )
 { 
@@ -133,11 +136,11 @@ vec2 GameObject::getSizeInTiles() const
 	res.y *= m_tileScale.y;
 	return res;
 }
-
+/*
 int GameObject::getType() const 
 {
 	return m_type;
-}
+}*/
 
 
 float GameObject::getLeft() const 
@@ -207,10 +210,10 @@ void GameObject::recalcExtens()
 {
 	assert(m_size.x >= 0.0f);
 	assert(m_size.y >= 0.0f);
-	m_topLeft.x		= m_offset.x + m_position.x - (getSizeInTiles().x*0.5f);
-	m_topLeft.y		= m_offset.y + m_position.y - (getSizeInTiles().y*0.5f);
-	m_bottomRight.x	= m_offset.x + m_position.x + (getSizeInTiles().x*0.5f);
-	m_bottomRight.y	= m_offset.y + m_position.y + (getSizeInTiles().y*0.5f);
+	m_topLeft.x		= /*m_offset.x +*/ m_position.x - (getSizeInTiles().x*0.5f);
+	m_topLeft.y		= /*m_offset.y +*/ m_position.y - (getSizeInTiles().y*0.5f);
+	m_bottomRight.x	= /*m_offset.x +*/ m_position.x + (getSizeInTiles().x*0.5f);
+	m_bottomRight.y	= /*m_offset.y +*/ m_position.y + (getSizeInTiles().y*0.5f);
 }
 
 

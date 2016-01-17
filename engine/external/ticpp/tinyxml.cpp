@@ -586,6 +586,20 @@ const char* TiXmlElement::Attribute( const char* name, int* i ) const
 	return s;
 }
 
+const char* TiXmlElement::Attribute(const char* name, float* f) const
+{
+	const char* s = Attribute( name );
+	if ( f )
+	{
+		if ( s ) {
+			*f = (float)atof( s );
+		}
+		else {
+			*f = 0.0f;
+		}
+	}
+	return s;
+}
 
 #ifdef TIXML_USE_STL
 const std::string* TiXmlElement::Attribute( const std::string& name, int* i ) const

@@ -1,0 +1,3 @@
+xcopy ..\..\assets\* *  /Y
+
+pause

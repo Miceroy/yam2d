@@ -54,7 +54,7 @@ class TileComponent : public Component
 {
 public:
 	// Default constructor.
-	TileComponent(Entity* owner, /*int gameObjectType,*/ const vec2& position,/* Tileset* tileset,*/ unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally)
+	TileComponent(Entity* owner, /*int gameObjectType, const vec2& position,*//* Tileset* tileset,*/ unsigned id, bool flippedHorizontally, bool flippedVertically, bool flippedDiagonally)
 		: Component(owner,Component::getDefaultProperties())
 		, m_sprite(new Sprite(0))
 		, m_tileset(0)
@@ -63,26 +63,42 @@ public:
 		, m_flippedVertically(flippedVertically)
 		, m_flippedDiagonally(flippedDiagonally)
 	{
-		getGameObject()->setPosition(position);
+	//	getGameObject()->setPosition(position);
 	}
 
 	virtual ~TileComponent() {}
 
-	void setTileSet(Tileset* tileset, float levelTileSizeX, float levelTilesizeY)
+	void setTileSet(Tileset* tileset/*, float levelTileSizeX, float levelTilesizeY, bool setOffset = true*/)
 	{
 		m_tileset = tileset;
 		Sprite::PixelClip clip = tileset->getSpriteSheet()->getClip(getTileId());
 
-		// Set origin to be center of the tile
-		vec2 offset(0);
+		//if (setOffset)
+		//{
+			// Set origin to be center of the tile
+		//	vec2 offset(0);
 
-		offset.x += 0.5f*clip.clipSize.x / levelTileSizeX;
-		offset.y -= 0.5f*clip.clipSize.y / levelTilesizeY;
+		//	offset.x += 0.5f*clip.clipSize.x / levelTileSizeX;
+		//	offset.y -= 0.5f*clip.clipSize.y / levelTilesizeY;
 
-		offset.x -= 0.5f;
-		offset.y += 0.5f;
+		//	offset.x -= 0.5f;
+		//	offset.y += 0.5f;
 
-		getGameObject()->setOffset(offset);
+		//	getGameObject()->setOffset(offset);
+		//}
+		//else
+		//{
+			// Set origin to be center of the tile
+		//	vec2 offset(0);
+
+		//	offset.x += 0.5f*clip.clipSize.x / levelTileSizeX;
+			
+		//	offset.y -= 0.5f*clip.clipSize.y / levelTilesizeY;
+		//	offset.x -= 1.5f;
+			//offset.y += 0.5f;
+
+		//	getGameObject()->setOffset(offset);
+		//}
 
 		getGameObject()->setSize(vec2(float(clip.clipSize.x), float(clip.clipSize.y)));
 	}
@@ -92,6 +108,9 @@ public:
 	bool isFlippedHorizontally() const { return m_flippedHorizontally; }
 	bool isFlippedVertically() const { return m_flippedVertically; }
 	bool isFlippedDiagonally() const { return m_flippedDiagonally; }
+
+	//void setOffset( const vec2& offset ) { m_offset = offset; recalcExtens(); }
+	//const vec2& getOffset() const { return m_offset; }
 
 	//void render(Layer* layer);
 	Sprite* getSprite() const { return m_sprite.ptr(); }

@@ -39,6 +39,7 @@ namespace Tmx
 		, y(0)
 		, width(0)
 		, height(0)
+		, rotation(0.0f)
 		, gid(0)
 		, polygon(0)
 		, polyline(0)
@@ -75,6 +76,7 @@ namespace Tmx
 		objectElem->Attribute("y", &y);
 		objectElem->Attribute("width", &width);
 		objectElem->Attribute("height", &height);
+		objectElem->Attribute("rotation", &rotation);
 		objectElem->Attribute("gid", &gid);
 
 		// Read the Polygon and Polyline of the object if there are any.

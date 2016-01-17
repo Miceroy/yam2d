@@ -56,16 +56,19 @@ namespace Tmx
 		const std::string &GetType() const { return type; }
 
 		// Get the left side of the object, in pixels.
-		int GetLeft() const { return x; }
+		int GetX() const { return x; }
 
 		// Get the top side of the object, in pixels.
-		int GetTop() const { return y; }
+		int GetY() const { return y; }
 		
 		// Get the width of the object, in pixels.
 		int GetWidth() const { return width; }
 		
 		// Get the height of the object, in pixels.
 		int GetHeight() const { return height; }
+
+		// Get the height of the object, in pixels.
+		float GetRotation() const { return rotation; }
 
 		// Get the Global ID of the tile associated with this object.
 		int GetGid() const { return gid; }
@@ -88,6 +91,7 @@ namespace Tmx
 		int y;
 		int width;
 		int height;
+		float rotation;
 		int gid;
 
 		Tmx::PointList *polygon;

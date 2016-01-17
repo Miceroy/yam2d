@@ -40,8 +40,8 @@ class Camera : public GameObject
 {
 public:
 	// Default constructor.
-	Camera(Entity* owner, int gameObjectType)
-		: GameObject(owner,gameObjectType)
+	Camera(Entity* owner)
+		: GameObject(owner)
 		, m_screenWidth(0)
 		, m_screenHeight(0)
 		, m_desiredAspectRatio(0.0f)

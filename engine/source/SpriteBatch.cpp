@@ -95,9 +95,6 @@ void SpriteBatch::setTexture(Texture* texture)
 
 void SpriteBatch::addSprite(Sprite* sprite, const vec2& position, float rotation, const vec2& scale, const vec2& offset )
 {
-	(void)offset;
-	assert( fabs(offset.x) < 0.01f && fabs(offset.y) < 0.01f ); // offset is not implemented.
-
 	size_t start = m_positions.size();
 	size_t startTex = m_textureCoords.size();
 
@@ -129,8 +126,8 @@ void SpriteBatch::addSprite(Sprite* sprite, const vec2& position, float rotation
 
 	for( ; start<m_positions.size(); start += 3 )
 	{
-		float x0 =  (m_positions[start+0]*scale.x);
-		float y0 = (m_positions[start+1]*scale.y);
+		float x0 = offset.x + (m_positions[start + 0] * scale.x);
+		float y0 = offset.y + (m_positions[start + 1] * scale.y);
 		
 		float sinAngle = sinf(rotation);
 		float cosAngle = cosf(rotation);
@@ -149,7 +146,7 @@ void SpriteBatch::addSprite(Sprite* sprite, const vec2& position, float rotation
 }
 
 
-void SpriteBatch::addText(Text* text, const vec2& position, float rotation, const vec2& scale,const vec2& offset )
+void SpriteBatch::addText(Text* text, const vec2& position, float rotation, const vec2& scale, const vec2& offset )
 {
 	size_t start = m_positions.size();
 	size_t startTex = m_textureCoords.size();

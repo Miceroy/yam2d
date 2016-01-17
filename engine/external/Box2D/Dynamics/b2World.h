@@ -25,6 +25,7 @@
 #include <Box2D/Dynamics/b2ContactManager.h>
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include <Box2D/Dynamics/b2TimeStep.h>
+#include <Object.h> // from yam2d
 
 struct b2AABB;
 struct b2BodyDef;
@@ -38,7 +39,7 @@ class b2Joint;
 /// The world class manages all physics entities, dynamic simulation,
 /// and asynchronous queries. The world also contains efficient memory
 /// management facilities.
-class b2World
+class b2World : public yam2d::Object
 {
 public:
 	/// Construct a world object.
@@ -46,7 +47,7 @@ public:
 	b2World(const b2Vec2& gravity);
 
 	/// Destruct the world. All physics entities are destroyed and all heap memory is released.
-	~b2World();
+	virtual ~b2World();
 
 	/// Register a destruction listener. The listener is owned by you and must
 	/// remain in scope.
