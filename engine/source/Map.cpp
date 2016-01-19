@@ -784,18 +784,17 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 				vec2 positionInTiles(float(o->GetX())/float(getTileWidth()), float(o->GetY())/float(getTileHeight()));
 				vec2 sizeInTiles(float(o->GetWidth())/float(getTileWidth()), float(o->GetHeight())/float(getTileHeight()));
 				//float rotationInRadians = -(o->GetRotation() / 360.0f) * 2.0f * 3.1415f;
-				//vec2 positionInTiles = topLeft;
-				//positionInTiles.x += sizeInTiles.x*0.5f;
-				//positionInTiles.y -= sizeInTiles.y;
-				//vec2 offsetInTiles = sizeInTiles*0.5f;
+
+				// COnvert coordinates to yam2d.
+				positionInTiles = positionInTiles + sizeInTiles*0.5f - vec2(0.5f);
 
 				PropertySet properties;
 				properties.setValues(o->GetProperties().GetList());
 
 				properties["type"] = o->GetType();
 				properties["name"] = o->GetName();
-				properties["positionX"] = positionInTiles.x + (sizeInTiles.x*0.5f) - 0.5f;
-				properties["positionY"] = positionInTiles.y + (sizeInTiles.y*0.5f) - 0.5f;
+				properties["positionX"] = positionInTiles.x;
+				properties["positionY"] = positionInTiles.y;
 			//	properties["offsetX"] = offsetInTiles.x;
 			//	properties["offsetY"] = offsetInTiles.y;
 				properties["rotation"] = 0.0f;

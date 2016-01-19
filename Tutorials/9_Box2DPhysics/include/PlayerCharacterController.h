@@ -44,6 +44,8 @@ public:
 
 	yam2d::GameObject* getGameObject() { return (yam2d::GameObject*)getOwner(); }
 	const yam2d::GameObject* getGameObject() const { return (const yam2d::GameObject*)getOwner(); }
+private:
+
 };
 
 

@@ -75,43 +75,42 @@ namespace
 
 		virtual Entity* createNewEntity(ComponentFactory* componentFactory, const std::string& type, Entity* parent, const yam2d::PropertySet& properties)
 		{
+			float linearDamping = 0.5f;
+			float angularDamping = 0.5f;
+
+			float restitution = 0.1f;
+
 			if ("PlayerSpawn" == type)
 			{
 				// Create new player.
 				GameObject* gameObject = new GameObject(parent, properties);
+
 				//SpriteComponent* spriteComponent = new SpriteComponent(gameObject, m_playerTexture);
 				PlayerCharacterController* playerController = new PlayerCharacterController(gameObject);
 
-				float linearDamping = 2.0f;
-				float angularDamping = 8.0f;
-
-				// Dynamic body
+				// Dynamic body				
 				
 				PhysicsBody* body = new PhysicsBody(gameObject, m_world, linearDamping, angularDamping );
 				float density = 1.0f;
-				float restitution = 1.0f;
-				float friction = 10.0f;
-				body->setCircleFixture(0.5f, false,density, restitution, friction);
+				float friction = 1.0f;
+				// Make playes a bit smaller than actual for making physics work okay in the level.
+				body->setCircleFixture(0.485f, false,density, restitution, friction);
 				gameObject->addComponent(body);
 				gameObject->addComponent(componentFactory->createNewComponent("Tile",gameObject,properties));
 				gameObject->addComponent(playerController);
 				gameObject->setName("Player"); // Set name for player
-
 				return gameObject;
 			}
 			else if ("DynamicBox" == type)
 			{
 				GameObject* gameObject = new GameObject(parent, properties);
-				float linearDamping = 2.0f;
-				float angularDamping = 8.0f;
-
+			
 				// Dynamic body
 				PhysicsBody* body = new PhysicsBody(gameObject, m_world, linearDamping, angularDamping);
-				float density = 1.0f;
-				float restitution = 1.0f;
-				float friction = 0.9f;
+				float density = 0.5f;
+				float friction = 0.5f;
 				vec2 center = yam2d::vec2(0, 0);
-				body->setBoxFixture(gameObject->getSizeInTiles(), center, gameObject->getRotation(), false, density, restitution, friction);
+				body->setBoxFixture(gameObject->getSizeInTiles()*0.95f, center, gameObject->getRotation(), false, density, restitution, friction);
 
 				gameObject->addComponent(body);
 				gameObject->addComponent(componentFactory->createNewComponent("Tile", gameObject, properties));
@@ -125,7 +124,6 @@ namespace
 				// Static body
 				PhysicsBody* body = new PhysicsBody(gameObject, m_world);
 				float density = 0.0f;
-				float restitution = 1.0f;
 				float friction = 1.0f;
 				vec2 center = yam2d::vec2(0, 0);
 				body->setBoxFixture(gameObject->getSizeInTiles(), center, gameObject->getRotation(), false, density, restitution, friction);
@@ -181,6 +179,9 @@ void deinit ( ESContext *esContext )
 // Update game
 void update( ESContext* ctx, float deltaTime )
 {
+	if (deltaTime > 0.1f)
+		deltaTime = 0.1f;
+
 	float delta = 0.0f;
 	float cameraSpeed = 5.0f; // tiles / second
 	if (getKeyState(KEY_LEFT))

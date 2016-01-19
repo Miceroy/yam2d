@@ -9,6 +9,7 @@
 #include <Layer.h>
 // Texture
 #include <Camera.h>
+#include <Input.h>
 
 using namespace yam2d;
 
@@ -154,6 +155,26 @@ void deinit ( ESContext *esContext )
 // Update game
 void update( ESContext* ctx, float deltaTime )
 {
+	map->getCamera()->setPosition(5,0);
+	float mouseX = float(getMouseAxisX());
+	float mouseY = float(getMouseAxisY());
+
+	vec2 mouseInMapCoordinates = map->screenToMapCoordinates(mouseX,mouseY);
+
+	GameObject* pickedObject = map->getLayer("Objects")->pick(mouseInMapCoordinates);
+	if (pickedObject)
+	{
+		esLogMessage("Object %s picked at position %2.2f,%2.2f!", 
+			pickedObject->getName().c_str(),
+			pickedObject->getPosition().x,
+			pickedObject->getPosition().y );
+	}
+	else
+	{
+		esLogMessage("Object not picked!");
+	}
+
+
 	// Update map. this will update all GameObjects inside a map layers.
 	map->update(deltaTime);
 }
