@@ -105,8 +105,6 @@ namespace
 				WaypointController* wpController = new WaypointController(enemyGameObject, player);
 				enemyGameObject->addComponent(spriteComponent);
 				enemyGameObject->addComponent(wpController);
-				// Add it to GameObjects-layer.
-				map->getLayer("GameObjects")->addGameObject(enemyGameObject);
 
 				// Add some waypoints for enemy.
 				std::vector<vec2> enemyWaypoints;
