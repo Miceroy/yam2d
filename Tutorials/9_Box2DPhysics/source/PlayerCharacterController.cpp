@@ -43,7 +43,7 @@ void PlayerCharacterController::update(float deltaTime)
 {
 	if (getGameObject()->getComponent<PhysicsBody>() == 0) return;
 
-	float rotationForce = 0.05f;
+	float rotationForce = 0.08f;
 	float rotate = float(getKeyState(KEY_2)-getKeyState(KEY_1));
 	b2Body* body = getGameObject()->getComponent<PhysicsBody>()->getBody();
 	body->ApplyAngularImpulse(rotationForce*rotate);

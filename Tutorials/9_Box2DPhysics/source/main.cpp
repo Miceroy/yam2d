@@ -61,7 +61,10 @@ namespace
 		{
 			return m_world;
 		}
-
+		MyContactListener* getContactListener()
+		{
+			return m_contactListener;
+		}
 		virtual ~CustomComponentFactory()
 		{
 		}
@@ -78,7 +81,7 @@ namespace
 			float linearDamping = 0.5f;
 			float angularDamping = 0.5f;
 
-			float restitution = 0.1f;
+			float restitution = 0.2f;
 
 			if ("PlayerSpawn" == type)
 			{
@@ -132,7 +135,21 @@ namespace
 
 				return gameObject;
 			}
+			else if ("FinnishLine" == type)
+			{
+				GameObject* gameObject = new GameObject(parent,properties);
+				
+				// Trigger body
+				PhysicsBody* body = new PhysicsBody(gameObject, m_world);
+				float density = 0.0f;
+				float friction = 1.0f;
+				vec2 center = yam2d::vec2(0, 0);
+				body->setBoxFixture(gameObject->getSizeInTiles(), center, gameObject->getRotation(), true, density, restitution, friction);
 
+				gameObject->addComponent(body);
+				
+				return gameObject;
+			}
 			// Default functionality.
 			Entity* res = DefaultComponentFactory::createNewEntity(componentFactory, type, parent, properties);
 			assert(res != 0);
@@ -206,6 +223,18 @@ void update( ESContext* ctx, float deltaTime )
 	if (getKeyState(KEY_ESCAPE))
 		esQuitApp(ctx);
 
+	size_t numContacts = componentFactory->getContactListener()->m_contacts.size();
+	for (size_t i = 0; i < numContacts; ++i)
+	{
+		const MyContact& contact = componentFactory->getContactListener()->m_contacts[i];
+		GameObject* goA = ((PhysicsBody*)contact.fixtureA->GetBody()->GetUserData())->getGameObject();
+		GameObject* goB = ((PhysicsBody*)contact.fixtureB->GetBody()->GetUserData())->getGameObject();
+		if ((goA->getType() == "PlayerSpawn" && goB->getType() == "FinnishLine")
+			|| (goB->getType() == "PlayerSpawn" && goA->getType() == "FinnishLine"))
+		{
+			esLogMessage("Level completed!!");
+		}
+	}
 }
 
 #if 1
