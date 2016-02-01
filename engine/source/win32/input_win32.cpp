@@ -30,21 +30,31 @@ namespace yam2d
 
 
 
-// anonymous namespace for internal functions
-namespace
-{
-	bool clicks[3];
-	int mouseXValue = 0;
-	int mouseYValue = 0;
-	int mouseWheelDelta = 0;
+	// anonymous namespace for internal functions
+	namespace
+	{
+		bool clicks[3];
+		bool prevClicks[3];
+		int mouseXValue = 0;
+		int mouseYValue = 0;
+		int mouseWheelDelta = 0;
+		bool keys[0xff];
+		bool prevKeys[0xff];
+		std::vector< Touch > touches;
+	}
 
-	std::vector< Touch > touches;
-}
+	void clearInput()
+	{
+		mouseWheelDelta = 0;
+		memcpy(&prevClicks[0], &clicks[0], sizeof(clicks));
 
-void clearInput()
-{
-	mouseWheelDelta = 0;
-}
+		memcpy(&prevKeys[0], &keys[0], sizeof(keys));
+		for (int i = 0; i < 0xff; ++i)
+		{
+			keys[i] = (GetAsyncKeyState(i) & 0x8000) ? 1 : 0;
+		}
+	}
+
 
 void mouseWheel(int mouseWheel)
 {
@@ -91,6 +101,17 @@ int getMouseButtonState(MouseButtons button)
 	return clicks[button];
 }
 
+int isMouseButtonReleased(MouseButtons button)
+{
+	// Prev pressed && now not pressed
+	return prevClicks[button] && !clicks[button];
+}
+
+int isMouseButtonPressed(MouseButtons button)
+{
+	// Now pressed && prev not pressed
+	return clicks[button] && !prevClicks[button];
+}
 
 int getMouseAxisX()
 {
@@ -109,7 +130,19 @@ int getMouseWheelDelta()
 
 int getKeyState(KeyCodes keyCode)
 {
-	return (GetAsyncKeyState(keyCode) & 0x8000) ? 1 : 0;
+	return keys[keyCode];
+}
+
+int isKeyPressed(KeyCodes keyCode)
+{
+	// Now pressed && prev not pressed
+	return keys[keyCode] && !prevKeys[keyCode];
+}
+
+int isKeyReleased(KeyCodes keyCode)
+{
+	// Prev pressed && now not pressed
+	return prevKeys[keyCode] && !keys[keyCode];
 }
 
 

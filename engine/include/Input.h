@@ -144,6 +144,12 @@ enum MouseButtons
  */
 int getKeyState(KeyCodes keyCode);
 
+/** Returns 1 if given key is pressed down between subsequent frames. */
+int isKeyPressed(KeyCodes keyCode);
+
+/** Returns 1 if given key is released up between subsequent frames. */
+int isKeyReleased(KeyCodes keyCode);
+
 /** Returns mouse x-position */
 int getMouseAxisX();
 
@@ -152,6 +158,12 @@ int getMouseAxisY();
 
 /** Returns 1 if given mouse button is down */
 int getMouseButtonState(MouseButtons button);
+
+/** Returns 1 if given mouse button is released up between subsequent frames. */
+int isMouseButtonReleased(MouseButtons button);
+
+/** Returns 1 if given mouse button is pressed down between subsequent frames. */
+int isMouseButtonPressed(MouseButtons button);
 
 /** Returns mouse wheel delta since last frame */
 int getMouseWheelDelta();
