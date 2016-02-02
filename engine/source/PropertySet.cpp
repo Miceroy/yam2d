@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <cstdarg>
 #include <MiniJSON.h>
-
+#include <FileStream.h>
 
 namespace yam2d
 {
@@ -499,23 +499,10 @@ void PropertySet::writeToFile(const PropertySet& properties,const std::string& f
 #else
 PropertySet PropertySet::readFromFile(const std::string& filename)
 {
-	FILE* file = 0;
-	fopen_s(&file,filename.c_str(),"r");
-	
-	if( file == 0 )
-	{
-		esLogMessage( "File: \"%s\" could not be opened\n", filename.c_str() );
-		return PropertySet();		
-	}
-
-	// Read all data from file
-	fseek (file, 0, SEEK_END);
-	long length = ftell (file);
-	fseek(file, 0, SEEK_SET);
 	std::vector<char> data;
-	data.resize(length);
-	fread (&data[0], 1, data.size(), file);
-	fclose(file);
+	yam2d::Ref<yam2d::FileStream> fs = new yam2d::FileStream(filename.c_str(), yam2d::FileStream::READ_ONLY);
+	data.resize(fs->available());
+	fs->read(&data[0], data.size());
 
 	// Convert to std::string
     std::string jsonString = &data[0];
@@ -533,17 +520,16 @@ void PropertySet::writeToFile(const PropertySet& properties,const std::string& f
 {
     std::string jsonString = Json::Serialize(properties);
 
-	FILE* file = 0;
-	fopen_s(&file,filename.c_str(),"w");
+
+	yam2d::Ref<yam2d::FileStream> fs = new yam2d::FileStream(filename.c_str(), yam2d::FileStream::READ_WRITE);
 	
-	if( file == 0 )
+	if (fs == 0)
 	{
 		esLogMessage( "File: \"%s\" could not be opened\n", filename.c_str() );
 		return;		
 	}
-
-	fwrite( jsonString.c_str(), 1, jsonString.length(), file);
-	fclose(file);
+	
+	fs->write(jsonString.c_str(), jsonString.length());
 }
 #endif
 

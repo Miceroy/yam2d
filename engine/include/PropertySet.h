@@ -59,20 +59,20 @@ public:
         {
 		}
 		
-		template<class T>
-		void SetValue(T v)
+		template<class Type>
+		void setValue(Type v)
 		{
 			value = v;
 		}
 
-        template<class T>
-        const T getValue() const
+        template<class Type>
+		const Type getValue() const
 		{
 			return value;
 		}
 
-        template<class T>
-		T getValue()
+		template<class Type>
+		Type getValue()
 		{
 			return value;
 		}
@@ -87,8 +87,18 @@ public:
             return value;
         }
 
-        template<class T>
-        void AddValue(T v)
+		const T& getValueConstRef() const
+		{
+			return value;
+		}
+
+		T& getValueRef()
+		{
+			return value;
+		}
+
+		template<class Type>
+		void addValue(Type v)
         {
             value.push_back(v);
         }
@@ -153,14 +163,14 @@ public:
             LOG_ERROR("Property %s does not exist", this->getName().c_str() );
             assert(0);
         }
-        PropertyValue<T>* res = dynamic_cast< PropertyValue<T>* >(this->m_property.ptr());
+		PropertyValue<T>* res = dynamic_cast< PropertyValue<T>* >(this->m_property.ptr());
         if(res == 0)
         {
             LOG_ERROR("Property %s is not correct type", this->getName().c_str() );
             assert(0);
         }
 
-		return res->getValue<T&>();
+		return res->getValueConstRef();
 	}
 
     template<class T>
@@ -178,7 +188,7 @@ public:
             assert(0);
         }
 
-        return res->getValue<T&>();
+        return res->getValueRef();
     }
 
     inline const PropertyValueBase& getValue() const

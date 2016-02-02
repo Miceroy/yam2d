@@ -25,6 +25,11 @@
 
 #include <Object.h>
 #include <PropertySet.h>
+#if defined(_MSC_VER) //|| !defined(WIN32)
+
+#else
+#include <typeinfo>
+#endif
 
 namespace yam2d
 {
@@ -33,7 +38,7 @@ namespace yam2d
 	class Component;
 
 	// Interface for creating components.
-	class ComponentFactory
+	class ComponentFactory : public Object
 	{
 	public:
 		virtual Component* createNewComponent(const std::string& type, Entity* owner, const yam2d::PropertySet& properties);
@@ -57,10 +62,8 @@ namespace yam2d
 
 		void setName(const std::string& name);
 	private:
-		template< class T >
 		EntityArray(const EntityArray&);
 
-		template< class T >
 		EntityArray& operator=(const EntityArray&);
 
 		std::string m_name;

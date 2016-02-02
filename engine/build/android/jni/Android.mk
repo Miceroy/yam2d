@@ -23,16 +23,18 @@ LOCAL_SRC_FILES := \
 	$(ENGINE_SRC_PATH)/FileStream.cpp \
 	$(ENGINE_SRC_PATH)/AnimationTimeline.cpp \
 	$(ENGINE_SRC_PATH)/ElapsedTimer.cpp \
+	$(ENGINE_SRC_PATH)/Entity.cpp \
 	$(ENGINE_SRC_PATH)/GameObject.cpp \
 	$(ENGINE_SRC_PATH)/Layer.cpp \
 	$(ENGINE_SRC_PATH)/Map.cpp \
-	$(ENGINE_SRC_PATH)/MapTile.cpp \
+	$(ENGINE_SRC_PATH)/MapController.cpp \
 	$(ENGINE_SRC_PATH)/Object.cpp \
 	$(ENGINE_SRC_PATH)/PropertySet.cpp \
 	$(ENGINE_SRC_PATH)/Sprite.cpp \
 	$(ENGINE_SRC_PATH)/SpriteAnimation.cpp \
 	$(ENGINE_SRC_PATH)/SpriteBatch.cpp \
 	$(ENGINE_SRC_PATH)/SpriteSheet.cpp \
+	$(ENGINE_SRC_PATH)/StreamTexture.cpp \
 	$(ENGINE_SRC_PATH)/Text.cpp \
 	$(ENGINE_SRC_PATH)/Texture.cpp \
 	$(ENGINE_SRC_PATH)/Tileset.cpp \

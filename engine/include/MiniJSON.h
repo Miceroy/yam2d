@@ -169,7 +169,7 @@ namespace yam2d {
                         break;
                     default:
                         Property::PropertyValueBase* value = ParseByToken(nextToken);
-                        array->AddValue(value);
+                        array->addValue(value);
                         break;
                     }
                 }
