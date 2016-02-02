@@ -83,7 +83,14 @@ Entity* DefaultComponentFactory::createNewEntity(ComponentFactory* componentFact
 	}
 	else
 	{
-		assert(0); // Unknown type
+		if (type.length() > 0)
+		{
+			esLogMessage("Warning: Creating game object of unknown type: \"%s\".", type.c_str());
+		}
+		else
+		{
+			esLogMessage("Warning: Creating game object of unknown (empty) type.");
+		}
 	}
 
 	return gameObject;
