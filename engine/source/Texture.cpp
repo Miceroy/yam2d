@@ -135,7 +135,7 @@ int Texture::getNativeId(int index) const
 }
 
 
-void Texture::setData(unsigned char* data, int width, int height, int bpp, int nativeIdIndex)
+void Texture::setData(const unsigned char* data, int width, int height, int bpp, int nativeIdIndex)
 {
 	m_width = width;
 	m_height = height;
@@ -151,13 +151,17 @@ void Texture::setData(unsigned char* data, int width, int height, int bpp, int n
 		m_data = new uint8_t[m_width*m_height*m_bpp];
 		memcpy(m_data,data,m_width*m_height*m_bpp);
 	}
-	
+	updateData(nativeIdIndex);
+}
+
+void Texture::updateData(int nativeIdIndex)
+{
 	GLenum fmt;
-	if( m_bpp == 4 )
+	if (m_bpp == 4)
 	{
 		fmt = GL_RGBA;
 	}
-	else if (m_bpp == 3 )
+	else if (m_bpp == 3)
 	{
 		fmt = GL_RGB;
 	}
@@ -168,13 +172,12 @@ void Texture::setData(unsigned char* data, int width, int height, int bpp, int n
 	}
 
 	glBindTexture(GL_TEXTURE_2D, m_nativeIds[nativeIdIndex]);
-	glTexImage2D(GL_TEXTURE_2D, 0, fmt, m_width, m_height, 0,  fmt, GL_UNSIGNED_BYTE, m_data );
+	glTexImage2D(GL_TEXTURE_2D, 0, fmt, m_width, m_height, 0, fmt, GL_UNSIGNED_BYTE, m_data);
 	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
-
 
 int Texture::getWidth() const
 {

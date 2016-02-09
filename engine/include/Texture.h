@@ -50,15 +50,24 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 	const unsigned char* getPixel(int x, int y) const { return &m_data[(y*getWidth() + x)*getBytesPerPixel()]; }
+	unsigned char* getPixel(int x, int y) { return &m_data[(y*getWidth() + x)*getBytesPerPixel()]; }
 	int getBytesPerPixel() const { return m_bpp; }
 	void setTransparentColor(unsigned char r, unsigned char g, unsigned char b);
+
+	const unsigned char* getData() const {
+		return &m_data[0];
+	}
+
+	void updateData() { updateData(0); }
+
 protected:
 	Texture(int numNativeTextures);
 
-	void setData(unsigned char* data, int width, int height, int bpp, int nativeIdIndex);
+	void updateData(int nativeIdIndex);
+	void setData(const unsigned char* data, int width, int height, int bpp, int nativeIdIndex);
+
 
 private:
-	unsigned char* getPixel(int x, int y) { return &m_data[(y*getWidth() + x)*getBytesPerPixel()]; }
 	Texture();
 
 	unsigned int* m_nativeIds;

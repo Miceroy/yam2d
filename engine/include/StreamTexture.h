@@ -45,7 +45,8 @@ namespace yam2d
 		virtual ~StreamTexture();
 		virtual int getNativeId() const;
 
-		void setData(unsigned char* data, int width, int height, int bpp);
+		void setData(const unsigned char* data, int width, int height, int bpp);
+
 	private:
 	};
 

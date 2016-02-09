@@ -44,9 +44,8 @@ namespace yam2d
 		return Texture::getNativeId(0);
 	}
 
-	void StreamTexture::setData(unsigned char* data, int width, int height, int bpp)
+	void StreamTexture::setData(const unsigned char* data, int width, int height, int bpp)
 	{
 		Texture::setData(data, width, height, bpp, 0);
 	}
-
 }
