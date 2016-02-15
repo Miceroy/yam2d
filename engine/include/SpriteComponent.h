@@ -68,7 +68,10 @@ public:
 		, m_texture(texture)
 	{
 		assert(owner != 0); // Must have owner game object
-		getGameObject()->setSize(float(texture->getWidth()),float(texture->getHeight()));
+		if (texture != 0)
+		{
+			getGameObject()->setSize(float(texture->getWidth()), float(texture->getHeight()));
+		}
 	}
 
 	virtual ~SpriteComponent() {}

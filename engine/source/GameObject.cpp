@@ -28,7 +28,7 @@ namespace yam2d
 
 GameObject::GameObject(Entity* parent, const PropertySet& properties)
 : Entity(parent, 0, properties)
-, m_name(properties["name"].get<std::string>())
+, m_name(properties.hasProperty("name") ? properties["name"].get<std::string>() : "")
 , m_position(vec2(properties["positionX"].get<float>(), properties["positionY"].get<float>()))
 //, m_offset(vec2(properties["offsetX"].get<float>(), properties["offsetY"].get<float>()))
 , m_topLeft(0.0f)
@@ -37,6 +37,7 @@ GameObject::GameObject(Entity* parent, const PropertySet& properties)
 , m_size(vec2(properties["sizeX"].get<float>(), properties["sizeY"].get<float>()))
 , m_tileScale(1.0f)
 {
+	recalcExtens();
 }
 
 
@@ -195,11 +196,14 @@ bool GameObject::collidesTo( GameObject* other, vec2* collisionNormal )
 		return false;
 	}
 
-	if( collisionNormal != 0 ) 
+	if (collisionNormal != 0)
 	{
 		collisionNormal->x = d2.x - d1.x;
 		collisionNormal->y = d2.y - d1.y;
-		*collisionNormal = slm::normalize(*collisionNormal);
+		if (slm::length(*collisionNormal) > FLT_MIN)
+		{
+			*collisionNormal = slm::normalize(*collisionNormal);
+		}
 	}
 
 	return true;
@@ -214,6 +218,8 @@ void GameObject::recalcExtens()
 	m_topLeft.y		= /*m_offset.y +*/ m_position.y - (getSizeInTiles().y*0.5f);
 	m_bottomRight.x	= /*m_offset.x +*/ m_position.x + (getSizeInTiles().x*0.5f);
 	m_bottomRight.y	= /*m_offset.y +*/ m_position.y + (getSizeInTiles().y*0.5f);
+	assert(m_topLeft.x <= m_bottomRight.x);
+	assert(m_topLeft.y <= m_bottomRight.y);
 }
 
 

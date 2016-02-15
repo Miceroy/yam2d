@@ -76,12 +76,22 @@ void Renderer_renderTile(TileComponent* tileComponent, Layer* layer)
 		}
 
 		vec2 p = position;
-		p.x += clip.clipSize.x*0.5f;
+		//p.x += clip.clipSize.x*0.5f;
 		p.y += clip.clipSize.y*0.5f;
-		p.x -= layer->getMap()->getTileWidth()*0.5f;
-		p.y -= layer->getMap()->getTileHeight()*0.5f;
+		p.x += layer->getMap()->getTileWidth();// *0.5f;
+	//	p.x -= 1.5f;
+		p.y -= layer->getMap()->getTileHeight();// *0.5f;
 		p.x -= tileset->getTileOffsetX();
 		p.y -= tileset->getTileOffsetY();
+
+		p.y += layer->getMap()->getTileWidth() * 0.5f;
+		p.x -= layer->getMap()->getTileWidth() * 1.0f;
+
+		if (gameObject->getName() == "Ball")
+		{
+			int i = 0;
+			i;
+		}
 
 		layer->getBatch()->addSprite(tex, tileComponent->getSprite(), p, gameObject->getRotation(), scale, vec2(0,0));
 	}
@@ -104,6 +114,11 @@ void Renderer_renderSprite(SpriteComponent* spriteComponent, Layer* layer)
 	spriteComponent->getSprite()->setOpacity(layer->getOpacity());
 	spriteComponent->getSprite()->setScale(spriteComponent->getGameObject()->getSize());
 
+	position.x += layer->getMap()->getTileWidth();// *0.5f;
+	position.y -= layer->getMap()->getTileHeight() *0.5f;
+
+	position.y += layer->getMap()->getTileWidth() * 0.5f;
+	position.x -= layer->getMap()->getTileHeight() * 1.0f;
 	layer->getBatch()->addSprite(spriteComponent->getTexture(), spriteComponent->getSprite(), position, -spriteComponent->getGameObject()->getRotation(), vec2(1.0f));
 }
 

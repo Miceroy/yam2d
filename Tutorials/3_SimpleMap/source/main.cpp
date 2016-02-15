@@ -155,7 +155,7 @@ void deinit ( ESContext *esContext )
 // Update game
 void update( ESContext* ctx, float deltaTime )
 {
-	map->getCamera()->setPosition(5,0);
+	map->getCamera()->setPosition(0,0);
 	float mouseX = float(getMouseAxisX());
 	float mouseY = float(getMouseAxisY());
 

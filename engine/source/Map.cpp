@@ -749,9 +749,12 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 					if( tileset != 0 )
 					{
 						vec2 sizeInTiles(float(ts->GetTileWidth()) / float(getTileWidth()), float(ts->GetTileHeight()) / float(getTileHeight()));
-						properties["type"] = "Tile";
+						if (!properties.hasProperty("type"))
+						{
+							properties["type"] = "Tile";
+						}
 						properties["name"] = "";
-						properties["positionX"] = (float)x;
+						properties["positionX"] = (float)x - 1.0f + 0.5f*sizeInTiles.x;
 						properties["positionY"] = (float)y;
 						properties["rotation"] = 0.0f;
 						properties["sizeX"] = sizeInTiles.x;
@@ -761,11 +764,10 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 						properties["flippedVertically"] = tile.flippedVertically;
 						properties["flippedDiagonally"] = tile.flippedDiagonally;
 
-						GameObject* gameObject = (GameObject*)componentFactory->createNewEntity(componentFactory, "Tile", getLayers()[MAPLAYER0 + i], properties);
+						GameObject* gameObject = (GameObject*)componentFactory->createNewEntity(componentFactory, properties["type"].get<std::string>(), getLayers()[MAPLAYER0 + i], properties);
 						if (gameObject != 0)
 						{
-							gameObject->getComponent<TileComponent>()->setTileSet(tileset/*, getTileWidth(), getTileHeight()*/);
-							//gameObject->setOffset(vec2(0.5f,0.0f));
+							gameObject->getComponent<TileComponent>()->setTileSet(tileset);
 							++numObjects;
 							getLayers()[MAPLAYER0 + i]->addGameObject(gameObject);
 						}
@@ -782,28 +784,29 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 			assert(l);
 			const std::vector< Tmx::Object* > objects = l->GetObjects();
 
-			for(size_t x=0; x<objects.size(); ++x )
+			for (size_t x = 0; x < objects.size(); ++x)
 			{
 				const Tmx::Object* o = objects[x];
 				GameObject* tNew = 0;
-				
+
 				// Tiled has different coordinates for objects. In Tiled the tile object has zero in bottom left corner. Adjust accordingly. Also the rotation is reverse and in degrees.
-				vec2 positionInTiles(float(o->GetX())/float(getTileWidth()), float(o->GetY())/float(getTileHeight()));
-				vec2 sizeInTiles(float(o->GetWidth())/float(getTileWidth()), float(o->GetHeight())/float(getTileHeight()));
-				//float rotationInRadians = -(o->GetRotation() / 360.0f) * 2.0f * 3.1415f;
+				vec2 positionInTiles(float(o->GetX()) / float(getTileWidth()), float(o->GetY()) / float(getTileHeight()));
+				vec2 sizeInTiles(float(o->GetWidth()) / float(getTileWidth()), float(o->GetHeight()) / float(getTileHeight()));
 
 				// COnvert coordinates to yam2d.
-				positionInTiles = positionInTiles + sizeInTiles*0.5f - vec2(0.5f);
+				positionInTiles.x = positionInTiles.x + sizeInTiles.x * 0.5f - 1.0f;
+				positionInTiles.y = positionInTiles.y + sizeInTiles.y * 0.5f - 0.5f;
 
 				PropertySet properties;
 				properties.setValues(o->GetProperties().GetList());
 
-				properties["type"] = o->GetType();
+				if (o->GetType().length() > 0)
+				{
+					properties["type"] = o->GetType();
+				}
 				properties["name"] = o->GetName();
 				properties["positionX"] = positionInTiles.x;
 				properties["positionY"] = positionInTiles.y;
-			//	properties["offsetX"] = offsetInTiles.x;
-			//	properties["offsetY"] = offsetInTiles.y;
 				properties["rotation"] = 0.0f;
 				properties["sizeX"] = sizeInTiles.x;
 				properties["sizeY"] = sizeInTiles.y;
@@ -829,19 +832,32 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 
 					if (tileSetTile != 0)
 					{
-						properties.setValues(tileSetTile->GetProperties().GetList());
+						std::map< std::string, std::string > v = tileSetTile->GetProperties().GetList();
+						for (std::map< std::string, std::string >::const_iterator it = v.begin(); it != v.end(); ++it)
+						{
+							properties[it->first] = it->second;
+						}
 					}
 
-					std::string type = o->GetType();
-					if (type == "")
+					if (!properties.hasProperty("type"))
 					{
-						type = "Tile";
+						std::string type = o->GetType();
+						if (type == "")
+						{
+							type = "Tile";
+						}
+						
+						properties["type"] = type;
 					}
 
-					tNew = (GameObject*)componentFactory->createNewEntity(componentFactory, type, getLayers()[MAPLAYER0 + i], properties);
+
+					properties["positionY"] = positionInTiles.y - 1.0f;
+					properties["positionX"] = positionInTiles.x;// -0.5f*sizeInTiles.x;
+					
+					tNew = (GameObject*)componentFactory->createNewEntity(componentFactory, properties["type"].get<std::string>(), getLayers()[MAPLAYER0 + i], properties);
 					if (tNew != 0)
 					{
-						assert(tNew->getComponent<TileComponent>() != 0);
+						assert(tNew->getComponent<TileComponent>() != 0); // You need to add Tile component to the game object.
 						tNew->getComponent<TileComponent>()->setTileSet(tileset);
 					}
 				}
@@ -887,11 +903,13 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 				{
 			//		tNew->setPosition(positionInTiles);
 			//		tNew->setRotation(rotationInRadians);
-			//		tNew->setSize(sizeInTiles);
+			//		tNew->setSize(sizeInTiles*64.0f);
 			//		tNew->setOffset(offsetInTiles);
 			//		tNew->setType(o->GetType());
 			//		tNew->setName(o->GetName());
 					++numObjects;
+					tNew->setTileSize(vec2(m_tileWidth, m_tileHeight));
+					tNew->setSize(vec2(float(o->GetWidth()), float(o->GetHeight())));
 					getLayers()[MAPLAYER0+i]->addGameObject(tNew);
 				}
 			}
