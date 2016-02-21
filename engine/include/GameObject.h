@@ -68,7 +68,15 @@ public:
 	
 	bool isInside(const vec2& worldPosition) const;
 
-	bool collidesTo( GameObject* other, vec2* collisionNormal = 0 );
+	// Check collision between two game objects.
+	//
+	// collisionNormalLikeOverlap is optional "like normal vector". This means, that it is not normalized, but 
+	// instead it describes components of overlapping axis relative to object size. Vector component 
+	// which has bigger absolute value, can be used as a normal vector. Both, x and y values of the 
+	// collisionNormalLikeOverlap are between 0 and 1. 0 means that the object are overlapping fully
+	// (basically are in same location) and values closer to 1 means that the objects are not overlapping 
+	// so much. Exact 1 means that objects are barely touching each other.
+	bool collidesTo( GameObject* other, vec2* collisionNormalLikeOverlap = 0 );
 
 	void setTileSize(const vec2& tileSize );
 
