@@ -185,9 +185,10 @@ void GameObject::setTileSize(const vec2& tileSize )
 
 
 
-bool GameObject::collidesTo( GameObject* other, vec2* collisionNormal )
+bool GameObject::collidesTo( GameObject* other, vec2* collisionNormalLikeVector )
 {
 	assert( other != 0 );
+
 	vec2 d1 = other->m_topLeft - m_bottomRight;
 	vec2 d2 = m_topLeft - other->m_bottomRight;
 
@@ -196,14 +197,15 @@ bool GameObject::collidesTo( GameObject* other, vec2* collisionNormal )
 		return false;
 	}
 
-	if (collisionNormal != 0)
+	if (collisionNormalLikeVector != 0)
 	{
-		collisionNormal->x = d2.x - d1.x;
-		collisionNormal->y = d2.y - d1.y;
-		if (slm::length(*collisionNormal) > FLT_MIN)
-		{
-			*collisionNormal = slm::normalize(*collisionNormal);
-		}
+		vec2 sthis = getSizeInTiles();
+		vec2 so = other->getSizeInTiles();
+		vec2 d = d2 - d1;
+		d.x /= sthis.x + so.x;
+		d.y /= sthis.y + so.y;
+		
+		*collisionNormalLikeVector = d;
 	}
 
 	return true;
