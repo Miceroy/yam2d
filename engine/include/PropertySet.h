@@ -230,13 +230,13 @@ public:
      * Sets user data (Application data) to property. User data can be
      * for example ui widged information etc. User data is NOT saves to json during serialization.
      */
-    void setUserData(Object* userData) { m_userData = userData; }
+    //void setUserData(Object* userData) { m_userData = userData; }
 
     /**
      * @brief getUserData
      * @return User data (Application data).
      */
-    const Object* getUserData() const { return m_userData.ptr(); }
+    //const Object* getUserData() const { return m_userData.ptr(); }
 
 /*	bool hasAttributes() const;
 	const PropertySet& attributes() const;
@@ -256,7 +256,7 @@ private:
 	bool isFloat() const;
 
     std::string		m_name;
-    Ref<Object>			m_userData;
+   // Ref<Object>			m_userData;
     Ref<PropertyValueBase>			m_property;
 //	Ref<PropertySet>	m_attributes;
 	
@@ -353,6 +353,16 @@ public:
 	int size() const { return m_properties.size(); }
 
     bool hasProperty(const std::string& name) const;
+
+	template<class T> 
+	const T& getOrDefault(const std::string& name, const T& defaultValue) const
+	{
+		PropertySet::const_iterator it = findByName(name);
+		if (it == end())
+			return defaultValue;
+
+		return it->get<T>();
+	}
 
     static PropertySet readFromFile(const std::string& filename);
 

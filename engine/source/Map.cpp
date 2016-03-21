@@ -31,6 +31,8 @@
 #include <Camera.h>
 #include <config.h>
 #include <MapController.h>
+#include <ElapsedTimer.h>
+
 
 namespace yam2d
 {
@@ -43,11 +45,14 @@ Component* DefaultComponentFactory::createNewComponent(const std::string& type, 
 	{
 		std::string name = properties["name"].get<std::string>();
 		float opacity = properties["opacity"].get<float>();
-		bool isVisible = properties["visible"].get<bool>();
+		bool isVisible = properties.getOrDefault<bool>("visible", true);
 		bool isStatic = false;
-		if (properties.hasProperty("static") && (properties.getLiteralProperty("static") == "true" || properties.getLiteralProperty("static") == "1"))
+		 
+		if (properties.hasProperty("static") )
 		{
-			isStatic = true;
+			std::string s = properties["static"].get<std::string>();
+			if ( (s == "true") || (s == "1"))
+				isStatic = true;
 		}
 		Map* map = dynamic_cast<Map*>(owner);
 		assert(map != 0);
@@ -58,9 +63,9 @@ Component* DefaultComponentFactory::createNewComponent(const std::string& type, 
 		//	int gameObjectType = 0;
 		//vec2 position = vec2(properties["positionX"].get<float>(), properties["positionY"].get<float>());
 		unsigned id = properties["id"].get<int>();
-		bool flippedHorizontally = properties["flippedHorizontally"].get<bool>();
-		bool flippedVertically = properties["flippedVertically"].get<bool>();
-		bool flippedDiagonally = properties["flippedDiagonally"].get<bool>();
+		bool flippedHorizontally = properties.getOrDefault("flippedHorizontally", false);
+		bool flippedVertically = properties.getOrDefault("flippedVertically", false);
+		bool flippedDiagonally = properties.getOrDefault("flippedDiagonally", false);
 		TileComponent* tileComponent = new TileComponent(owner, /*position,*/ id, flippedHorizontally, flippedVertically, flippedDiagonally);
 		return tileComponent;
 	}
@@ -649,6 +654,10 @@ GameObject* TmxMap::MapCreateCallbacks::createNewGameObject( Map* map, Layer* la
 
 bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* componentFactory)
 {
+
+	yam2d::ElapsedTimer timer;
+	timer.reset();
+	esLogMessage("Parsing tmx-file");
 	m_loadedMapFileName = mapFileName;
 	std::string path = getPath(mapFileName);	
 
@@ -669,8 +678,11 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 	m_tilesets.clear();
 
 	getProperties().setValues(map.GetProperties().GetList());
+	esLogMessage("Parsing tmx-file done. Time: %2.4f", timer.getTime());
 
 	// Create tilesets
+	timer.reset();
+	esLogMessage("Creating %d tilesets", (int)m_tilesets.size());
 	m_tilesets.resize(map.GetNumTilesets());
 	for( size_t i=0; i<m_tilesets.size(); ++i )
 	{
@@ -701,7 +713,12 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 		assert( m_tilesets[i] != 0 ); // You must return new Tileset in createTileset callback!!
 	}
 
+	esLogMessage("Creating tilesets done. Time: %2.4f", timer.getTime());
+
 	// Create layers
+
+	timer.reset();
+	esLogMessage("Creating %d layers", map.GetNumLayers());
 	for( int i=0; i<map.GetNumLayers(); ++i )
 	{
 		const Tmx::Layer* l = map.GetLayer(i);
@@ -718,6 +735,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 		addLayer(MAPLAYER0 + i, (Layer*)componentFactory->createNewComponent("Layer", this, properties));
 		assert(getLayers()[MAPLAYER0+i] != 0); // You must return new Layer in createLayer callback!!
 	}
+	esLogMessage("Creating layers done. Time: %2.4f", timer.getTime());
 
 	// Create tiles
 	for( int i=0; i<map.GetNumLayers(); ++i )
@@ -726,44 +744,53 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 		{
 			int numObjects = 0;
 			const Tmx::TileLayer* const l = dynamic_cast<const Tmx::TileLayer*>(map.GetLayer(i));
+			float timeProperties = 0.0f;
+			float timeCreate = 0.0f;
+			
+			getLayers()[MAPLAYER0 + i]->reserve(l->GetHeight()*l->GetWidth());
+
+			esLogMessage("Creating %d tile layer tiles for layer", l->GetHeight()*l->GetWidth());
 
 			for( int y=0; y<l->GetHeight(); ++y )
 			{
 				for( int x=0; x<l->GetWidth(); ++x )
 				{
-					const Tmx::MapTile tile = l->GetTile(x,y);
-					PropertySet properties;
-					Tileset* tileset = 0;
-					const Tmx::Tileset* ts = 0;
+					timer.reset();
+					const Tmx::MapTile& tile = l->GetTile(x,y);
+					
 					if (tile.tilesetId >= 0 && tile.tilesetId < map.GetNumTilesets())
 					{
-						tileset = m_tilesets[tile.tilesetId];
-						ts = map.GetTileset(tile.tilesetId);
+						Tileset* tileset = m_tilesets[tile.tilesetId];
+						const Tmx::Tileset* ts = map.GetTileset(tile.tilesetId);
 						const Tmx::Tile* tileSetTile = ts->GetTile(tile.id);
+						PropertySet properties;
 						if (tileSetTile != 0)
 						{
 							properties.setValues(tileSetTile->GetProperties().GetList());
 						}
-					}
-				
-					if( tileset != 0 )
-					{
+					
 						vec2 sizeInTiles(float(ts->GetTileWidth()) / float(getTileWidth()), float(ts->GetTileHeight()) / float(getTileHeight()));
 						if (!properties.hasProperty("type"))
 						{
 							properties["type"] = "Tile";
 						}
-						properties["name"] = "";
 						properties["positionX"] = (float)x - 1.0f + 0.5f*sizeInTiles.x;
 						properties["positionY"] = (float)y;
-						properties["rotation"] = 0.0f;
 						properties["sizeX"] = sizeInTiles.x;
 						properties["sizeY"] = sizeInTiles.y;
 						properties["id"] = (int)tile.id;
-						properties["flippedHorizontally"] = tile.flippedHorizontally;
-						properties["flippedVertically"] = tile.flippedVertically;
-						properties["flippedDiagonally"] = tile.flippedDiagonally;
 
+						if (tile.flippedHorizontally)
+							properties["flippedHorizontally"] = tile.flippedHorizontally;
+
+						if (tile.flippedVertically)
+							properties["flippedVertically"] = tile.flippedVertically;
+
+						if (tile.flippedDiagonally)
+							properties["flippedDiagonally"] = tile.flippedDiagonally;
+
+						timeProperties += timer.getTime();
+						timer.reset();
 						GameObject* gameObject = (GameObject*)componentFactory->createNewEntity(componentFactory, properties["type"].get<std::string>(), getLayers()[MAPLAYER0 + i], properties);
 						if (gameObject != 0)
 						{
@@ -771,14 +798,21 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 							++numObjects;
 							getLayers()[MAPLAYER0 + i]->addGameObject(gameObject);
 						}
+						timeCreate += timer.getTime();
 					}
 				}
 			}
 
+			esLogMessage("numObjects: %d timeCreate: %2.3f, timeProperties: %2.3f objs/s: %4.2f", numObjects, timeCreate, timeProperties,
+				(float)numObjects / (timeCreate + timeProperties));
+
 			esLogEngineDebug("Created %d objects to tile layer \"%s\"", numObjects, l->GetName().c_str() );
+
+			esLogMessage("Creating tile layer tiles done.");
 		}
 		else
 		{
+			esLogMessage("Creating object layer objects");
 			int numObjects = 0;
 			const Tmx::ObjectLayer* const l = dynamic_cast<const Tmx::ObjectLayer*>(map.GetLayer(i));
 			assert(l);
@@ -807,7 +841,6 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 				properties["name"] = o->GetName();
 				properties["positionX"] = positionInTiles.x;
 				properties["positionY"] = positionInTiles.y;
-				properties["rotation"] = 0.0f;
 				properties["sizeX"] = sizeInTiles.x;
 				properties["sizeY"] = sizeInTiles.y;
 	
@@ -821,14 +854,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 					int id = o->GetGid() - ts->GetFirstGid();
 					const Tmx::Tile* tileSetTile = ts->GetTile(id);
 
-					bool flippedHorizontally = false;
-					bool flippedVertically = false;
-					bool flippedDiagonally = false;
-
 					properties["id"] = id;
-					properties["flippedHorizontally"] = flippedHorizontally;
-					properties["flippedVertically"] = flippedVertically;
-					properties["flippedDiagonally"] = flippedDiagonally;
 
 					if (tileSetTile != 0)
 					{
@@ -901,12 +927,6 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 
 				if( tNew != 0 )
 				{
-			//		tNew->setPosition(positionInTiles);
-			//		tNew->setRotation(rotationInRadians);
-			//		tNew->setSize(sizeInTiles*64.0f);
-			//		tNew->setOffset(offsetInTiles);
-			//		tNew->setType(o->GetType());
-			//		tNew->setName(o->GetName());
 					++numObjects;
 					tNew->setTileSize(vec2(m_tileWidth, m_tileHeight));
 					tNew->setSize(vec2(float(o->GetWidth()), float(o->GetHeight())));
@@ -914,13 +934,10 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 				}
 			}
 
-			esLogEngineDebug("Created %d objects to object layer \"%s\"", numObjects, l->GetName().c_str() );
-		}
-
-		
-	}
-
-	
+			esLogEngineDebug("Created %d objects to object layer \"%s\"", numObjects, l->GetName().c_str());
+			esLogMessage("Creating object layer objects done.");
+		}		
+	}	
 	
 	return true;
 }

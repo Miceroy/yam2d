@@ -114,6 +114,7 @@ public:
 
 	GameObject* pick(const vec2& pos) const;
 
+	void reserve(size_t s) { m_gameObjects.reserve(s);  }
 private:
 	//Map*							m_map;
 	std::string						m_name;

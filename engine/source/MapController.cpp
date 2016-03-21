@@ -47,7 +47,7 @@ using namespace std;
 
 
 
-void Renderer_renderSprite(SpriteComponent* spriteComponent, Layer* layer);
+void Renderer_renderSpriteComponent(SpriteComponent* spriteComponent, Layer* layer);
 
 void Renderer_renderTile(TileComponent* tileComponent, Layer* layer)
 {
@@ -103,11 +103,11 @@ void Renderer_renderSpriteSheet(SpriteSheetComponent* spriteSheetComponent, Laye
 	Texture* tex = spriteSheetComponent->getSpriteSheet()->getTexture();
 	Sprite::PixelClip clip = spriteSheetComponent->getSpriteSheet()->getClip(spriteSheetComponent->getIdInSpriteSheet());
 	spriteSheetComponent->getSprite()->setClip(float(tex->getWidth()), float(tex->getHeight()), clip);
-	Renderer_renderSprite(spriteSheetComponent,layer);
+	Renderer_renderSpriteComponent(spriteSheetComponent,layer);
 }
 
 
-void Renderer_renderSprite(SpriteComponent* spriteComponent, Layer* layer)
+void Renderer_renderSpriteComponent(SpriteComponent* spriteComponent, Layer* layer)
 {
 	vec2 position = layer->getMap()->tileToDeviceCoordinates(spriteComponent->getGameObject()->getPosition().x, spriteComponent->getGameObject()->getPosition().y);
 	spriteComponent->getSprite()->setDepth(layer->getDepth());
@@ -120,6 +120,21 @@ void Renderer_renderSprite(SpriteComponent* spriteComponent, Layer* layer)
 	position.y += layer->getMap()->getTileWidth() * 0.5f;
 	position.x -= layer->getMap()->getTileHeight() * 1.0f;
 	layer->getBatch()->addSprite(spriteComponent->getTexture(), spriteComponent->getSprite(), position, -spriteComponent->getGameObject()->getRotation(), vec2(1.0f));
+}
+
+void Renderer_renderSprite(Sprite* sprite, Layer* layer)
+{
+	vec2 position = layer->getMap()->tileToDeviceCoordinates(sprite->getGameObject()->getPosition().x, sprite->getGameObject()->getPosition().y);
+	sprite->setDepth(layer->getDepth());
+	sprite->setOpacity(layer->getOpacity());
+	sprite->setScale(sprite->getGameObject()->getSize());
+
+	position.x += layer->getMap()->getTileWidth();// *0.5f;
+	position.y -= layer->getMap()->getTileHeight() *0.5f;
+
+	position.y += layer->getMap()->getTileWidth() * 0.5f;
+	position.x -= layer->getMap()->getTileHeight() * 1.0f;
+	layer->getBatch()->addSprite(0, sprite, position, -sprite->getGameObject()->getRotation(), vec2(1.0f));
 }
 
 
@@ -243,7 +258,15 @@ void renderLayerObject(GameObject* gameObject, Layer* layer)
 		std::vector<SpriteComponent*> spriteComponents = gameObject->getComponents<SpriteComponent>();
 		for (size_t i = 0; i < spriteComponents.size(); ++i)
 		{
-			Renderer_renderSprite(spriteComponents[i], layer);
+			Renderer_renderSpriteComponent(spriteComponents[i], layer);
+		}
+	}
+
+	{
+		std::vector<Sprite*> sprites = gameObject->getComponents<Sprite>();
+		for (size_t i = 0; i < sprites.size(); ++i)
+		{
+			Renderer_renderSprite(sprites[i], layer);
 		}
 	}
 

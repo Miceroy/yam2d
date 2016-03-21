@@ -25,7 +25,7 @@
 
 #include <vector>
 #include <vec2.h>
-#include <Entity.h>
+#include <GameObject.h>
 
 namespace yam2d
 {
@@ -91,6 +91,9 @@ public:
 	 */
 	void setClip( float textureWidth, float textureHeight, PixelClip clip );
 	
+	GameObject* getGameObject() { return (GameObject*)getOwner(); }
+	const GameObject* getGameObject() const { return (const GameObject*)getOwner(); }
+
 private:
 	float 		m_color[4];
 	vec2		m_scale;

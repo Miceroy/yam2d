@@ -543,6 +543,9 @@
     <ClCompile Include="..\..\external\lua-5.3.2\src\lzio.c">
       <Filter>lua</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\collision_utils.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\es_assert.h">
@@ -985,6 +988,9 @@
     </ClInclude>
     <ClInclude Include="..\..\external\lua-5.3.2\src\lzio.h">
       <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\collision_utils.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

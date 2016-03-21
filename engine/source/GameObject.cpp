@@ -28,13 +28,13 @@ namespace yam2d
 
 GameObject::GameObject(Entity* parent, const PropertySet& properties)
 : Entity(parent, 0, properties)
-, m_name(properties.hasProperty("name") ? properties["name"].get<std::string>() : "")
-, m_position(vec2(properties["positionX"].get<float>(), properties["positionY"].get<float>()))
+, m_name(properties.getOrDefault<std::string>("name", "") )
+, m_position(vec2(properties.getOrDefault("positionX", 0.0f), properties.getOrDefault("positionY", 0.0f) ))
 //, m_offset(vec2(properties["offsetX"].get<float>(), properties["offsetY"].get<float>()))
 , m_topLeft(0.0f)
 , m_bottomRight(0.0f)
-, m_rotation(properties["rotation"].get<float>())
-, m_size(vec2(properties["sizeX"].get<float>(), properties["sizeY"].get<float>()))
+, m_rotation(properties.getOrDefault("rotation", 0.0f))
+, m_size(vec2(properties.getOrDefault("sizeX", 0.0f), properties.getOrDefault("sizeY", 0.0f)) )
 , m_tileScale(1.0f)
 {
 	recalcExtens();
@@ -216,10 +216,13 @@ void GameObject::recalcExtens()
 {
 	assert(m_size.x >= 0.0f);
 	assert(m_size.y >= 0.0f);
-	m_topLeft.x		= /*m_offset.x +*/ m_position.x - (getSizeInTiles().x*0.5f);
-	m_topLeft.y		= /*m_offset.y +*/ m_position.y - (getSizeInTiles().y*0.5f);
-	m_bottomRight.x	= /*m_offset.x +*/ m_position.x + (getSizeInTiles().x*0.5f);
-	m_bottomRight.y	= /*m_offset.y +*/ m_position.y + (getSizeInTiles().y*0.5f);
+	vec2 halfSizeInTiles = getSizeInTiles();
+	m_topLeft = m_position - halfSizeInTiles;
+	m_bottomRight = m_position + halfSizeInTiles;
+	//m_topLeft.x = /*m_offset.x +*/ m_position.x - (sizeInTiles.x*0.5f);
+	//m_topLeft.y = /*m_offset.y +*/ m_position.y - (sizeInTiles.y*0.5f);
+	//m_bottomRight.x = /*m_offset.x +*/ m_position.x + (sizeInTiles.x*0.5f);
+	//m_bottomRight.y = /*m_offset.y +*/ m_position.y + (sizeInTiles.y*0.5f);
 	assert(m_topLeft.x <= m_bottomRight.x);
 	assert(m_topLeft.y <= m_bottomRight.y);
 }

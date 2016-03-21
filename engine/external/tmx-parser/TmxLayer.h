@@ -129,22 +129,22 @@ namespace Tmx
 		virtual void Parse(const TiXmlNode *layerNode);
 
 		// Pick a specific tile from the list.
-		unsigned GetTileId(int x, int y) const { return tile_map[y * GetWidth() + x].id; }
+		//unsigned GetTileId(int x, int y) const { return tile_map[y * GetWidth() + x].id; }
 
 		// Get the tileset index for a tileset from the list.
-		int GetTileTilesetIndex(int x, int y) const { return tile_map[y * GetWidth() + x].tilesetId; }
+		//int GetTileTilesetIndex(int x, int y) const { return tile_map[y * GetWidth() + x].tilesetId; }
 
 		// Get whether a tile is flipped horizontally.
-		bool IsTileFlippedHorizontally(int x, int y) const 
-		{ return tile_map[y * GetWidth() + x].flippedHorizontally; }
+		//bool IsTileFlippedHorizontally(int x, int y) const 
+		//{ return tile_map[y * GetWidth() + x].flippedHorizontally; }
 
 		// Get whether a tile is flipped vertically.
-		bool IsTileFlippedVertically(int x, int y) const 
-		{ return tile_map[y * GetWidth() + x].flippedVertically; }
+		//bool IsTileFlippedVertically(int x, int y) const 
+		//{ return tile_map[y * GetWidth() + x].flippedVertically; }
 
 		// Get whether a tile is flipped diagonally.
-		bool IsTileFlippedDiagonally(int x, int y) const
-		{ return tile_map[y * GetWidth() + x].flippedDiagonally; }
+		//bool IsTileFlippedDiagonally(int x, int y) const
+		//{ return tile_map[y * GetWidth() + x].flippedDiagonally; }
 
 		// Get a tile specific to the map.
 		const Tmx::MapTile& GetTile(int x, int y) const { return tile_map[y * GetWidth() + x]; }

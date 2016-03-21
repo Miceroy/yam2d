@@ -56,7 +56,7 @@ namespace Tmx
 		int GetSize() const { return properties.size(); }
 
 		// Returns the STL map of the properties.
-		std::map< std::string, std::string > GetList() const 
+		const std::map< std::string, std::string >& GetList() const 
 		{ return properties; }
 
 		// Returns whether there are no properties.
