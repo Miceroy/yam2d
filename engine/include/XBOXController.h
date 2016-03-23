@@ -9,13 +9,13 @@
 
 class XBOXController : public yam2d::Object
 {
-	UINT joyID;
+	UINT m_joyID;
 
-	static float _c1X,_c1Y,_c2X,_c2Y;
-	static float _errVal;
+//	float _c1X,_c1Y,_c2X,_c2Y;
+//	float _errVal;
 
 public:
-	enum Axises
+	enum JoyAxis
 	{
 		XAxis = 0,
 		YAxis = 1,
@@ -25,19 +25,19 @@ public:
 		VAxis = 5
 	};
 
-	enum Buttons
+	enum JoyButtons
 	{
-		Button_A = 0x00001,
-		Button_B = 0x00002,
-		Button_X = 0x00004,
-		Button_Y = 0x00008,
-		Button_Back = 0x00040,
-		Button_Start = 0x00080,
-		Button_LSB = 0x00100,
-		Button_RSB = 0x00200
+		Button_A = 1 << 0,
+		Button_B = 1 << 1,
+		Button_X = 1 << 2,
+		Button_Y = 1 << 3,
+		Button_LSB = 1 << 4,
+		Button_RSB = 1 << 5,
+		Button_Back = 1 << 6,
+		Button_Start = 1 << 7
 	};
 
-	enum DPad
+	enum DPadDir
 	{
 		DPad_Up = 0,
 		DPad_UpRight = 4500,
@@ -48,17 +48,27 @@ public:
 		DPad_Left = 27000,
 		DPad_UpLeft = 31500
 	};
-	bool isConnected();
-	bool isButtonDown(int button);
-	bool isDPadPointing(int val);
-	float getAxis(int i);
-	float updateAxis(int i);
-	static void manualUpdateValues(float c1X, float c1Y, float c2X, float c2Y);
-	XBOXController(UINT ID);
+
+	XBOXController();
 	virtual ~XBOXController(void);
 
+	bool isConnected();
 
+	bool isButtonDown(JoyButtons button);
 
+	bool isDPadPointing(DPadDir val);
+	bool isDPadPressed();
+	float getDPadAngle();
+
+	float getAxis(JoyAxis i);
+
+	void updateAllAxis();
+
+	int getId() { return (int)m_joyID; }
+private:
+
+	JOYCAPS m_caps;
+	JOYINFOEX joyInfoEx;
 };
 
 #endif

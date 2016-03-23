@@ -1,154 +1,179 @@
 #include "../../include/XBOXController.h"
 #include "vec2.h"
-
-float XBOXController::_c1X = 0;
-float XBOXController::_c1Y = 0;
-float XBOXController::_c2X = 0;
-float XBOXController::_c2Y = 0;
-float XBOXController::_errVal = 0;
+#include <es_util.h>
 
 
-XBOXController::XBOXController(UINT ID)
+
+XBOXController::XBOXController()
+	: m_joyID(JOYSTICKID1)
 {
-	joyID = ID;
-	_errVal = 32767;
-	_errVal -= (65535.0f * 0.5f);
-	_errVal /= 32767.0f;
+	UINT numDevs = joyGetNumDevs();
+	for (UINT i = 0; i < numDevs; ++i)
+	{
+		JOYCAPS caps;
+		if (JOYERR_NOERROR == joyGetDevCaps(i, &caps, sizeof(caps)))
+		{
+			yam2d::esLogMessage("Joystick(%d): %s", i, caps.szPname);
+			if (i == JOYSTICKID1)
+			{
+				m_caps = caps;
+			}
+		}
+	}
+
+	yam2d::ESContext* ctx = yam2d::esGetCurrentContext();
+	if (joySetCapture(ctx->hWnd, m_joyID, 0, FALSE))
+	{
+		yam2d::esLogMessage("Joystick(%d) capture fails", m_joyID);
+	}
+}
+
+
+XBOXController::~XBOXController(void)
+{
+	if (joyReleaseCapture(m_joyID))
+	{
+		yam2d::esLogMessage("Joystick(%d) release fails", m_joyID);
+	}
 }
 
 
 bool XBOXController::isConnected()
 {
-	JOYINFOEX _joyInfoEx;
-	if(joyGetPosEx(joyID,&_joyInfoEx) == JOYERR_NOERROR)
+	joyInfoEx.dwSize = sizeof(joyInfoEx);
+	joyInfoEx.dwFlags = JOY_RETURNALL;
+
+	MMRESULT res = joyGetPosEx(m_joyID, &joyInfoEx);
+	if (JOYERR_NOERROR == res)
 	{
 		return true;
 	}
-	return false;
-}
-
-
-bool XBOXController::isButtonDown(int i)
-{
-		JOYINFOEX _joyInfoEx;
-		_joyInfoEx.dwSize = sizeof(_joyInfoEx);
-		_joyInfoEx.dwFlags = (JOY_RETURNALL);
-
-		if(joyGetPosEx(joyID, &_joyInfoEx) == JOYERR_NOERROR)
-		{
-			if(_joyInfoEx.dwButtons & i)
-			{
-
-				return true;
-			}
-		}
-	return false;
-}
-
-
-float XBOXController::getAxis(int i)
-{
-	float retVal = 0;
-	switch(joyID)
+	else if (MMSYSERR_NODRIVER == res)
 	{
-	case 0:
-		if(i == XAxis)
-			retVal = _c1X;
-		else if(i == YAxis)
-			retVal = _c1Y;
-		else
-			retVal = 0;
-		break;
+		yam2d::esLogMessage("Joystick(%d) The joystick driver is not present.", m_joyID);
+	}
+	else if (MMSYSERR_INVALPARAM == res)
+	{
+		yam2d::esLogMessage("Joystick(%d) An invalid parameter was passed.", m_joyID);
+	}
+	else if (MMSYSERR_BADDEVICEID == res)
+	{
+		yam2d::esLogMessage("Joystick(%d) The specified joystick identifier is invalid.", m_joyID);
+	}
+	else if (JOYERR_UNPLUGGED == res)
+	{
+		yam2d::esLogMessage("Joystick(%d) The specified joystick is not connected to the system.", m_joyID);
+	}
+	else if (JOYERR_PARMS == res)
+	{
+		yam2d::esLogMessage("Joystick(%d) The specified joystick identifier is invalid.", m_joyID);
+	}
+	else
+	{
+		yam2d::esLogMessage("Joystick(%d) unknown error", m_joyID);
+	}
+
+	return false;
+}
+
+
+bool XBOXController::isButtonDown(JoyButtons button)
+{
+	return (joyInfoEx.dwButtons & button) ? true : false;
+}
+
+float mapValue(UINT val, UINT min, UINT max)
+{
+	float delta = (float)(max - min);
+	float v = (float)(val - min);
+	float res = v / delta; // res == 0.0f - 1.0f
+	return res * 2.0f - 1.0f; // return -1.0f - 1.0f
+}
+
+float XBOXController::getAxis(JoyAxis i)
+{
+	if ((i == ZAxis) && ((m_caps.wCaps&JOYCAPS_HASZ) == 0))
+		return 0.0f;
 	
-	case 1:
-		if(i == XAxis)
-			retVal = _c2X;
-		else if(i == YAxis)
-			retVal = _c2Y;
-		else
-			retVal = 0;
+	if ((i == RAxis) && ((m_caps.wCaps&JOYCAPS_HASR) == 0))
+		return 0.0f;
+
+	if ((i == UAxis) && ((m_caps.wCaps&JOYCAPS_HASU) == 0))
+		return 0.0f;
+
+	if ((i == VAxis) && ((m_caps.wCaps&JOYCAPS_HASV) == 0))
+		return 0.0f;
+
+	float res = 0.0f;
+
+	switch (i)
+	{
+	case XAxis:
+		res = mapValue(joyInfoEx.dwXpos, m_caps.wXmin, m_caps.wXmax);
+		break;
+	case YAxis:
+		res = mapValue(joyInfoEx.dwYpos, m_caps.wYmin, m_caps.wYmax);
+		break;
+	case ZAxis:
+		res = mapValue(joyInfoEx.dwZpos, m_caps.wZmin, m_caps.wZmax);
+		break;
+	case RAxis:
+		res = mapValue(joyInfoEx.dwRpos, m_caps.wRmin, m_caps.wRmax);
+		break;
+	case UAxis:
+		res = mapValue(joyInfoEx.dwUpos, m_caps.wUmin, m_caps.wUmax);
+		break;
+	case VAxis:
+		res = mapValue(joyInfoEx.dwVpos, m_caps.wVmin, m_caps.wVmax);
+		break;
+	default:
 		break;
 	}
 
-	if(retVal < -0.4f || retVal > 0.4f)
-		return retVal;
-	return 0;
+	return res;
 }
 
 
-float XBOXController::updateAxis(int i)
+void XBOXController::updateAllAxis()
 {
-	JOYINFOEX _joyInfoEx;
-	_joyInfoEx.dwSize = sizeof(_joyInfoEx);
-	_joyInfoEx.dwFlags = (JOY_RETURNX |JOY_RETURNY | JOY_RETURNZ | JOY_RETURNR |JOY_RETURNU |JOY_RETURNV);
-	float retVal = 0;
-	joyGetPosEx(joyID, &_joyInfoEx);
-	if(joyGetPosEx(joyID, &_joyInfoEx) == JOYERR_NOERROR)
-	{	
-		switch(i)
-		{
-		case XAxis:
-			retVal = (float)_joyInfoEx.dwXpos;
-			break;
-		case YAxis:
-			retVal = (float)_joyInfoEx.dwYpos;
-			break;
-		case ZAxis:
-			retVal = (float)_joyInfoEx.dwZpos;
-			break;
-		case RAxis:
-			retVal = (float)_joyInfoEx.dwRpos;
-			break;
-		case UAxis:
-			retVal = (float)_joyInfoEx.dwUpos;
-			break;
-		case VAxis:
-			retVal = (float)_joyInfoEx.dwVpos;
-			break;
-		default:
-			retVal = -1;
-			break;
-		}
 
-		if(retVal >= 0)
-		{
-			retVal -= (65535.0f * 0.5f);
-			retVal /= 32767.0f;
-		}
-		else
-			retVal = 0;
-	}
-
-	return retVal;
 }
-bool XBOXController::isDPadPointing(int val)
-{
-	JOYINFOEX _joyInfoEx;
-	_joyInfoEx.dwSize = sizeof(_joyInfoEx);
-	_joyInfoEx.dwFlags = JOY_RETURNPOVCTS;
 
-	if(joyGetPosEx(joyID, &_joyInfoEx) == JOYERR_NOERROR)
+
+
+bool XBOXController::isDPadPointing(DPadDir val)
+{
+	if ((m_caps.wCaps&JOYCAPS_HASPOV) == 0)
 	{
-		if(_joyInfoEx.dwPOV == (unsigned int)val)
-		{
-			return true;
-		}
+		return false;
 	}
-	return false;
+
+	if ((m_caps.wCaps&JOYCAPS_POV4DIR) == 0)
+	{
+		return false;
+	}
+
+	return (joyInfoEx.dwPOV == (unsigned int)val) ? true : false;
 }
 
-void XBOXController::manualUpdateValues(float c1x,float c1y,float c2x,float c2y)
+bool XBOXController::isDPadPressed()
 {
-	if(c1x != _errVal)
-		_c1X = c1x;
-	if(c1y != _errVal)
-		_c1Y = c1y;
-	if(c2x != _errVal)
-		_c2X = c2x;
-	if(c2y != _errVal)
-		_c2Y = c2y;
+
+	if ((m_caps.wCaps&JOYCAPS_HASPOV) == 0)
+	{
+		return false;
+	}
+
+	if (joyInfoEx.dwPOV >= 36000)
+	{
+		return false;
+	}
+
+	return true;
 }
 
-XBOXController::~XBOXController(void)
+float XBOXController::getDPadAngle()
 {
+	return ((float)joyInfoEx.dwPOV) * 0.01f;
 }
+

@@ -46,6 +46,9 @@ static bool rightClicked = false;//(wParam & MK_RBUTTON) != 0;
 static bool middleClicked = false;// (wParam & MK_MBUTTON) != 0;
 static bool g_firstUpdateDone = false;
 static bool done = false;
+static ESContext * g_lastCtx = 0;
+
+
 
 LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
 {
@@ -268,11 +271,15 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 }
 
+ESContext *esGetCurrentContext()
+{
+	return g_lastCtx;
+}
 
 GLboolean winCreate ( ESContext *esContext, const char *title, bool resizable )
 {
 	assert( esContext != 0 );
-
+	g_lastCtx = esContext;
 	WNDCLASS wndclass = {0}; 
 	DWORD    wStyle   = 0;
 	RECT     windowRect;

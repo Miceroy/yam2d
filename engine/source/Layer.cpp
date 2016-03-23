@@ -141,6 +141,10 @@ bool Layer::isVisible() const
 	return m_visible;
 }
 
+void Layer::setVisible(bool visible)
+{
+	m_visible = visible;
+}
 
 	
 Map* Layer::getMap() const 
@@ -152,6 +156,12 @@ Map* Layer::getMap() const
 float Layer::getOpacity() const 
 { 
 	return m_opacity; 
+}
+
+
+void Layer::setOpacity(float v)
+{
+	m_opacity = v;
 }
 
 

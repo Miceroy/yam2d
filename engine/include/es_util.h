@@ -218,6 +218,7 @@ void esRegisterKeyFunc ( ESContext *esContext, void (*drawFunc) ( ESContext*, un
 
 void esRegisterTouchEventFunc ( ESContext *esContext, void (*touchEventFunc) ( ESContext*, TouchEventType type, int touchId, int x, int y ) );
 
+ESContext* esGetCurrentContext();
 
 /**
  * Log a message to the debug output for the platform.
