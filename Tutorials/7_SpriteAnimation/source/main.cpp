@@ -83,7 +83,7 @@ bool init ( ESContext *esContext )
 	
 	texture = new Texture("snipe.png");
 	texture->setTransparentColor(0xff,0x00,0xff);
-	spriteSheet = SpriteSheet::generateSpriteSheet(texture,32,32,0,0); 
+	spriteSheet = SpriteSheet::generateSpriteSheet(texture,32,32,0,0,0,0); 
 	snipe = new GameObject(0, 0);
 	snipe->addComponent( new AnimatedSpriteComponent(snipe, spriteSheet));
 	snipe->setSize(32,32);

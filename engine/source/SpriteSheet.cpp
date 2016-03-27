@@ -274,10 +274,8 @@ namespace
 
 SpriteSheet* SpriteSheet::autoFindSpriteSheetFromTexture(Texture* texture, IsPixelFunc isPixel)
 {
-	
 	std::vector<Sprite::PixelClip> ret = findSpriteClipsFromTexture(texture,isPixel);
-
-	
+		
 	return new SpriteSheet(texture,ret);
 }
 
@@ -308,15 +306,15 @@ SpriteSheet* SpriteSheet::autoFindFontFromTexture(Texture* texture, const char* 
 	return new SpriteSheet(texture,ret);
 }
 
-SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int width, int height, int tileWidth, int tileHeight, int margin, int spacing )
+SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int width, int height, int tileWidth, int tileHeight, int marginX, int marginY, int spacingX, int spacingY)
 {
 	std::vector<Sprite::PixelClip> ret;
 	int w = width;//texture->getWidth();
 	int h = height;//texture->getHeight();
 
-	for( int y=margin; (y+tileHeight)<=h; y += tileHeight+spacing )
+	for( int y=marginY; (y+tileHeight)<=h; y += tileHeight+spacingY )
 	{
-		for( int x=margin; (x+tileWidth)<=w; x += tileWidth+spacing )
+		for( int x=marginX; (x+tileWidth)<=w; x += tileWidth+spacingX )
 		{
 			Sprite::PixelClip c;
 			c.topLeft.x = x;
@@ -330,15 +328,15 @@ SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int width, int h
 	return new SpriteSheet(texture,ret);
 }
 
-SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int margin, int spacing )
+SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int tileWidth, int tileHeight, int marginX, int marginY, int spacingX, int spacingY)
 {
 	std::vector<Sprite::PixelClip> ret;
 	int w = texture->getWidth();
 	int h = texture->getHeight();
 
-	for( int y=margin; (y+tileHeight)<=h; y += tileHeight+spacing )
+	for( int y=marginY; (y+tileHeight)<=h; y += tileHeight+spacingY )
 	{
-		for( int x=margin; (x+tileWidth)<=w; x += tileWidth+spacing )
+		for( int x=marginX; (x+tileWidth)<=w; x += tileWidth+spacingX )
 		{
 			Sprite::PixelClip c;
 			c.topLeft.x = x;
@@ -348,6 +346,7 @@ SpriteSheet* SpriteSheet::generateSpriteSheet(Texture* texture, int tileWidth, i
 			ret.push_back(c);
 		}
 	}
+
 
 	return new SpriteSheet(texture,ret);
 }
@@ -409,6 +408,7 @@ SpriteSheet::SpriteSheet(Texture* texture, std::vector<Sprite::PixelClip> clips)
 : m_texture(texture)
 , m_clips(clips)
 {
+	assert(getClipCount() > 0); // No clips!!
 }
 
 

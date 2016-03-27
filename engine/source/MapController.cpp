@@ -119,7 +119,7 @@ void Renderer_renderSpriteComponent(SpriteComponent* spriteComponent, Layer* lay
 
 	position.y += layer->getMap()->getTileWidth() * 0.5f;
 	position.x -= layer->getMap()->getTileHeight() * 1.0f;
-	layer->getBatch()->addSprite(spriteComponent->getTexture(), spriteComponent->getSprite(), position, -spriteComponent->getGameObject()->getRotation(), vec2(1.0f));
+	layer->getBatch()->addSprite(spriteComponent->getTexture(), spriteComponent->getSprite(), position, -spriteComponent->getGameObject()->getRotation(), vec2(spriteComponent->getScaling()));
 }
 
 void Renderer_renderSprite(Sprite* sprite, Layer* layer)

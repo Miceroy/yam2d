@@ -26,6 +26,7 @@
 #include <Object.h>
 #include <vector>
 #include <cstddef>
+#include <SpriteSheet.h>
 
 namespace yam2d
 {
@@ -51,12 +52,23 @@ public:
 		{
 		}
 
-		SpriteAnimationClip( const std::vector<int>& ind, float animationFPS, float xScale, bool loop )
+		SpriteAnimationClip(SpriteSheet* spriteSheet, float animationFPS, float xScale, bool loop)
+			: indices(generateIndicesFromSpriteSheet(spriteSheet))
+			, animationFPS(animationFPS)
+			, xScale(xScale)
+			, loop(loop)
+		{
+			assert(indices.size() > 0); // No indices!!
+		}
+
+
+		SpriteAnimationClip(const std::vector<int>& ind, float animationFPS, float xScale, bool loop)
 			: indices(ind)
 			, animationFPS(animationFPS)
 			, xScale(xScale)
 			, loop(loop)
 		{
+			assert(indices.size() > 0); // No indices!!
 		}
 
 		std::vector<int> indices;
@@ -69,7 +81,7 @@ public:
 
 	virtual ~SpriteAnimation() {}
 
-	void update( float deltaTime );
+	void update(float deltaTime);
 
 	int getCurrentClipIndex();
 
@@ -78,11 +90,12 @@ public:
 		return m_clips[m_animationId].xScale;
 	}
 
-	void addAnimation( int animationId, const SpriteAnimationClip& clip )
+	void addAnimation(int animationId, const SpriteAnimationClip& clip)
 	{
-		if( m_clips.size() <= size_t(animationId) )
+		assert(clip.indices.size() > 0); // No indices!!
+		if (m_clips.size() <= size_t(animationId))
 		{
-			m_clips.resize(animationId+1);
+			m_clips.resize(animationId + 1);
 		}
 
 		m_clips[animationId] = clip;
@@ -90,7 +103,7 @@ public:
 
 	void setActiveAnimation(int animationId)
 	{
-		if( animationId != m_animationId )
+		if (animationId != m_animationId)
 		{
 			m_totalTime = 0.0f;
 			m_animationId = animationId;
@@ -118,6 +131,19 @@ private:
 	int									m_animationId;
 	float								m_totalTime;
 	bool								m_isFinished;
+
+	static std::vector<int> generateIndicesFromSpriteSheet(SpriteSheet* spriteSheet)
+	{
+		std::vector<int> indices;
+		assert(spriteSheet->getClipCount() > 0);
+		indices.resize(spriteSheet->getClipCount());
+		for (size_t i = 0; i < indices.size(); ++i)
+		{
+			indices[i] = i;
+		}
+
+		return indices;
+	}
 
 	// Hidden
 	SpriteAnimation(const SpriteAnimation&);

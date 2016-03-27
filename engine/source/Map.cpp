@@ -705,7 +705,10 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 		}
 		
 		// Create sprite sheet
-		SpriteSheet* spriteSheet = SpriteSheet::generateSpriteSheet(texture, tileset->GetImage()->GetWidth(), tileset->GetImage()->GetHeight(), tileset->GetTileWidth(), tileset->GetTileHeight(), tileset->GetMargin(), tileset->GetSpacing() );
+		SpriteSheet* spriteSheet = SpriteSheet::generateSpriteSheet(texture, tileset->GetImage()->GetWidth(), tileset->GetImage()->GetHeight(),
+			tileset->GetTileWidth(), tileset->GetTileHeight(),
+			tileset->GetMargin(), tileset->GetMargin(),
+			tileset->GetSpacing(), tileset->GetSpacing() );
 		PropertySet properties;
 		properties.setValues(tileset->GetProperties().GetList());
 		//assert( m_createNewTileset != 0 );

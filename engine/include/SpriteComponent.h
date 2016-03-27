@@ -66,6 +66,7 @@ public:
 		: Component(owner, Component::getDefaultProperties())
 		, m_sprite(new Sprite(0))
 		, m_texture(texture)
+		, m_scaling(1.0f)
 	{
 		assert(owner != 0); // Must have owner game object
 		if (texture != 0)
@@ -84,10 +85,21 @@ public:
 	GameObject* getGameObject() { return (GameObject*)getOwner(); }
 	const GameObject* getGameObject() const { return (const GameObject*)getOwner(); }
 
+	void setScaling(float s)
+	{
+		m_scaling = s;
+	}
+
+	float getScaling() const
+	{
+		return m_scaling;
+	}
+
 private:
 		
 	Ref<Sprite>			m_sprite;
 	Ref<Texture>		m_texture;
+	float m_scaling;
 
 	SpriteComponent();
 	SpriteComponent(const SpriteComponent& o);

@@ -55,10 +55,13 @@ public:
 	bool isConnected();
 
 	bool isButtonDown(JoyButtons button);
+	bool isButtonPressed(JoyButtons button);
+	bool isButtonReleased(JoyButtons button);
 
 	bool isDPadPointing(DPadDir val);
 	bool isDPadPressed();
 	float getDPadAngle();
+	float getDPadNewAngle();
 
 	float getAxis(JoyAxis i);
 
@@ -69,6 +72,7 @@ private:
 
 	JOYCAPS m_caps;
 	JOYINFOEX joyInfoEx;
+	JOYINFOEX m_prevJoyInfoEx;
 };
 
 #endif

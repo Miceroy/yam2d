@@ -88,7 +88,7 @@ void update( ESContext* ctx, float deltaTime )
 	batch->addSprite(openGLTexture, sprite, vec2(0,0), count, vec2(100) );
 
 	// Add text to position -400,300
-	batch->addText(fontTexture, text, vec2(-ctx->width/3,ctx->height/3), 0);
+	batch->addText(fontTexture, text, vec2(-ctx->width / 3.0f, ctx->height / 3.0f), 0.0f);
 }
 
 
@@ -143,8 +143,8 @@ int main ( int argc, char *argv[] )
 		esLogMessage("Main...");
 		ESContext esContext;
 		esInitContext ( &esContext );
-	//	esCreateWindow( &esContext, "Hello Triangle", 1280, 720, ES_WINDOW_DEFAULT );
-  		esCreateWindow( &esContext, "Hello Triangle", 1920, 1080, ES_WINDOW_DEFAULT );
+		esCreateWindow( &esContext, "Hello Triangle", 1280, 720, ES_WINDOW_DEFAULT );
+  	//	esCreateWindow( &esContext, "Hello Triangle", 1920, 1080, ES_WINDOW_DEFAULT );
    
 		esRegisterInitFunc( &esContext, init );
 		esRegisterDrawFunc( &esContext, draw );

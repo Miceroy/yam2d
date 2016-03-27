@@ -26,6 +26,8 @@ XBOXController::XBOXController()
 	{
 		yam2d::esLogMessage("Joystick(%d) capture fails", m_joyID);
 	}
+
+	isConnected();
 }
 
 
@@ -42,7 +44,7 @@ bool XBOXController::isConnected()
 {
 	joyInfoEx.dwSize = sizeof(joyInfoEx);
 	joyInfoEx.dwFlags = JOY_RETURNALL;
-
+	m_prevJoyInfoEx = joyInfoEx;
 	MMRESULT res = joyGetPosEx(m_joyID, &joyInfoEx);
 	if (JOYERR_NOERROR == res)
 	{
@@ -80,6 +82,22 @@ bool XBOXController::isConnected()
 bool XBOXController::isButtonDown(JoyButtons button)
 {
 	return (joyInfoEx.dwButtons & button) ? true : false;
+}
+
+bool XBOXController::isButtonPressed(JoyButtons button)
+{
+	bool curPressed = isButtonDown(button);
+	bool prevPressed = (m_prevJoyInfoEx.dwButtons & button) ? true : false;
+
+	return curPressed && !prevPressed;
+}
+
+bool XBOXController::isButtonReleased(JoyButtons button)
+{
+	bool curPressed = isButtonDown(button);
+	bool prevPressed = (m_prevJoyInfoEx.dwButtons & button) ? true : false;
+
+	return !curPressed && prevPressed;
 }
 
 float mapValue(UINT val, UINT min, UINT max)
@@ -174,6 +192,19 @@ bool XBOXController::isDPadPressed()
 
 float XBOXController::getDPadAngle()
 {
-	return ((float)joyInfoEx.dwPOV) * 0.01f;
+	if (joyInfoEx.dwPOV < 0)
+		return -1.0f;
+
+	float curValue = ((float)joyInfoEx.dwPOV) * 0.01f;
+	return curValue;
 }
 
+float XBOXController::getDPadNewAngle()
+{
+	float curValue = getDPadAngle();
+	float prevValue = ((float)m_prevJoyInfoEx.dwPOV) * 0.01f;
+	if (curValue == prevValue)
+		return -1.0f;
+
+	return curValue;
+}

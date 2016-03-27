@@ -52,6 +52,7 @@ int SpriteAnimation::getCurrentClipIndex()
 	m_isFinished = false;
 	if( m_clips[m_animationId].loop )
 	{
+		assert(m_clips[m_animationId].indices.size() > 0); // No indices!!
 		index %= m_clips[m_animationId].indices.size();
 	}
 	else

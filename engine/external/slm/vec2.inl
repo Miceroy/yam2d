@@ -161,6 +161,18 @@ inline float dot( const vec2& a, const vec2& b )
 	return res;
 }
 
+inline float cross(const vec2& a, const vec2& b)
+{
+	SLMATH_VEC_ASSERT(check(a));
+	SLMATH_VEC_ASSERT(check(b));
+
+	float res = a.x*b.y - a.y*b.x;
+
+	SLMATH_VEC_ASSERT(res >= -FLT_MAX && res <= FLT_MAX);
+	return res;
+}
+
+
 inline vec2	operator*( float s, const vec2& v )		
 {
 	SLMATH_VEC_ASSERT( check(s) );
