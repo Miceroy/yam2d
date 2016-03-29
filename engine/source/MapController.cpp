@@ -109,17 +109,21 @@ void Renderer_renderSpriteSheet(SpriteSheetComponent* spriteSheetComponent, Laye
 
 void Renderer_renderSpriteComponent(SpriteComponent* spriteComponent, Layer* layer)
 {
-	vec2 position = layer->getMap()->tileToDeviceCoordinates(spriteComponent->getGameObject()->getPosition().x, spriteComponent->getGameObject()->getPosition().y);
-	spriteComponent->getSprite()->setDepth(layer->getDepth());
-	spriteComponent->getSprite()->setOpacity(layer->getOpacity());
-	spriteComponent->getSprite()->setScale(spriteComponent->getGameObject()->getSize());
+	if (spriteComponent->isRenderingEnabled())
+	{
+		vec2 position = layer->getMap()->tileToDeviceCoordinates(spriteComponent->getGameObject()->getPosition().x, spriteComponent->getGameObject()->getPosition().y);
+		spriteComponent->getSprite()->setDepth(layer->getDepth());
+		spriteComponent->getSprite()->setOpacity(layer->getOpacity());
+		spriteComponent->getSprite()->setScale(spriteComponent->getGameObject()->getSize());
 
-	position.x += layer->getMap()->getTileWidth();// *0.5f;
-	position.y -= layer->getMap()->getTileHeight() *0.5f;
+		position.x += layer->getMap()->getTileWidth();// *0.5f;
+		position.y -= layer->getMap()->getTileHeight() *0.5f;
 
-	position.y += layer->getMap()->getTileWidth() * 0.5f;
-	position.x -= layer->getMap()->getTileHeight() * 1.0f;
-	layer->getBatch()->addSprite(spriteComponent->getTexture(), spriteComponent->getSprite(), position, -spriteComponent->getGameObject()->getRotation(), vec2(spriteComponent->getScaling()));
+		position.y += layer->getMap()->getTileWidth() * 0.5f;
+		position.x -= layer->getMap()->getTileHeight() * 1.0f;
+		float rotation = spriteComponent->getRotation() + spriteComponent->getGameObject()->getRotation();
+		layer->getBatch()->addSprite(spriteComponent->getTexture(), spriteComponent->getSprite(), position, -rotation, vec2(spriteComponent->getScaling()));
+	}
 }
 
 void Renderer_renderSprite(Sprite* sprite, Layer* layer)

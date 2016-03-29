@@ -231,13 +231,16 @@ namespace yam2d
 #endif
 			for (size_t i = 0; i < m_components.data().size(); ++i)
 			{
-#if defined(_MSC_VER) //|| !defined(WIN32)
-				if (strcmp(typeid(*m_components.data()[i].ptr()).raw_name(), requiredTypeName) == 0)
-#else
-				if (strcmp(typeid(*m_components.data()[i].ptr()).name(), requiredTypeName) == 0)
-#endif
+				//if (*m_components.data()[i].ptr() != 0)
 				{
-					res.push_back( dynamic_cast<Type*>(m_components.data()[i].ptr()) );
+#if defined(_MSC_VER) //|| !defined(WIN32)
+					if (strcmp(typeid(*m_components.data()[i].ptr()).raw_name(), requiredTypeName) == 0)
+#else
+					if (strcmp(typeid(*m_components.data()[i].ptr()).name(), requiredTypeName) == 0)
+#endif
+					{
+						res.push_back(dynamic_cast<Type*>(m_components.data()[i].ptr()));
+					}
 				}
 			}
 			return res;

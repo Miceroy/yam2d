@@ -4,30 +4,10 @@
 
 
 
-XBOXController::XBOXController()
-	: m_joyID(JOYSTICKID1)
+XBOXController::XBOXController(int controllerIndex)
+	: m_joyID(JOYSTICKID1 + controllerIndex)
+	, m_connected(false)
 {
-	UINT numDevs = joyGetNumDevs();
-	for (UINT i = 0; i < numDevs; ++i)
-	{
-		JOYCAPS caps;
-		if (JOYERR_NOERROR == joyGetDevCaps(i, &caps, sizeof(caps)))
-		{
-			yam2d::esLogMessage("Joystick(%d): %s", i, caps.szPname);
-			if (i == JOYSTICKID1)
-			{
-				m_caps = caps;
-			}
-		}
-	}
-
-	yam2d::ESContext* ctx = yam2d::esGetCurrentContext();
-	if (joySetCapture(ctx->hWnd, m_joyID, 0, FALSE))
-	{
-		yam2d::esLogMessage("Joystick(%d) capture fails", m_joyID);
-	}
-
-	isConnected();
 }
 
 
@@ -42,40 +22,75 @@ XBOXController::~XBOXController(void)
 
 bool XBOXController::isConnected()
 {
-	joyInfoEx.dwSize = sizeof(joyInfoEx);
-	joyInfoEx.dwFlags = JOY_RETURNALL;
-	m_prevJoyInfoEx = joyInfoEx;
-	MMRESULT res = joyGetPosEx(m_joyID, &joyInfoEx);
-	if (JOYERR_NOERROR == res)
+	if (!m_connected)
 	{
-		return true;
+		UINT numDevs = joyGetNumDevs();
+		UINT selected = numDevs;
+		m_connected = true;
+		for (UINT i = 0; i < numDevs; ++i)
+		{
+			JOYCAPS caps;
+			if (JOYERR_NOERROR == joyGetDevCaps(i, &caps, sizeof(caps)))
+			{
+				//yam2d::esLogMessage("Joystick(%d): %s", i, caps.szPname);
+				if (i == m_joyID)
+				{
+					selected = i;
+					m_caps = caps;
+				}
+			}
+		}
+
+		if (selected == numDevs)
+		{
+			m_connected = false;
+		}
+
+		yam2d::ESContext* ctx = yam2d::esGetCurrentContext();
+		if (joySetCapture(ctx->hWnd, m_joyID, 0, FALSE))
+		{
+			m_connected = false;
+		}
 	}
-	else if (MMSYSERR_NODRIVER == res)
+	
+	if (m_connected)
 	{
-		yam2d::esLogMessage("Joystick(%d) The joystick driver is not present.", m_joyID);
-	}
-	else if (MMSYSERR_INVALPARAM == res)
-	{
-		yam2d::esLogMessage("Joystick(%d) An invalid parameter was passed.", m_joyID);
-	}
-	else if (MMSYSERR_BADDEVICEID == res)
-	{
-		yam2d::esLogMessage("Joystick(%d) The specified joystick identifier is invalid.", m_joyID);
-	}
-	else if (JOYERR_UNPLUGGED == res)
-	{
-		yam2d::esLogMessage("Joystick(%d) The specified joystick is not connected to the system.", m_joyID);
-	}
-	else if (JOYERR_PARMS == res)
-	{
-		yam2d::esLogMessage("Joystick(%d) The specified joystick identifier is invalid.", m_joyID);
-	}
-	else
-	{
-		yam2d::esLogMessage("Joystick(%d) unknown error", m_joyID);
+		joyInfoEx.dwSize = sizeof(joyInfoEx);
+		joyInfoEx.dwFlags = JOY_RETURNALL;
+		m_prevJoyInfoEx = joyInfoEx;
+		MMRESULT res = joyGetPosEx(m_joyID, &joyInfoEx);
+		m_connected = false;
+		if (JOYERR_NOERROR == res)
+		{
+			m_connected = true;
+		}
+		else if (MMSYSERR_NODRIVER == res)
+		{
+			yam2d::esLogMessage("Joystick(%d) The joystick driver is not present.", m_joyID);
+		}
+		else if (MMSYSERR_INVALPARAM == res)
+		{
+			yam2d::esLogMessage("Joystick(%d) An invalid parameter was passed.", m_joyID);
+		}
+		else if (MMSYSERR_BADDEVICEID == res)
+		{
+			yam2d::esLogMessage("Joystick(%d) The specified joystick identifier is invalid.", m_joyID);
+		}
+		else if (JOYERR_UNPLUGGED == res)
+		{
+			yam2d::esLogMessage("Joystick(%d) The specified joystick is not connected to the system.", m_joyID);
+		}
+		else if (JOYERR_PARMS == res)
+		{
+			yam2d::esLogMessage("Joystick(%d) The specified joystick identifier is invalid.", m_joyID);
+		}
+		else
+		{
+			yam2d::esLogMessage("Joystick(%d) unknown error", m_joyID);
+		}
 	}
 
-	return false;
+	return m_connected;
 }
 
 

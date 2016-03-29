@@ -66,6 +66,7 @@ public:
 		: Component(owner, Component::getDefaultProperties())
 		, m_sprite(new Sprite(0))
 		, m_texture(texture)
+		, m_rotation(0.0f)
 		, m_scaling(1.0f)
 	{
 		assert(owner != 0); // Must have owner game object
@@ -85,6 +86,16 @@ public:
 	GameObject* getGameObject() { return (GameObject*)getOwner(); }
 	const GameObject* getGameObject() const { return (const GameObject*)getOwner(); }
 
+	void setRenderingEnabled(bool enable)
+	{
+		m_renderingEnabled = enable;
+	}
+
+	bool isRenderingEnabled() const
+	{
+		return m_renderingEnabled;
+
+	}
 	void setScaling(float s)
 	{
 		m_scaling = s;
@@ -95,11 +106,28 @@ public:
 		return m_scaling;
 	}
 
+	void setRotation(float rotation)
+	{
+		m_rotation = rotation;
+	}
+
+	float getRotation() const
+	{
+		return m_rotation;
+	}
+
+	void setColor(float r, float g, float b, float a = 1.0f)
+	{
+		m_sprite->setColor(r, g, b, a);
+	}
+
 private:
 		
 	Ref<Sprite>			m_sprite;
 	Ref<Texture>		m_texture;
+	float m_rotation;
 	float m_scaling;
+	bool m_renderingEnabled;
 
 	SpriteComponent();
 	SpriteComponent(const SpriteComponent& o);

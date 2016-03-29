@@ -9,11 +9,6 @@
 
 class XBOXController : public yam2d::Object
 {
-	UINT m_joyID;
-
-//	float _c1X,_c1Y,_c2X,_c2Y;
-//	float _errVal;
-
 public:
 	enum JoyAxis
 	{
@@ -49,7 +44,7 @@ public:
 		DPad_UpLeft = 31500
 	};
 
-	XBOXController();
+	XBOXController(int controllerIndex);
 	virtual ~XBOXController(void);
 
 	bool isConnected();
@@ -69,7 +64,8 @@ public:
 
 	int getId() { return (int)m_joyID; }
 private:
-
+	const UINT m_joyID;
+	bool m_connected;
 	JOYCAPS m_caps;
 	JOYINFOEX joyInfoEx;
 	JOYINFOEX m_prevJoyInfoEx;

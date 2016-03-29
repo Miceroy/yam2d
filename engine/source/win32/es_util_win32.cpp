@@ -74,9 +74,17 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 						eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 					}   
 				}
-				catch(...)
+				catch (std::exception& e)
 				{
+					printf("std::exception: %s\n", e.what());
 					done = true;
+					DebugBreak();
+				}
+				catch (...)
+				{
+					printf("Unknown exception ocurred!\n");
+					done = true;
+					DebugBreak();
 				}
 			}
 
@@ -394,9 +402,17 @@ void winLoop ( ESContext *esContext )
 						g_firstUpdateDone = true;
 						clearInput();
 					}
-					catch(...)
+					catch (std::exception& e)
 					{
+						printf("std::exception: %s\n", e.what());
 						done = true;
+						DebugBreak();
+					}
+					catch (...)
+					{
+						printf("Unknown exception ocurred!\n");
+						done = true;
+						DebugBreak();
 					}
 
 					if (esContext->quitFlag)

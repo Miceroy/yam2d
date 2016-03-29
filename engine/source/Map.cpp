@@ -657,7 +657,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 
 	yam2d::ElapsedTimer timer;
 	timer.reset();
-	esLogMessage("Parsing tmx-file");
+	//esLogMessage("Parsing tmx-file");
 	m_loadedMapFileName = mapFileName;
 	std::string path = getPath(mapFileName);	
 
@@ -678,17 +678,17 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 	m_tilesets.clear();
 
 	getProperties().setValues(map.GetProperties().GetList());
-	esLogMessage("Parsing tmx-file done. Time: %2.4f", timer.getTime());
+	//esLogMessage("Parsing tmx-file done. Time: %2.4f", timer.getTime());
 
 	// Create tilesets
 	timer.reset();
-	esLogMessage("Creating %d tilesets", (int)m_tilesets.size());
+	//esLogMessage("Creating %d tilesets", (int)m_tilesets.size());
 	m_tilesets.resize(map.GetNumTilesets());
 	for( size_t i=0; i<m_tilesets.size(); ++i )
 	{
 		const Tmx::Tileset* tileset = map.GetTileset(i);
 		std::string texFileName = path + tileset->GetImage()->GetSource();
-		esLogEngineDebug("Creating tileset: %s from texture \"%s\"", tileset->GetName().c_str(), texFileName.c_str() );
+		//esLogEngineDebug("Creating tileset: %s from texture \"%s\"", tileset->GetName().c_str(), texFileName.c_str() );
 		Texture* texture = new Texture( texFileName.c_str() );
 		
 		// convert transparent_color
@@ -716,19 +716,19 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 		assert( m_tilesets[i] != 0 ); // You must return new Tileset in createTileset callback!!
 	}
 
-	esLogMessage("Creating tilesets done. Time: %2.4f", timer.getTime());
+	//esLogMessage("Creating tilesets done. Time: %2.4f", timer.getTime());
 
 	// Create layers
 
 	timer.reset();
-	esLogMessage("Creating %d layers", map.GetNumLayers());
+	//esLogMessage("Creating %d layers", map.GetNumLayers());
 	for( int i=0; i<map.GetNumLayers(); ++i )
 	{
 		const Tmx::Layer* l = map.GetLayer(i);
 		PropertySet properties;
 		
 		properties.setValues(l->GetProperties().GetList());
-		esLogEngineDebug("Creating layer # MAPLAYER%d : \"%s\" visible: %s", i, l->GetName().c_str(), l->IsVisible() ? "true":"false" );
+		//esLogEngineDebug("Creating layer # MAPLAYER%d : \"%s\" visible: %s", i, l->GetName().c_str(), l->IsVisible() ? "true":"false" );
 
 		properties["type"] = "Layer";
 		properties["name"] = l->GetName();
@@ -738,7 +738,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 		addLayer(MAPLAYER0 + i, (Layer*)componentFactory->createNewComponent("Layer", this, properties));
 		assert(getLayers()[MAPLAYER0+i] != 0); // You must return new Layer in createLayer callback!!
 	}
-	esLogMessage("Creating layers done. Time: %2.4f", timer.getTime());
+	//esLogMessage("Creating layers done. Time: %2.4f", timer.getTime());
 
 	// Create tiles
 	for( int i=0; i<map.GetNumLayers(); ++i )
@@ -752,7 +752,7 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 			
 			getLayers()[MAPLAYER0 + i]->reserve(l->GetHeight()*l->GetWidth());
 
-			esLogMessage("Creating %d tile layer tiles for layer", l->GetHeight()*l->GetWidth());
+			//esLogMessage("Creating %d tile layer tiles for layer", l->GetHeight()*l->GetWidth());
 
 			for( int y=0; y<l->GetHeight(); ++y )
 			{
@@ -806,16 +806,16 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 				}
 			}
 
-			esLogMessage("numObjects: %d timeCreate: %2.3f, timeProperties: %2.3f objs/s: %4.2f", numObjects, timeCreate, timeProperties,
-				(float)numObjects / (timeCreate + timeProperties));
+			//esLogMessage("numObjects: %d timeCreate: %2.3f, timeProperties: %2.3f objs/s: %4.2f", numObjects, timeCreate, timeProperties,
+			//	(float)numObjects / (timeCreate + timeProperties));
 
-			esLogEngineDebug("Created %d objects to tile layer \"%s\"", numObjects, l->GetName().c_str() );
+			//esLogEngineDebug("Created %d objects to tile layer \"%s\"", numObjects, l->GetName().c_str() );
 
-			esLogMessage("Creating tile layer tiles done.");
+			//esLogMessage("Creating tile layer tiles done.");
 		}
 		else
 		{
-			esLogMessage("Creating object layer objects");
+			//esLogMessage("Creating object layer objects");
 			int numObjects = 0;
 			const Tmx::ObjectLayer* const l = dynamic_cast<const Tmx::ObjectLayer*>(map.GetLayer(i));
 			assert(l);
@@ -937,8 +937,8 @@ bool TmxMap::loadMapFile(const std::string& mapFileName, ComponentFactory* compo
 				}
 			}
 
-			esLogEngineDebug("Created %d objects to object layer \"%s\"", numObjects, l->GetName().c_str());
-			esLogMessage("Creating object layer objects done.");
+		//	esLogEngineDebug("Created %d objects to object layer \"%s\"", numObjects, l->GetName().c_str());
+		//	esLogMessage("Creating object layer objects done.");
 		}		
 	}	
 	
