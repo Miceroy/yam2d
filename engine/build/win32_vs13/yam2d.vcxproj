@@ -336,7 +336,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\AnimationTimeline.cpp" />
-    <ClCompile Include="..\..\source\collision_utils.cpp" />
     <ClCompile Include="..\..\Source\ElapsedTimer.cpp" />
     <ClCompile Include="..\..\source\Entity.cpp" />
     <ClCompile Include="..\..\source\FileStream.cpp" />
@@ -475,7 +474,6 @@
     <ClInclude Include="..\..\include\AnimationTimeline.h" />
     <ClInclude Include="..\..\include\AnimationTrack.h" />
     <ClInclude Include="..\..\include\Camera.h" />
-    <ClInclude Include="..\..\include\collision_utils.h" />
     <ClInclude Include="..\..\include\config.h" />
     <ClInclude Include="..\..\Include\ElapsedTimer.h" />
     <ClInclude Include="..\..\include\Entity.h" />
