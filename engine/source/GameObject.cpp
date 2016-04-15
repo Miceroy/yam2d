@@ -170,10 +170,10 @@ float GameObject::getBottom() const
 
 bool GameObject::isInside(const vec2& worldPosition) const
 {
-	return m_bottomRight.x	>= worldPosition.x
-		&& m_topLeft.x		<= worldPosition.x
-		&& m_bottomRight.y	>= worldPosition.y
-		&& m_topLeft.y		<= worldPosition.y;
+	return getRight() >= worldPosition.x
+		&& getLeft() <= worldPosition.x
+		&& getTop()	<= worldPosition.y
+		&& getBottom() >= worldPosition.y;
 }
 
 void GameObject::setTileSize(const vec2& tileSize )
@@ -216,7 +216,7 @@ void GameObject::recalcExtens()
 {
 	assert(m_size.x >= 0.0f);
 	assert(m_size.y >= 0.0f);
-	vec2 halfSizeInTiles = getSizeInTiles();
+	vec2 halfSizeInTiles(getSizeInTiles().x * 0.5f, getSizeInTiles().y * 0.5f);
 	m_topLeft = m_position - halfSizeInTiles;
 	m_bottomRight = m_position + halfSizeInTiles;
 	//m_topLeft.x = /*m_offset.x +*/ m_position.x - (sizeInTiles.x*0.5f);

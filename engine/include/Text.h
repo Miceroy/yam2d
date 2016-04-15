@@ -42,12 +42,22 @@ class SpriteSheet;
 class Text : public Component
 {
 public:
+	enum Pivot
+	{
+		CENTER_CENTER,
+		LEFT_CENTER,
+		RIGHT_CENTER,
+		CENTER_TOP,
+		CENTER_BOTTOM
+	};
+
 	Text(GameObject* owner, SpriteSheet* font);
 
 	virtual ~Text() {}
 
 	void setText( const std::string& str );
 	void setText( const char* str );
+	void setPivot(Pivot newPivot) { m_pivot = newPivot; }
 
 	void getVertexData( std::vector<float>& verts, std::vector<float>& texCoords, std::vector<float>& colors ) const;
 
@@ -64,12 +74,14 @@ public:
 	void setOpacity( float a );
 	SpriteSheet* getFont() const;
 	int getWidth();
+	Pivot getPivot();
 
 	GameObject* getGameObject() { return (GameObject*)getOwner(); }
 private:
 	Ref<SpriteSheet> m_font;
 	Ref<Sprite> m_sprite;
 	int m_totalWidth;
+	Pivot m_pivot;
 	std::string m_text;
 };
 

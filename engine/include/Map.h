@@ -187,6 +187,7 @@ public:
 
 	/** Gets layer by name. */
 	Layer* getLayer(const std::string& name);
+	const Layer* getLayer(const std::string& name) const;
 	
 	/** Returns properties of this map */
 	PropertySet& getProperties();

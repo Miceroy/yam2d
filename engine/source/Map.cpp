@@ -462,6 +462,7 @@ Layer* Map::getLayer(const std::string& name)
 	return 0;
 }
 
+
 PropertySet& Map::getProperties()
 {
 	return m_properties; 
