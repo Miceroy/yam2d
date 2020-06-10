@@ -1,14 +1,14 @@
-#Yam2D - Yet Another Mobile 2D Game Engine
+# Yam2D - Yet Another Mobile 2D Game Engine
 
 Simple 2D game engine, mainly targetted for mobile devices. Oparates also on PC in OpenGL ES emulation.
 
 Currently Yam2d has only win32 version but Android version is coming at summer 2013.
 
-##Currently supported platforms:
+## Currently supported platforms:
   * Windows (x86 compatible)
   * Android
 
-##Current key features:
+## Current key features:
   * Textures
     * Textures can be loaded from png-file.
 
@@ -32,12 +32,12 @@ Currently Yam2d has only win32 version but Android version is coming at summer 2
  
   * Animation framework
 
-##Input:
+## Input:
   * Keyboard
   * Mouse
   * XBOX Controller (Windows only)
 
-##Tutorials:
+## Tutorials:
   * TemplateProject
   * LowLevelDraw
   * SimpleMap
@@ -47,15 +47,15 @@ Currently Yam2d has only win32 version but Android version is coming at summer 2
   * SpriteAnimation
   * OwnGameObjectTypes
 
-##Tools:
+## Tools:
   * TmxMapViewer
 
-##Documentation:
+## Documentation:
   * [https://yam2d.googlecode.com/svn/trunk/doc/DownloadAndEnvironmentSetup.docx Instructions to download yam2d and make environment setup]
   * [https://yam2d.googlecode.com/svn/trunk/doc/CreateNewProject.docx Instructions to create new project] 
   * [https://yam2d.googlecode.com/svn/trunk/doc/IntegratingTmxMapViewerWithTiled.docx Instructions to integrating TmxMapViewer-tool with Tiled Editor]
 
-##External libraries used by yam2d:
+## External libraries used by yam2d:
   * OpenGL ES Emulation libraries
   * libpng
   * ticpp
